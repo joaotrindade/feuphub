@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-var port = process.env.PORT || 901; 		// set our port
+var port = process.env.PORT || 80; 		// set our port
 
 // ROUTES FOR OUR API
 // =============================================================================
