@@ -18,7 +18,7 @@ var si_security='';
 var headers = {
     'User-Agent':       'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36',
     'Content-Type':     'text/plain;charset=UTF-16',
-	'set-cookie' : http_session+si_session+si_security
+	'Cookie' : ''
 }
 
 // Configure the checklogin request
@@ -94,56 +94,49 @@ router.post('/api/login', function(req, res) {
 	
 	// Start the request	
 	request(loginCredentials, function (error, response) {
-		if (!error && response.statusCode == 200 && response.headers["set-cookie"][1]!== undefined) {				
+		if (!error && response.statusCode == 200 && response.headers["set-cookie"].length>0) {				
 			si_session = response.headers["set-cookie"][0];
 			si_security = response.headers["set-cookie"][1];
-			
-			headers["set-cookie"] = "";
-			headers["set-cookie"] = http_session+si_session+si_security;
-			console.log(response.headers["set-cookie"]);
-			console.log(headers["set-cookie"]);
+			headers["Cookie"] = "";
+			headers["Cookie"] = http_session+" "+si_session+" "+si_security;
+			console.log(headers);
+			console.log("\n");
 			res.send(response);
-			
 		}else{
 			res.send(response);
 		}
+		resetCookies();
 	})
 });
 
 router.post('/api/logout',function(req,res){
 	// Start the request	
 	request(logoutCredentials, function (error, response) {
-		if (!error && response.statusCode == 200) {				
-			console.log(headers["set-cookie"]);
-			http_session="";
-			si_session = "";
-			si_security = "";
-			headers["set-cookie"] = "";
-			headers["set-cookie"] = http_session+si_session+si_security;
-			console.log("cleared server\n");
-			res.send(response);			
-		}else{
-			res.send(response);
-		}
+		resetCookies();
 	})
 });
 
 router.get('/api/initialWebPage', function(req, res) {
+
+	headers["Cookie"] = req.headers.cookie;
+	console.log(headers);
 	request(initialWebPage, function (error, response, body) {
 		if (!error && response.statusCode == 200 && response.headers["set-cookie"][0]!== undefined) {
 			http_session = response.headers["set-cookie"][0];
-			headers["set-cookie"] = "";
-			headers["set-cookie"] = http_session+si_session+si_security;
+			headers["Cookie"] = "";
+			headers["Cookie"] = http_session+" "+si_session+" "+si_security;
 			res.send(response);
 		}
 		else{
 			res.send(response);
 		}
+		resetCookies();
 	})
 });
 
 router.get('/api/getPvNumUnico', function(req, res) {	
 	studentPvNumUnico.form.pct_id = req.body.userId;
+	headers["Cookie"] = req.headers.cookie;
 	// Start the request	
 	request(studentPvNumUnico, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -152,11 +145,13 @@ router.get('/api/getPvNumUnico', function(req, res) {
 		else{
 			res.send(response);
 		}
+		resetCookies();
 	})
 });
 
 router.get('/api/getStudentPage',function(req,res){
 	studentPage.form.pv_num_unico = req.body.studentNum;
+	headers["Cookie"] = req.headers.cookie;
 	// Start the request
 	request(studentPage, function(error, response, body){
 	if (!error && response.statusCode == 200) {
@@ -165,11 +160,13 @@ router.get('/api/getStudentPage',function(req,res){
 		else{
 			res.send(response);
 		}
+		resetCookies();
 	})
 });
 
 router.get('/api/studentCourses',function(req,res){
 	studentCourses.form.pv_fest_id = req.body.pv_fest_id;
+	headers["Cookie"] = req.headers.cookie;
 	// Start the request
 	request(studentCourses, function(error, response, body){
 	if (!error && response.statusCode == 200) {
@@ -178,6 +175,7 @@ router.get('/api/studentCourses',function(req,res){
 		else{
 			res.send(response);
 		}
+		resetCookies();
 	})
 });
 
@@ -189,3 +187,12 @@ app.use('', router);
 // =============================================================================
 app.listen(port);
 console.log('Magic happens on port ' + port);
+
+//Auxiliar functions
+function resetCookies(){
+	http_session="";
+	si_session="";
+	si_security="";
+	headers["Cookie"] = "";
+	return;
+}

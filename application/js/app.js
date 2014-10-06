@@ -29,13 +29,13 @@ App.LoginFormView = Ember.View.extend({
 			async: false,
 			success: function(data, textStatus, jqXHR)
 			{
-				if(data.headers["set-cookie"][1]!== undefined)
+				console.log(data);
+				if(data.headers["set-cookie"].length>0)
 				{
 					//set sigarra cookies
 					document.cookie=data.headers["set-cookie"][0];
 					document.cookie=data.headers["set-cookie"][1];
 					console.log(document.cookie);
-					
 					$.ajax({
 						type: "GET",
 						url: "api/initialWebPage",
@@ -45,6 +45,8 @@ App.LoginFormView = Ember.View.extend({
 							document.cookie=data.headers["set-cookie"][0];
 							console.log(document.cookie);
 							console.log(data);
+							var num = parserLogin(data.body);
+							console.log(num);
 						},
 						error: function(XMLHttpRequest, textStatus, errorThrown) {
 							alert("some error");
@@ -55,23 +57,24 @@ App.LoginFormView = Ember.View.extend({
 					alert("incorrect sifeup login credentials");
 				}
 			},complete: function(){
-				$.ajax({
-					type: "POST",
-					url: "api/logout",
-					async: false,
-					success: function(data, textStatus, jqXHR){
-						console.log("cleared server of cookies\n");
-					},complete: function(){
-						document.cookie = "HTTP_SESSION" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-						document.cookie = "SI_SESSION" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-						document.cookie = "SI_SECURITY" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-						console.log("cleared client of cookies\n");
-					}
-				});
+				clearCookies();
 			}
 		});
     },
 });
+
+function clearCookies(){
+	if(document.cookie.indexOf("HTTP_SESSION") >= 0){
+		document.cookie = "HTTP_SESSION" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
+	if(document.cookie.indexOf("SI_SESSION") >= 0){
+		document.cookie = "SI_SESSION" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
+	if(document.cookie.indexOf("SI_SECURITY") >= 0){
+		document.cookie = "SI_SECURITY" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
+	return;
+}
 
 function parserLogin(input_html){
 	// TEST ONLY: var input_html = document.getElementById('textfield').value;
