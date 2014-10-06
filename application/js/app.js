@@ -26,16 +26,20 @@ App.LoginFormView = Ember.View.extend({
 			type: "POST",
 			url: "api/login",
 			data: {'username':username,'password':password},
+			async: false,
 			success: function(data, textStatus, jqXHR)
 			{
-				document.cookie=data.headers["set-cookie"][0];
-				document.cookie=data.headers["set-cookie"][1];
-				console.log(document.cookie);
-				if(data.statusCode == 200)
+				if(data.headers["set-cookie"][1]!== undefined)
 				{
+					//set sigarra cookies
+					document.cookie=data.headers["set-cookie"][0];
+					document.cookie=data.headers["set-cookie"][1];
+					console.log(document.cookie);
+					
 					$.ajax({
 						type: "GET",
 						url: "api/initialWebPage",
+						async: false,
 						success: function(data, textStatus, jqXHR)
 						{
 							document.cookie=data.headers["set-cookie"][0];
@@ -47,10 +51,14 @@ App.LoginFormView = Ember.View.extend({
 						}
 					});	
 				}
+				else{
+					alert("incorrect sifeup login credentials");
+				}
 			},complete: function(){
 				$.ajax({
 					type: "POST",
 					url: "api/logout",
+					async: false,
 					success: function(data, textStatus, jqXHR){
 						console.log("cleared server of cookies\n");
 					},complete: function(){

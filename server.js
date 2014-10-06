@@ -95,12 +95,13 @@ router.post('/api/login', function(req, res) {
 	// Start the request	
 	request(loginCredentials, function (error, response) {
 		if (!error && response.statusCode == 200 && response.headers["set-cookie"][1]!== undefined) {				
-						
 			si_session = response.headers["set-cookie"][0];
 			si_security = response.headers["set-cookie"][1];
 			
 			headers["set-cookie"] = "";
 			headers["set-cookie"] = http_session+si_session+si_security;
+			console.log(response.headers["set-cookie"]);
+			console.log(headers["set-cookie"]);
 			res.send(response);
 			
 		}else{
@@ -110,18 +111,17 @@ router.post('/api/login', function(req, res) {
 });
 
 router.post('/api/logout',function(req,res){
-// Start the request	
+	// Start the request	
 	request(logoutCredentials, function (error, response) {
 		if (!error && response.statusCode == 200) {				
-						
-			si_session = response.headers["set-cookie"][0];
-			si_security = response.headers["set-cookie"][1];
+			console.log(headers["set-cookie"]);
+			http_session="";
+			si_session = "";
+			si_security = "";
 			headers["set-cookie"] = "";
 			headers["set-cookie"] = http_session+si_session+si_security;
 			console.log("cleared server\n");
-			console.log(headers);
-			res.send(response);
-			
+			res.send(response);			
 		}else{
 			res.send(response);
 		}
