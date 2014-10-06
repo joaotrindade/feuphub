@@ -44,9 +44,8 @@ App.LoginFormView = Ember.View.extend({
 						{
 							document.cookie=data.headers["set-cookie"][0];
 							console.log(document.cookie);
-							console.log(data);
-							var num = parserLogin(data.body);
-							console.log(num);
+							//var num = parserLogin(data.body);
+							//console.log(num);
 						},
 						error: function(XMLHttpRequest, textStatus, errorThrown) {
 							alert("some error");

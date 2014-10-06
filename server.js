@@ -99,8 +99,6 @@ router.post('/api/login', function(req, res) {
 			si_security = response.headers["set-cookie"][1];
 			headers["Cookie"] = "";
 			headers["Cookie"] = http_session+" "+si_session+" "+si_security;
-			console.log(headers);
-			console.log("\n");
 			res.send(response);
 		}else{
 			res.send(response);
@@ -110,6 +108,7 @@ router.post('/api/login', function(req, res) {
 });
 
 router.post('/api/logout',function(req,res){
+	
 	// Start the request	
 	request(logoutCredentials, function (error, response) {
 		resetCookies();
@@ -117,9 +116,9 @@ router.post('/api/logout',function(req,res){
 });
 
 router.get('/api/initialWebPage', function(req, res) {
-
 	headers["Cookie"] = req.headers.cookie;
-	console.log(headers);
+	
+	// Start the request
 	request(initialWebPage, function (error, response, body) {
 		if (!error && response.statusCode == 200 && response.headers["set-cookie"][0]!== undefined) {
 			http_session = response.headers["set-cookie"][0];
@@ -137,6 +136,7 @@ router.get('/api/initialWebPage', function(req, res) {
 router.get('/api/getPvNumUnico', function(req, res) {	
 	studentPvNumUnico.form.pct_id = req.body.userId;
 	headers["Cookie"] = req.headers.cookie;
+	
 	// Start the request	
 	request(studentPvNumUnico, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -152,6 +152,7 @@ router.get('/api/getPvNumUnico', function(req, res) {
 router.get('/api/getStudentPage',function(req,res){
 	studentPage.form.pv_num_unico = req.body.studentNum;
 	headers["Cookie"] = req.headers.cookie;
+	
 	// Start the request
 	request(studentPage, function(error, response, body){
 	if (!error && response.statusCode == 200) {
@@ -167,6 +168,7 @@ router.get('/api/getStudentPage',function(req,res){
 router.get('/api/studentCourses',function(req,res){
 	studentCourses.form.pv_fest_id = req.body.pv_fest_id;
 	headers["Cookie"] = req.headers.cookie;
+	
 	// Start the request
 	request(studentCourses, function(error, response, body){
 	if (!error && response.statusCode == 200) {
