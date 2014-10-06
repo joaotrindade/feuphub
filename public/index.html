@@ -59,14 +59,15 @@ if(k&&j[k]&&(e||j[k].data)||void 0!==d||"string"!=typeof b)return k||(k=i?a[h]=c
 	  }
 	  
 		function handleClick(){
-			alert("dasdsa");
-			var xmlhttp;
-		var params = "p_app=160&p_amo=1264&p_user=ei11061&p_pass=mondraker7728feup";
-		xmlhttp=new XMLHttpRequest();
-		xmlhttp.open("POST","https://sigarra.up.pt/feup/pt/vld_validacao.validacao",true);
-		xmlhttp.send(params);
-		console.log(xmlhttp);
-			
+			$.ajax({
+				type: "POST",
+				url: "api/login",
+				data: {'username':"ei11061",'password':"mondraker7728feup"},
+				success: function(data, textStatus, jqXHR)
+				{
+					console.log(data);
+				}
+			});		
 		}
 	</script>
   </head>     
