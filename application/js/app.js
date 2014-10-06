@@ -22,6 +22,32 @@ App.LoginFormView = Ember.View.extend({
         var username = this.get('username');
         var password = this.get('password');
 
-        alert( 'User:' + username + '\nPassword:' + password )
+		$.ajax({
+			type: "POST",
+			url: "api/login",
+			data: {'username':username,'password':password},
+			success: function(data, textStatus, jqXHR)
+			{
+				document.cookie=data.headers["set-cookie"][0];
+				document.cookie=data.headers["set-cookie"][1];
+				console.log(document.cookie);
+				if(data.statusCode == 200)
+				{
+					$.ajax({
+						type: "GET",
+						url: "api/initialWebPage",
+						success: function(data, textStatus, jqXHR)
+						{
+							document.cookie=data.headers["set-cookie"][0];
+							console.log(document.cookie);
+							console.log(data);
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("some error");
+						}
+					});	
+				}
+			}
+		});
     },
 });

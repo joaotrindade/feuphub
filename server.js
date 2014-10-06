@@ -70,6 +70,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use("/application/css", express.static(__dirname + '/application/css'));
+app.use("/application/js", express.static(__dirname + '/application/js'));
+
 var port = process.env.PORT || 901; 		// set our port
 
 app.set(function() {
