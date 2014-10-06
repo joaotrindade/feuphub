@@ -15,7 +15,7 @@ var http_session='';
 var si_session='';
 var si_security='';
 
-// Set the headers
+// Set request headers
 var headers = {
     'User-Agent':       'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36',
     'Content-Type':     'text/plain;charset=UTF-16',
@@ -30,18 +30,39 @@ var loginCredentials = {
     form: {'p_app': '162', 'p_amo': '1665', 'p_user': '', 'p_pass': ''}
 }
 
+var logoutCredentials = {
+    url: 'https://sigarra.up.pt/feup/pt/vld_validacao.sair',
+    method: 'POST',
+    headers: headers,
+    form: {'p_address': 'WEB_PAGE.INICIAL'}
+}
+
 var initialWebPage = {
     url: 'https://sigarra.up.pt/feup/pt/WEB_PAGE.INICIAL',
     method: 'GET',
     headers: headers
 }
 
-var getStudentPage = {
-    url: 'https://sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina?',
+var studentPvNumUnico = {
+    url: 'https://sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina',
     method: 'GET',
     headers: headers,
     form: {'pct_id': ''}
 } 
+
+var studentPage = {
+	url: 'https://sigarra.up.pt/feup/pt/fest_geral.cursos_list',
+    method: 'GET',
+    headers: headers,
+    form: {'pv_num_unico': ''}
+}
+
+var studentCourses = {
+	url: 'https://sigarra.up.pt/feup/pt/fest_geral.curso_percurso_academico_view',
+    method: 'GET',
+    headers: headers,
+    form: {'pv_fest_id': ''}
+}
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -62,7 +83,7 @@ var router = express.Router(); 				// get an instance of the express Router
 // test route to make sure everything is working (accessed at GET http://localhost:901/api)
 router.get('/',function(req,res){
   res.sendfile(__dirname + '/public/index.html');
-})
+});
 
 router.post('/api/login', function(req, res) {
 	
@@ -76,6 +97,23 @@ router.post('/api/login', function(req, res) {
 			si_session = response.headers["set-cookie"][0];
 			si_security = response.headers["set-cookie"][1];
 			
+			headers["set-cookie"] = "";
+			headers["set-cookie"] = http_session+si_session+si_security;
+			res.send(response);
+			
+		}else{
+			res.send(response);
+		}
+	})
+});
+
+router.post('/api/logout',function(req,res){
+// Start the request	
+	request(logoutCredentials, function (error, response) {
+		if (!error && response.statusCode == 200) {				
+						
+			si_session = response.headers["set-cookie"][0];
+			si_security = response.headers["set-cookie"][1];
 			headers["set-cookie"] = "";
 			headers["set-cookie"] = http_session+si_session+si_security;
 			res.send(response);
@@ -100,10 +138,10 @@ router.get('/api/initialWebPage', function(req, res) {
 	})
 });
 
-router.get('/api/userpage', function(req, res) {	
-	getStudentPage.form.pct_id = req.body.userid;
+router.get('/api/getPvNumUnico', function(req, res) {	
+	studentPvNumUnico.form.pct_id = req.body.userId;
 	// Start the request	
-	request(getStudentPage, function (error, response, body) {
+	request(studentPvNumUnico, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			res.send(response);
 		}
@@ -113,37 +151,37 @@ router.get('/api/userpage', function(req, res) {
 	})
 });
 
-// more routes for our API will happen here
+router.get('/api/getStudentPage',function(req,res){
+	studentPage.form.pv_num_unico = req.body.studentNum;
+	// Start the request
+	request(studentPage, function(error, response, body){
+	if (!error && response.statusCode == 200) {
+			res.send(response);
+		}
+		else{
+			res.send(response);
+		}
+	})
+});
+
+router.get('/api/studentCourses',function(req,res){
+	studentCourses.form.pv_fest_id = req.body.pv_fest_id;
+	// Start the request
+	request(studentCourses, function(error, response, body){
+	if (!error && response.statusCode == 200) {
+			res.send(response);
+		}
+		else{
+			res.send(response);
+		}
+	})
+});
 
 // REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
+// all of our routes will be prefixed with
 app.use('', router);
 
 // START THE SERVER
 // =============================================================================
 app.listen(port);
 console.log('Magic happens on port ' + port);
-
-// Auxiliar Functions
-function homePageCookies()
-{
-
-}
-
-function getStudentId()
-{
-	request({
-		url: 'https://sigarra.up.pt/feup/pt/WEB_PAGE.INICIAL',
-		method: 'GET',
-		headers: headers,
-		},function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				return body;
-				//res.json({body: body});
-			}
-			else{
-			return 400;
-			//res.json({ response: 400, body: response});
-			}
-	})
-}
