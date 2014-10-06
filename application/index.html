@@ -1,0 +1,40 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ember Starter Kit</title>
+  <link rel="stylesheet" href="./application/css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <script type="text/x-handlebars">
+    <h2>Ember.js Login Test </h2>
+
+    {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" id="index">
+  
+    {{#view App.LoginFormView}}
+        <label>
+          Username:
+          {{view Ember.TextField type="text" valueBinding="view.username"}} 
+        </label>
+        <br><br>
+        <label>
+          Password:
+          {{view Ember.TextField type="password" valueBinding="view.password"}}
+        </label>
+        <br><br>
+        <button>Login</button>
+    {{/view}}
+    
+  </script> 
+
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.1.2.js"></script>
+  <script src="js/libs/ember-1.7.0.js"></script>
+  <script src="js/app.js"></script>
+  <!-- to activate the test runner, add the "?test" query string parameter -->
+  <script src="tests/runner.js"></script>
+</body>
+</html>

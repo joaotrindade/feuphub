@@ -82,7 +82,7 @@ var router = express.Router(); 				// get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:901/api)
 router.get('/',function(req,res){
-  res.sendfile(__dirname + '/public/index.html');
+  res.sendfile(__dirname + '/application/index.html');
 });
 
 router.post('/api/login', function(req, res) {
