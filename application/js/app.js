@@ -47,6 +47,19 @@ App.LoginFormView = Ember.View.extend({
 						}
 					});	
 				}
+			},complete: function(){
+				$.ajax({
+					type: "POST",
+					url: "api/logout",
+					success: function(data, textStatus, jqXHR){
+						console.log("cleared server of cookies\n");
+					},complete: function(){
+						document.cookie = "HTTP_SESSION" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+						document.cookie = "SI_SESSION" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+						document.cookie = "SI_SECURITY" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+						console.log("cleared client of cookies\n");
+					}
+				});
 			}
 		});
     },

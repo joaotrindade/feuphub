@@ -118,6 +118,8 @@ router.post('/api/logout',function(req,res){
 			si_security = response.headers["set-cookie"][1];
 			headers["set-cookie"] = "";
 			headers["set-cookie"] = http_session+si_session+si_security;
+			console.log("cleared server\n");
+			console.log(headers);
 			res.send(response);
 			
 		}else{
