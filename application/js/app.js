@@ -72,3 +72,13 @@ App.LoginFormView = Ember.View.extend({
 		});
     },
 });
+
+function parserLogin(input_html){
+	// TEST ONLY: var input_html = document.getElementById('textfield').value;
+	var e1 = document.createElement( 'div' );
+	e1.innerHTML = input_html;
+	var url = e1.querySelector('.autenticacao-nome').href;
+	var temp = url.split("=")
+	var value = temp[1];
+	return value;
+}
