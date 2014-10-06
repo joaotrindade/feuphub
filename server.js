@@ -9,7 +9,6 @@ var app        = express(); 				// define our app using express
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');			//for proxy http requests
-var request = request.defaults({jar: true}) //Store cookies
 
 var http_session='';
 var si_session='';
