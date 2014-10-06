@@ -40,25 +40,17 @@ app.use(cookieParser());
 
 var port = process.env.PORT || 901; 		// set our port
 
+app.set(function() {
+    app.use(express.static(__dirname + '/public'));
+});
+
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router(); 				// get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:901/api)
 router.get('/',function(req,res){
-
-request({
-		url: 'https://sigarra.up.pt/feup/pt/WEB_PAGE.INICIAL',
-		method: 'GET',
-		headers: headers,
-		},function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				res.json({body: response});
-			}
-			else{
-			res.json({ response: 400, body: response});
-			}
-	})
+  res.sendfile(__dirname + '/public/index.html');
 })
 
 router.get('/userpage', function(req, res) {	
