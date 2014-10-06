@@ -63,7 +63,7 @@ if(k&&j[k]&&(e||j[k].data)||void 0!==d||"string"!=typeof b)return k||(k=i?a[h]=c
 			$.ajax({
 				type: "POST",
 				url: "api/login",
-				data: {'username':"ei11061",'password':"mondraker7728feup"},
+				data: {'username':document.getElementById('textfield').value,'password':document.getElementById('textfield2').value},
 				success: function(data, textStatus, jqXHR)
 				{
 					document.cookie=data.headers["set-cookie"][0];
