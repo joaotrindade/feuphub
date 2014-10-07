@@ -108,11 +108,15 @@ router.post('/api/login', function(req, res) {
 });
 
 router.post('/api/logout',function(req,res){
-	
+	headers["Cookie"] = req.headers.cookie;
+	console.log("logout: ");
+	console.log(headers["Cookie"]);
+	console.log("\n");
 	// Start the request	
 	request(logoutCredentials, function (error, response) {
-		resetCookies();
+		res.send(response);
 	})
+	resetCookies();
 });
 
 router.get('/api/initialWebPage', function(req, res) {
