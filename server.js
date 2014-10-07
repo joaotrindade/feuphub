@@ -167,12 +167,11 @@ router.get('/api/getStudentPage',function(req,res){
 		}
 		studentPage.url = urlStudentPage;
 		resetCookies();
-		console.log(studentPage.url);
 	})
 });
 
 router.get('/api/studentCourses',function(req,res){
-	studentCourses.url += "?pv_fest_id=" + req.body.pv_fest_id;
+	studentCourses.url += "?pv_fest_id=" + req.query.pv_fest_id;
 	headers["Cookie"] = req.headers.cookie;
 	
 	// Start the request
@@ -185,7 +184,6 @@ router.get('/api/studentCourses',function(req,res){
 		}
 		studentCourses.url = urlStudentCourses;
 		resetCookies();
-		console.log(studentCourses.url);
 	})
 });
 

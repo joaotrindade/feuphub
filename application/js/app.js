@@ -29,7 +29,7 @@ App.LoginFormView = Ember.View.extend({
 			async: false,
 			success: function(data, textStatus, jqXHR)
 			{
-				if(data.headers["set-cookie"].length>1)
+				if(data.headers["set-cookie"] !== undefined && data.headers["set-cookie"].length >1)
 				{
 					//set sigarra cookies
 					document.cookie=data.headers["set-cookie"][0];
@@ -42,8 +42,6 @@ App.LoginFormView = Ember.View.extend({
 						{
 							document.cookie=data.headers["set-cookie"][0];
 							var num = parserLogin(data.body);
-							console.log("pct_id do parser: ");
-							console.log(num);
 							$.ajax({
 								type: "GET",
 								url: "/api/getPvNumUnico",
@@ -52,7 +50,32 @@ App.LoginFormView = Ember.View.extend({
 								async: false,
 								success: function(data, textStatus, jqXHR)
 								{
-									console.log(data);
+									var numProfile = parserNumUnico(data.body);
+									$.ajax({
+										type: "GET",
+										url: "/api/getStudentPage",
+										data: "pv_num_unico="+numProfile,
+										async: false,
+										success: function(data, textStatus, jqXHR)
+										{
+											var pv_fest_id = parserPVFEST(data.body);
+											$.ajax({
+												type: "GET",
+												url: "/api/studentCourses",
+												data: "pv_fest_id="+pv_fest_id,
+												async: false,
+												success: function(data, textStatus, jqXHR){
+													console.log(data);
+												},
+												error: function(XMLHttpRequest, textStatus, errorThrown) {
+													alert("some error");
+												}
+											});
+										},
+										error: function(XMLHttpRequest, textStatus, errorThrown) {
+											alert("some error");
+										}
+									});
 								},
 								error: function(XMLHttpRequest, textStatus, errorThrown) {
 									alert("some error");
@@ -95,11 +118,38 @@ function clearCookies(){
 }
 
 function parserLogin(input_html){
+	/* PARSES PCT_ID */
 	var e1 = document.createElement( 'div' );
 	e1.innerHTML = input_html;
 	var url = e1.querySelector('.autenticacao-nome').href;
 	e1.innerHTML = "";
-	ei = null;
+	e1 = null;
+	var temp = url.split("=")
+	var value = temp[1];
+	return value;
+}
+
+function parserNumUnico(input_html)
+{
+	/* PARSES PV_FEST_ID */
+	var e1 = document.createElement( 'div' );
+	e1.innerHTML = input_html;
+	var url = e1.querySelector('a').href;
+	e1.innerHTML = "";
+	e1 = null;
+	var temp = url.split("=")
+	var value = temp[1];
+	return value;
+}
+
+function parserPVFEST(input_html)
+{
+	/* PARSES PV_FEST_ID */
+	var e1 = document.createElement( 'div' );
+	e1.innerHTML = input_html;
+	var url = e1.querySelector("a[title~='Visualizar']").href;
+	e1.innerHTML = "";
+	e1 = null;
 	var temp = url.split("=")
 	var value = temp[1];
 	return value;
