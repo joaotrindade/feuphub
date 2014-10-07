@@ -73,7 +73,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/application/css", express.static(__dirname + '/application/css'));
+app.use("/application/resources", express.static(__dirname + '/application/resources'));
 app.use("/application/js", express.static(__dirname + '/application/js'));
+
 
 var port = process.env.PORT || 901; 		// set our port
 
@@ -184,6 +186,17 @@ router.get('/api/studentCourses',function(req,res){
 		}
 		studentCourses.url = urlStudentCourses;
 		resetCookies();
+	})
+});
+
+router.get('/api/certifiedLogin',function(req,res){
+
+	request({
+		url: 'https://sigarra.up.pt/feup/pt/vld_validacao.federate_login?p_redirect=http://localhost:901/',
+		method: 'GET',
+		headers: headers,
+		},function(error,response,body){
+			res.send(response);
 	})
 });
 
