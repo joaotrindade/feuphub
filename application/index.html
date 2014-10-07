@@ -28,12 +28,18 @@
         <button>Login</button>
         <br><br>
 		<br><br>
-		<div>
-			<button style="background-image: url('application/resources/autenticacaoAAI_central.png'); width:303; height:80;"  class="federacao" title="Autenticação por federação"/>
-		</div>
     {{/view}}
+
+    <div>
+    
+      <button style="background-image: url('application/resources/autenticacaoAAI_central.png'); width:303; height:80;"  class="federacao" title="Autenticação por federação" {{action "loginfederado"}} > </button>
+    </div>
     
   </script> 
+
+  <script type="text/x-handlebars" id="credentials">
+  <iframe src="http://sigarra.up.pt/feup/pt/vld_validacao.federate_login?p_redirect=web_page.Inicial"></iframe>
+ </script>
 
   <script src="application/js/libs/jquery-1.10.2.js"></script>
   <script src="application/js/libs/handlebars-1.1.2.js"></script>

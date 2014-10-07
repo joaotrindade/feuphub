@@ -77,7 +77,7 @@ app.use("/application/resources", express.static(__dirname + '/application/resou
 app.use("/application/js", express.static(__dirname + '/application/js'));
 
 
-var port = process.env.PORT || 901; 		// set our port
+var port = process.env.PORT || 1234; 		// set our port
 
 app.set(function() {
     app.use(express.static(__dirname + '/public'));

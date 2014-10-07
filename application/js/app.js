@@ -1,7 +1,7 @@
 App = Ember.Application.create();
 
 App.Router.map(function() {
-  // put your routes here
+  this.route("credentials");
 });
 
 
@@ -9,6 +9,10 @@ App.loginController = Ember.Object.create({
     login: function(username, password) {
       // $.ajax stuff goes here
     }
+});
+
+App.IndexController = Ember.Controller.extend({
+	loginfederado: function(){alert("oi gostoso")}
 });
 
 App.LoginFormView = Ember.View.extend({
