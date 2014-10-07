@@ -29,13 +29,11 @@ App.LoginFormView = Ember.View.extend({
 			async: false,
 			success: function(data, textStatus, jqXHR)
 			{
-				console.log(data);
 				if(data.headers["set-cookie"].length>1)
 				{
 					//set sigarra cookies
 					document.cookie=data.headers["set-cookie"][0];
 					document.cookie=data.headers["set-cookie"][1];
-					console.log(document.cookie);
 					$.ajax({
 						type: "GET",
 						url: "api/initialWebPage",
@@ -43,9 +41,23 @@ App.LoginFormView = Ember.View.extend({
 						success: function(data, textStatus, jqXHR)
 						{
 							document.cookie=data.headers["set-cookie"][0];
-							console.log(document.cookie);
-							//var num = parserLogin(data.body);
-							//console.log(num);
+							var num = parserLogin(data.body);
+							console.log("pct_id do parser: ");
+							console.log(num);
+							$.ajax({
+								type: "GET",
+								url: "/api/getPvNumUnico",
+								//sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina?pct_id=777369 //
+								data: "pct_id="+num,
+								async: false,
+								success: function(data, textStatus, jqXHR)
+								{
+									console.log(data);
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) {
+									alert("some error");
+								}
+							});
 						},
 						error: function(XMLHttpRequest, textStatus, errorThrown) {
 							alert("some error");
@@ -61,12 +73,9 @@ App.LoginFormView = Ember.View.extend({
 					url: "api/logout",
 					async: false,
 					success: function(data, textStatus, jqXHR)
-					{
-						console.log(data);
-					}
+					{}
 				});
 				clearCookies();
-				checkServerCookies();
 			}
 		});
     },
@@ -86,10 +95,11 @@ function clearCookies(){
 }
 
 function parserLogin(input_html){
-	// TEST ONLY: var input_html = document.getElementById('textfield').value;
 	var e1 = document.createElement( 'div' );
 	e1.innerHTML = input_html;
 	var url = e1.querySelector('.autenticacao-nome').href;
+	e1.innerHTML = "";
+	ei = null;
 	var temp = url.split("=")
 	var value = temp[1];
 	return value;

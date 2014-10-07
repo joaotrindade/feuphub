@@ -42,25 +42,28 @@ var initialWebPage = {
     headers: headers
 }
 
+var urlStudentPvNumUnico = "https://sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina";
+
 var studentPvNumUnico = {
     url: 'https://sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina',
     method: 'GET',
     headers: headers,
-    form: {'pct_id': ''}
 } 
+
+var urlStudentPage = "https://sigarra.up.pt/feup/pt/fest_geral.cursos_list";
 
 var studentPage = {
 	url: 'https://sigarra.up.pt/feup/pt/fest_geral.cursos_list',
     method: 'GET',
     headers: headers,
-    form: {'pv_num_unico': ''}
 }
+
+var urlStudentCourses = "https://sigarra.up.pt/feup/pt/fest_geral.curso_percurso_academico_view";
 
 var studentCourses = {
 	url: 'https://sigarra.up.pt/feup/pt/fest_geral.curso_percurso_academico_view',
     method: 'GET',
     headers: headers,
-    form: {'pv_fest_id': ''}
 }
 
 // configure app to use bodyParser()
@@ -109,9 +112,6 @@ router.post('/api/login', function(req, res) {
 
 router.post('/api/logout',function(req,res){
 	headers["Cookie"] = req.headers.cookie;
-	console.log("logout: ");
-	console.log(headers["Cookie"]);
-	console.log("\n");
 	// Start the request	
 	request(logoutCredentials, function (error, response) {
 		res.send(response);
@@ -137,10 +137,9 @@ router.get('/api/initialWebPage', function(req, res) {
 	})
 });
 
-router.get('/api/getPvNumUnico', function(req, res) {	
-	studentPvNumUnico.form.pct_id = req.body.userId;
+router.get('/api/getPvNumUnico', function(req, res) {
+	studentPvNumUnico.url += "?pct_id=" + req.query.pct_id;
 	headers["Cookie"] = req.headers.cookie;
-	
 	// Start the request	
 	request(studentPvNumUnico, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -149,12 +148,13 @@ router.get('/api/getPvNumUnico', function(req, res) {
 		else{
 			res.send(response);
 		}
+		studentPvNumUnico.url = urlStudentPvNumUnico;
 		resetCookies();
 	})
 });
 
 router.get('/api/getStudentPage',function(req,res){
-	studentPage.form.pv_num_unico = req.body.studentNum;
+	studentPage.url += "?pv_num_unico=" + req.query.pv_num_unico;
 	headers["Cookie"] = req.headers.cookie;
 	
 	// Start the request
@@ -165,12 +165,14 @@ router.get('/api/getStudentPage',function(req,res){
 		else{
 			res.send(response);
 		}
+		studentPage.url = urlStudentPage;
 		resetCookies();
+		console.log(studentPage.url);
 	})
 });
 
 router.get('/api/studentCourses',function(req,res){
-	studentCourses.form.pv_fest_id = req.body.pv_fest_id;
+	studentCourses.url += "?pv_fest_id=" + req.body.pv_fest_id;
 	headers["Cookie"] = req.headers.cookie;
 	
 	// Start the request
@@ -181,7 +183,9 @@ router.get('/api/studentCourses',function(req,res){
 		else{
 			res.send(response);
 		}
+		studentCourses.url = urlStudentCourses;
 		resetCookies();
+		console.log(studentCourses.url);
 	})
 });
 
