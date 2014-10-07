@@ -154,3 +154,48 @@ function parserPVFEST(input_html)
 	var value = temp[1];
 	return value;
 }
+
+function parserPercurso()
+{
+	var input_html = document.getElementById('textfield').value;
+	var handler = document.createElement( 'div' );
+	handler.innerHTML = input_html;
+	var tableRowsNodeList = handler.querySelectorAll('#tabelapercurso  .p, #tabelapercurso .i');
+	var jsonData = [];
+
+	for (var i = 0; i < tableRowsNodeList.length ; i++ )
+	{
+		var ucYear = tableRowsNodeList[i].querySelector('.k.l');
+			if (ucYear != null) ucYear = ucYear.firstChild.data;
+		var ucCode = tableRowsNodeList[i].querySelector('.k.t');
+			if (ucCode != null) ucCode = ucCode.firstChild.text;
+		var ucName = tableRowsNodeList[i].querySelector('.unidade-curricular')
+			if (ucName != null) ucName = ucName.text;
+		var ucApproved = false;
+		var aprovado = tableRowsNodeList[i].querySelector('.aprovado');
+		if (aprovado != null)
+			ucApproved = true;
+		var firstTimeStudent = false;
+
+		var hasYellowCell = tableRowsNodeList[i].querySelector('.n.nao-aprovado');
+		if (hasYellowCell != null)
+		{
+			if (hasYellowCell.firstChild == null)  firstTimeStudent = true;
+		}
+		else firstTimeStudent = false;
+
+		if (ucYear != null && ucCode != null && ucName != null && firstTimeStudent == false)
+		{
+			var ucData = {'year':ucYear, "code":ucCode, "name":ucName, "approved":ucApproved} ;
+			jsonData.push(ucData);
+		}
+		/* Testing only */
+
+			//if (ucApproved) alert(ucYear + " - " + ucCode + " - " + ucName + " - Aprovado" );
+			//else alert(ucYear + " - " + ucCode + " - " + ucName + " - Nao Aprovado" );
+
+		/* ------------ */
+	}
+	//console.log(jsonData);
+	return jsonData;
+}
