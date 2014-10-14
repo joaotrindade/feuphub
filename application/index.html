@@ -4,6 +4,42 @@
   <title>Ember Starter Kit</title>
   <link rel="stylesheet" href="application/css/normalize.css">
   <link rel="stylesheet" href="application/css/style.css">
+  <style>
+#spinner
+{
+	display: none;
+    position: absolute;
+	margin: auto;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+
+#spinner > *
+{
+	position: absolute;
+	margin: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#spinner > p
+{
+	background-color: white;
+	height: 35;
+	width: 220;
+	bottom: 50;
+	text-align: -webkit-center;
+	padding-top: 5px;
+	font-size: smaller;
+}
+</style>
 </head>
 <body>
   <script type="text/x-handlebars">
@@ -27,15 +63,25 @@
         <br><br>
         <button>Login</button>
         <br><br>
+		
     {{/view}}
-
+	<div id="spinner">
+		<p id="statusText"></p>
+		<img src="application/resources/ajax-loader.gif" alt="Loading..."/>
+		
+	</div>
+		<br><br>
+	
     <div>
-	   {{#link-to "credentials"}}<button style="background-image: url('application/resources/autenticacaoAAI_central.png'); width:303; height:80;"  class="federacao" title="Autenticação por federação"></button>{{/link-to}}
+	<a id="ember266" class="ember-view" href="https://wayf.up.pt/UPORTOaai?entityID=https://ldso08.fe.up.pt//shibboleth&return=https://ldso08.fe.up.pt//Shibboleth.sso/Login?SAMLDS=1&target=cookie%3A1413272647_2288">
+	<button style="background-image: url('application/resources/autenticacaoAAI_central.png'); width:303; height:80;" class="federacao" title="Autenticação por federação">
+	</button>
+	</a>
     </div>
   </script> 
 
   <script type="text/x-handlebars" id="credentials">
-  <iframe width="100%" height="100%" frameborder="0" src="http://sigarra.up.pt/feup/pt/vld_validacao.federate_login?p_redirect=web_page.Inicial" scrolling="no"/>
+  <iframe id="aaiLogin" ="100%" width="100%" height="100%" frameborder="0" src="https://sigarra.up.pt/feup/pt/vld_validacao.federate_login?p_redirect=web_page.Inicial" scrolling="no"/>
  </script>
 
   <script src="application/js/libs/jquery-1.10.2.js"></script>

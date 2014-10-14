@@ -10,102 +10,108 @@ App.LoginFormView = Ember.View.extend({
     password: null,
 
     submit: function(event) {
-        event.preventDefault();
+		event.preventDefault();
+		
+		$('#spinner').fadeIn(100);
+		$('#spinner #statusText').text("Validating your login with SIFEUP");
+		
+		var username = this.get('username');
+		var password = this.get('password');
+			
+		setTimeout(function(){
 
-        var username = this.get('username');
-        var password = this.get('password');
-
-		$.ajax({
-			type: "POST",
-			url: "api/login",
-			data: {'username':username,'password':password},
-			async: false,
-			success: function(data, textStatus, jqXHR)
-			{
-				if(data.headers["set-cookie"] !== undefined && data.headers["set-cookie"].length >1)
+			$.ajax({
+				type: "POST",
+				url: "api/login",
+				data: {'username':username,'password':password},
+				async: false,
+				beforeSend : function(){
+				},
+				success: function(data, textStatus, jqXHR)
 				{
-					//set sigarra cookies
-					document.cookie=data.headers["set-cookie"][0];
-					document.cookie=data.headers["set-cookie"][1];
-					$.ajax({
-						type: "GET",
-						url: "api/initialWebPage",
-						async: false,
-						success: function(data, textStatus, jqXHR)
-						{
-							document.cookie=data.headers["set-cookie"][0];
-							var num = parserLogin(data.body);
-							$.ajax({
-								type: "GET",
-								url: "/api/getPvNumUnico",
-								//sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina?pct_id=777369 //
-								data: "pct_id="+num,
-								async: false,
-								success: function(data, textStatus, jqXHR)
-								{
-									var numProfile = parserNumUnico(data.body);
-									$.ajax({
-										type: "GET",
-										url: "/api/getStudentPage",
-										data: "pv_num_unico="+numProfile,
-										async: false,
-										success: function(data, textStatus, jqXHR)
-										{
-											var pv_fest_id = parserPVFEST(data.body);
-											$.ajax({
-												type: "GET",
-												url: "/api/studentCourses",
-												data: "pv_fest_id="+pv_fest_id,
-												async: false,
-												success: function(data, textStatus, jqXHR){
-													console.log(data);
-												},
-												error: function(XMLHttpRequest, textStatus, errorThrown) {
-													alert("some error");
-												}
-											});
-										},
-										error: function(XMLHttpRequest, textStatus, errorThrown) {
-											alert("some error");
-										}
-									});
-								},
-								error: function(XMLHttpRequest, textStatus, errorThrown) {
-									alert("some error");
-								}
-							});
-						},
-						error: function(XMLHttpRequest, textStatus, errorThrown) {
-							alert("some error");
-						}
-					});	
+					if(data.headers["set-cookie"].length >1)
+					{
+						//set sigarra cookies
+						document.cookie=data.headers["set-cookie"][0];
+						document.cookie=data.headers["set-cookie"][1];
+						$('#spinner #statusText').text("Login successful!");
+						setTimeout(function(){getCourses(username);},1000);
+					}
+					else{
+						$('#spinner #statusText').text("incorrect sifeup login credentials");
+						setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
+					}
 				}
-				else{
-					alert("incorrect sifeup login credentials");
-				}
-			},complete: function(){
-				$.ajax({
-					type: "POST",
-					url: "api/logout",
-					async: false,
-					success: function(data, textStatus, jqXHR)
-					{}
-				});
-				clearCookies();
-			}
-		});
+			});
+		}, 1000);
     },
 });
 
+function getCourses(username){
+$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
+var courses;
+
+setTimeout(function(){
+
+	$.ajax({
+		type: "GET",
+		url: "/api/getCourses",
+		data: "pv_login="+username,
+		success: function(data, textStatus, jqXHR)
+		{
+			//console.log("done");
+			$('#spinner #statusText').text("Done! Here they are");
+			courses=data;
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			$('#spinner #statusText').text("Something happened to sigarra...");
+		},
+		complete: function(data){
+			logoff();
+			setTimeout(function(){$('#spinner').stop().fadeOut(500);console.log(courses);func(courses);},500);
+		}});
+	},1000);	
+}
+
+function logoff(){
+	if(clearCookies())
+	{
+		$.ajax({
+		type: "POST",
+		url: "api/logout",
+		async: false,
+		success: function(data, textStatus, jqXHR)
+		{}
+	});
+	}
+	return;
+}
+
 function clearCookies(){
+
+	var cleared=false;
 	if(document.cookie.indexOf("HTTP_SESSION") >= 0){
 		document.cookie = "HTTP_SESSION" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		cleared=true;
 	}
 	if(document.cookie.indexOf("SI_SESSION") >= 0){
 		document.cookie = "SI_SESSION" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		cleared=true;
 	}
 	if(document.cookie.indexOf("SI_SECURITY") >= 0){
 		document.cookie = "SI_SECURITY" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		cleared=true;
+	}
+	return cleared;
+}
+
+function func(data)
+{
+console.log("in func");
+console.log(data);
+	if(data) //has data
+	{
+		alert(data);
 	}
 	return;
 }

@@ -4,11 +4,18 @@
 // =============================================================================
 
 // call the packages we need
+var https = require('https');
 var express    = require('express'); 		// call express
 var app        = express(); 				// define our app using express
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');			//for proxy http requests
+var fs = require('fs');						//ssl certificates
+
+var options = {
+  key: fs.readFileSync('opt/certs/ldso08.fe.up.pt.key'),
+  cert: fs.readFileSync('opt/certs/ldso08.fe.up.pt.crt')
+};
 
 var http_session='';
 var si_session='';
@@ -66,6 +73,15 @@ var studentCourses = {
     headers: headers,
 }
 
+var urlCourses = "https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas_login";
+
+var courses = {
+	url: 'https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas_login',
+    method: 'GET',
+    headers: headers,
+}
+
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -77,7 +93,7 @@ app.use("/application/resources", express.static(__dirname + '/application/resou
 app.use("/application/js", express.static(__dirname + '/application/js'));
 
 
-var port = process.env.PORT || 1234; 		// set our port
+var port = process.env.PORT || 443; 		// set our port
 
 app.set(function() {
     app.use(express.static(__dirname + '/public'));
@@ -87,9 +103,10 @@ app.set(function() {
 // =============================================================================
 var router = express.Router(); 				// get an instance of the express Router
 
-// test route to make sure everything is working (accessed at GET http://localhost:901/api)
+
+// REGISTER OUR ROUTES -------------------------------
 router.get('/',function(req,res){
-  res.sendfile(__dirname + '/application/index.html');
+	res.sendfile(__dirname + '/application/index.html');
 });
 
 router.post('/api/login', function(req, res) {
@@ -189,6 +206,25 @@ router.get('/api/studentCourses',function(req,res){
 	})
 });
 
+router.get('/api/getCourses',function(req,res){
+
+	courses.url += "?pv_login=" + req.query.pv_login;
+	headers["Cookie"] = req.headers.cookie;
+	
+	// Start the request
+	request(courses, function(error, response, body){
+	if (!error && response.statusCode == 200) {
+			res.send(response.body);
+		}
+		else{
+			res.send(response);
+		}
+		courses.url = urlCourses;
+		resetCookies();
+	})
+
+})
+
 router.get('/api/certifiedLogin',function(req,res){
 
 	request({
@@ -200,13 +236,12 @@ router.get('/api/certifiedLogin',function(req,res){
 	})
 });
 
-// REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with
 app.use('', router);
 
 // START THE SERVER
+https.createServer(options, app).listen(port);
 // =============================================================================
-app.listen(port);
 console.log('Magic happens on port ' + port);
 
 //Auxiliar functions
