@@ -48,28 +48,38 @@ App.LoginFormView = Ember.View.extend({
 });
 
 function getCourses(username){
-$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
-var courses;
+	$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
+	var courses;
 
-setTimeout(function(){
+	setTimeout(function(){
 
-	$.ajax({
-		type: "GET",
-		url: "/api/getCourses",
-		data: "pv_login="+username,
-		success: function(data, textStatus, jqXHR)
-		{
-			//console.log("done");
-			$('#spinner #statusText').text("Done! Here they are");
-			courses=data;
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			$('#spinner #statusText').text("Something happened to sigarra...");
-		},
-		complete: function(data){
-			logoff();
-			setTimeout(function(){$('#spinner').stop().fadeOut(500);console.log(courses);func(courses);},500);
-		}});
+		$.ajax({
+			type: "GET",
+			url: "/api/getCourses",
+			data: "pv_login="+username,
+			success: function(data, textStatus, jqXHR)
+			{
+				//var json = JSON.parse(data);
+				
+				if(data.statusCode == 200)
+				{
+					$('#spinner #statusText').text("Done! Here they are");
+					courses=data.body;
+					console.log(courses);
+				}
+				else
+				{
+					$('#spinner #statusText').text("Something went wrong...");
+				}
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				$('#spinner #statusText').text("Something happened to sigarra...");
+			},
+			complete: function(data){
+				logoff();
+				setTimeout(function(){$('#spinner').stop().fadeOut(500);},500);
+			}
+		});
 	},1000);	
 }
 
@@ -107,8 +117,6 @@ function clearCookies(){
 
 function func(data)
 {
-console.log("in func");
-console.log(data);
 	if(data) //has data
 	{
 		alert(data);

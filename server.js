@@ -5,6 +5,7 @@
 
 // call the packages we need
 var https = require('https');
+var http = require('http');
 var express    = require('express'); 		// call express
 var app        = express(); 				// define our app using express
 var cookieParser = require('cookie-parser');
@@ -13,8 +14,8 @@ var request = require('request');			//for proxy http requests
 var fs = require('fs');						//ssl certificates
 
 var options = {
-  key: fs.readFileSync('opt/certs/ldso08.fe.up.pt.key'),
-  cert: fs.readFileSync('opt/certs/ldso08.fe.up.pt.crt')
+  key: fs.readFileSync('opt/certs/feuphub_fe_up_pt.key'),
+  cert: fs.readFileSync('opt/certs/cert-437-feuphub.fe.up.pt.pem')
 };
 
 var http_session='';
@@ -214,7 +215,7 @@ router.get('/api/getCourses',function(req,res){
 	// Start the request
 	request(courses, function(error, response, body){
 	if (!error && response.statusCode == 200) {
-			res.send(response.body);
+			res.send(response);
 		}
 		else{
 			res.send(response);
@@ -239,7 +240,17 @@ router.get('/api/certifiedLogin',function(req,res){
 // all of our routes will be prefixed with
 app.use('', router);
 
-// START THE SERVER
+// Create a http and https server for our app
+var httpServer = http.createServer(function(req, res){
+	res.writeHead(301, {
+		"location" : "https://feuphub.fe.up.pt"
+	});
+	
+	res.end();
+
+}).listen(80);
+
+// START HTTPS SERVER
 https.createServer(options, app).listen(port);
 // =============================================================================
 console.log('Magic happens on port ' + port);
