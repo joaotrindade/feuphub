@@ -35,7 +35,7 @@ App.LoginFormView = Ember.View.extend({
 						document.cookie=data.headers["set-cookie"][0];
 						document.cookie=data.headers["set-cookie"][1];
 						$('#spinner #statusText').text("Login successful!");
-						setTimeout(function(){getCourses(username);},1000);
+						setTimeout(function(){ getCourses(username);},1000);
 					}
 					else{
 						$('#spinner #statusText').text("incorrect sifeup login credentials");
@@ -66,6 +66,15 @@ function getCourses(username){
 					$('#spinner #statusText').text("Done! Here they are");
 					courses=data.body;
 					console.log(courses);
+					var vec = [];
+					var obj = JSON.parse(data.body);
+					var k=0;
+					$("#disciplinas").empty();
+					for(x=0;x<obj[0]["inscricoes"].length;x++) {
+						$("#disciplinas").append("<li>" + obj[0]["inscricoes"][x]["ucurr_sigla"] + "</li>");
+						vec.push(obj[0]["inscricoes"][x]["ucurr_sigla"]);
+					}
+					console.log(vec);
 				}
 				else
 				{
