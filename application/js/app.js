@@ -1,10 +1,53 @@
 App = Ember.Application.create();
 
 App.Router.map(function() {
+  this.resource('mieic');
+  this.resource('anos');
+  this.resource('topic');
+  this.resource('login');
   this.route("credentials");
 });
 
-App.LoginFormView = Ember.View.extend({
+App.ApplicationController = Ember.Controller.extend({
+  page: "Trek"
+});
+
+App.IndexView = Ember.View.extend({
+  didInsertElement: function() {
+  
+	/*$(document).ready(function(){
+
+		var height = $('.midpage').height();
+	
+		$('.right_bar').css("height",height+"px");
+	});*/	
+  }
+});
+
+App.MieicController = Ember.ObjectController.extend({
+	queryParams: ['ano'],
+	isExpanded: false,
+	ano: null,
+	
+	getAno: function(){
+		var ano = this.get('ano');
+		if(ano==null)
+		{
+			this.set('isExpanded', false);
+		}
+		else
+		{
+			this.set('ano', this.get('ano'));
+			this.set('isExpanded', true);
+		}
+	}.property('ano'),
+	
+	
+  });
+  
+  /* PARTE DE LOGIN QUE ESTAVA NO SERVIDOR */
+  
+  App.LoginFormView = Ember.View.extend({
     tagName: 'form',
     username: null,
     password: null,

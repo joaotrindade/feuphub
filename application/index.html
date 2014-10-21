@@ -1,54 +1,650 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>Ember Starter Kit</title>
-  <link rel="stylesheet" href="application/css/normalize.css">
-  <link rel="stylesheet" href="application/css/style.css">
-  <style>
-#spinner
-{
-	display: none;
-    position: absolute;
-	margin: auto;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    background: #000;
-    opacity: 0.8;
-    filter: alpha(opacity=80);
-}
-
-#spinner > *
-{
-	position: absolute;
-	margin: auto;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-}
-
-#spinner > p
-{
-	background-color: white;
-	height: 35;
-	width: 220;
-	bottom: 50;
-	text-align: -webkit-center;
-	padding-top: 5px;
-	font-size: smaller;
-}
-</style>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <script type="text/x-handlebars">
-    <h2>Ember.js Login Test </h2>
 
-    {{outlet}}
+  <script type="text/x-handlebars">
+		
+		<div class="wrapper">
+		
+			<div class='header'>
+			
+				{{#link-to 'index'}} 
+					<div class='logo'>
+					</div>
+				{{/link-to}}
+			
+					<div class='topmid'>
+					
+					</div>
+					
+					<div class='topright'>
+					</div>
+					
+					<div class='clear'>
+					</div>
+			</div>
+			
+			<div>
+				{{outlet}}
+			</div>
+			
+			<div class="footer">
+				<ul class="footer_links">
+					<li>
+						<a href="https://sigarra.up.pt/feup/pt/WEB_PAGE.INICIAL">Página Inicial FEUP</a>
+					</li>
+					
+					<li>
+						<a href="http://moodle.up.pt/">Moodle UP</a>
+					</li>
+					
+					<li>
+						<a href="https://webmail.fe.up.pt/rc/">FEUP WebMail</a>
+					</li>
+				</ul>
+				
+				<span class="footer_mascote">
+					Designed and developed by FEUPZILLA
+					<br></br>
+					<a class="footer_logo" href="https://feuphub.fe.up.pt">feuphub.fe.up.pt</a>
+					<br></br>
+					@ 2014 LDSO Turma2 Grupo3 . All rights reserved.
+				</span>
+				
+				<div class="footer_right">
+				</div>
+			</div>
+			
+		</div>
+		
   </script>
 
   <script type="text/x-handlebars" id="index">
+		
+			<div class="midpage">
+			
+				<div class="right_bar">
+					
+					<div class="bestprof">
+						<div class="bestprof_title"> 
+							Melhor Professor
+						</div>
+						<div class="circular_photo"></div>
+						
+						<div class="bestprof_name">
+							Filipe Correia
+						</div>
+					</div>
+					
+					<div class="gaG">
+						<div class="gaTitle">
+							Avaliação Global
+						</div>
+						<div class="gaPercentage">
+							66%
+						</div>
+					</div>
+					
+					<div class="feedback">
+						Feedback
+						<div class="feedbackPAR">
+							<div class="feed">
+								- Não gostei, muito teorico.
+							</div>
+							
+							<div class="user">
+								Rui Neves
+							</div>
+						</div>
+						
+						<div class="feedbackIMPAR">
+							<div class="feed">
+								- E este tipo de letra? Será que fica bem?
+							</div>
+							
+							<div class="user">
+								Rui Neves
+							</div>
+						</div>
+						
+						<div class="feedbackPAR">
+							<div class="feed">
+								- Boas aulas Práticas.
+							</div>
+							
+							<div class="user">
+								Rui Neves
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+				<div class="courses">
+				
+					{{#link-to 'mieic'}} 
+						<div class="mieic_icon"></div>
+					{{/link-to}}
+					
+					<div class="mieec_icon"></div>
+					
+					<div class="mieig_icon"></div>
+					
+					<div class="miea_icon"></div>
+					
+					<div class="miec_icon"></div>
+					
+					<div class="mib_icon"></div>
+					
+					<div class="miem_icon"></div>
+					
+					<div class="miemm_icon"></div>
+					
+					<div class="mieq_icon"></div>
+				</div>
+				
+				<div class="content">
+				
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							Pellentesque habitant morbi tristique senectus.
+						</div>
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							Pedro Santos
+						</div>
+						
+					</div>
+					
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+						</div>
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							Pedro Santos
+						</div>
+						
+					</div>
+					
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+						</div>
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							Pedro Santos
+						</div>
+						
+					</div>
+					
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+						</div>
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							Pedro Santos
+						</div>
+						
+					</div>
+					
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+						</div>
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							Pedro Santos
+						</div>
+						
+					</div>
+					
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+						</div>
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							Pedro Santos
+						</div>
+						
+					</div>
+					
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+						</div>
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							Pedro Santos
+						</div>
+						
+					</div>
+					
+				</div>
+					
+			</div>
+		{{outlet}}
+  </script>
+  
+  <script type="text/x-handlebars" id="mieic">
+		<div class="midpage">
+			
+				<div class="right_bar">
+					
+					<div class="bestprof">
+						<div class="bestprof_title"> 
+							Melhor Professor
+						</div>
+						<div class="circular_photo"></div>
+						
+						<div class="bestprof_name">
+							Filipe Correia
+						</div>
+					</div>
+					
+					<div class="gaG">
+						<div class="gaTitle">
+							Avaliação Global
+						</div>
+						<div class="gaPercentage">
+							66%
+						</div>
+					</div>
+					
+					<div class="feedback">
+						Feedback
+						<div class="feedbackPAR">
+							<div class="feed">
+								- Não gostei, muito teorico.
+							</div>
+							
+							<div class="user">
+								Rui Neves
+							</div>
+						</div>
+						
+						<div class="feedbackIMPAR">
+							<div class="feed">
+								- E este tipo de letra? Será que fica bem?
+							</div>
+							
+							<div class="user">
+								Rui Neves
+							</div>
+						</div>
+						
+						<div class="feedbackPAR">
+							<div class="feed">
+								- Boas aulas Práticas.
+							</div>
+							
+							<div class="user">
+								Rui Neves
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				{{getAno}}
+				<div class="courses">
+				
+					{{#link-to 'mieic'}} 
+						<a href="#/mieic"><div class="mieic_icon"></div></a>
+					{{/link-to}}
+						
+						<a href="#/mieic?ano=1">
+							<div class="year1">
+								<p>1º<br>Ano</br></p>
+							</div>						
+						</a>
+						
+						<a href="#/mieic?ano=2">
+						<div class="year2">
+								<p>2º<br>Ano</br></p>
+							</div> 
+						</a>
+						
+						<a href="#/mieic?ano=3">
+							<div class="year3">
+								<p>3º<br>Ano</br></p>
+							</div> 
+						</a>
+						
+						<a href="#/mieic?ano=4">
+							<div class="year4">
+								<p>4º<br>Ano</br></p>
+							</div> 
+						</a>
+						
+						<a href="#/mieic?ano=5">
+							<div class="year5">
+								<p>5º<br>Ano</br></p>
+							</div> 
+						</a>
+						        
+						
+				</div>			
+				
+				{{#if isExpanded}}
+				<div class="uc">
+					<div class="firstSemesterLogo">
+						<p>1º<br>Semestre</br></p>
+					</div>
+					<div class="firstSemesterDiv">
+					
+					</div>
+					<div class="secondSemesterLogo">
+						<p>2º<br>Semestre</br></p>
+					</div>
+					<div class="secondSemesterDiv">
+						
+					</div>
+				</div>
+				{{/if}}
+				
+				
+				<div class="content">
+				
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						{{#link-to 'topic' class="linkto-none"}} 
+						<div class='title'>
+							Qual o melhor professor da cadeira de LCOM?
+						</div>
+						{{/link-to}}
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							João Trindade
+						</div>
+					</div>
+					
+					<div class='topic'>
+						<div class='score'>
+							<div class='upvote'></div>
+							<div class='number'>3450</div>
+							<div class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+						</div>
+						
+						<div class='data'>
+							1 Setembro 2014
+						</div>
+						
+						<div class='user_op'>
+							Pedro Santos
+						</div>
+						
+					</div>
+					
+				</div>
+					
+			</div>
+	
+  </script>
+  
+  <script type="text/x-handlebars" id="topic">
+	
+	<div class="midpage">
+			
+		<div class="right_bar">
+			
+			<div class="bestprof">
+				<div class="bestprof_title"> 
+					Melhor Professor
+				</div>
+				<div class="circular_photo"></div>
+				
+				<div class="bestprof_name">
+					Filipe Correia
+				</div>
+			</div>
+			
+			<div class="gaG">
+				<div class="gaTitle">
+					Avaliação Global
+				</div>
+				<div class="gaPercentage">
+					66%
+				</div>
+			</div>
+			
+			<div class="feedback">
+				Feedback
+				<div class="feedbackPAR">
+					<div class="feed">
+						- Não gostei, muito teorico.
+					</div>
+					
+					<div class="user">
+						Rui Neves
+					</div>
+				</div>
+				
+				<div class="feedbackIMPAR">
+					<div class="feed">
+						- E este tipo de letra? Será que fica bem?
+					</div>
+					
+					<div class="user">
+						Rui Neves
+					</div>
+				</div>
+				
+				<div class="feedbackPAR">
+					<div class="feed">
+						- Boas aulas Práticas.
+					</div>
+					
+					<div class="user">
+						Rui Neves
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		<div class="content">
+			<div class="question">
+			
+				<div class="title">
+					Qual o melhor professor da cadeira de LCOM?
+				</div>
+				
+				<div class="description">
+				
+					<div class="top_description">
+						<div class="upvote_desc"></div>
+						<div class="score_desc">24</div>
+						<div class="downvote_desc"></div>
+						<div class="username_desc">João Trindade</div>
+					</div>
+					
+					<div class="mid_description">
+						Estou prestes a inscrever-me na cadeira de LCOM, gostaria de saber qual é o melhor professor e o que dá mais apoio durante as aulas práticas. Obrigado.
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="reply_section">
+				<div class="makeReply">
+					<div class="makeReplyTitle">Comente:</div>
+					<textarea data-limit="10000" rows="1" cols="1" name="text" class="textarea"></textarea>
+					<div><button class="botaosubmeter">Submeter</button></div>
+				</div>
+				
+				<div class="ReplyDivisor">Comentários:</div>
+				
+				<div class="replys">
+					<div class="reply">
+						
+						<div class="description">
+						
+							<div class="top_description">
+								<div class="upvote_desc"></div>
+								<div class="score_desc">12</div>
+								<div class="downvote_desc"></div>
+								<div class="username_desc">Artur João</div>
+							</div>
+							
+							<div class="mid_description">
+								Eu gostei muito do Souto. Muito boas aulas teóricas. Nunca ninguém se queixou!
+							</div>
+							
+						</div>
+						
+					</div>
+					
+					<div class="reply">
+						
+						<div class="description">
+						
+							<div class="top_description">
+								<div class="upvote_desc"></div>
+								<div class="score_desc">8</div>
+								<div class="downvote_desc"></div>
+								<div class="username_desc">Jaguar Pistachio</div>
+							</div>
+							
+							<div class="mid_description">
+								Eu tive aulas com a professor Chituc e adorei. Tenho imensa pena que tenha abandonado o projecto :( .
+							</div>
+							
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+  </script>
+  
+  <!-- PARTE DE LOGIN QUE ESTA NO SERVIDOR -->
+  
+  <script type="text/x-handlebars" id="login">
   
     {{#view App.LoginFormView}}
         <label>
@@ -67,17 +663,10 @@
     {{/view}}
 	<div id="spinner">
 		<p id="statusText"></p>
-		<img src="application/resources/ajax-loader.gif" alt="Loading..."/>
-		
+		<img src="resources/ajax-loader.gif" alt="Loading..."/>
 	</div>
 		<br><br>
 	
-    <div>
-	<a id="ember266" class="ember-view" href="https://wayf.up.pt/UPORTOaai?entityID=https://ldso08.fe.up.pt//shibboleth&return=https://ldso08.fe.up.pt//Shibboleth.sso/Login?SAMLDS=1&target=cookie%3A1413272647_2288">
-	<button style="background-image: url('application/resources/autenticacaoAAI_central.png'); width:303; height:80;" class="federacao" title="Autenticação por federação">
-	</button>
-	</a>
-    </div>
 	<div id = "disciplina">
 	<ul id="disciplinas">
 	</ul>
@@ -88,9 +677,11 @@
   <iframe id="aaiLogin" ="100%" width="100%" height="100%" frameborder="0" src="https://sigarra.up.pt/feup/pt/vld_validacao.federate_login?p_redirect=web_page.Inicial" scrolling="no"/>
  </script>
 
-  <script src="application/js/libs/jquery-1.10.2.js"></script>
-  <script src="application/js/libs/handlebars-1.1.2.js"></script>
-  <script src="application/js/libs/ember-1.7.0.js"></script>
-  <script src="application/js/app.js"></script>
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.1.2.js"></script>
+  <script src="js/libs/ember-1.7.0.js"></script>
+  <script src="js/app.js"></script>
+  <!-- to activate the test runner, add the "?test" query string parameter -->
+  <script src="tests/runner.js"></script>
 </body>
 </html>

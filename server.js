@@ -12,6 +12,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');			//for proxy http requests
 var fs = require('fs');						//ssl certificates
+var path = require('path');
 
 var options = {
   key: fs.readFileSync('opt/certs/feuphub_fe_up_pt.key'),
@@ -89,25 +90,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use("/application/css", express.static(__dirname + '/application/css'));
-app.use("/application/resources", express.static(__dirname + '/application/resources'));
-app.use("/application/js", express.static(__dirname + '/application/js'));
-
+// Remember: The order of the middleware matters!
+// Everything in public will be accessible from '/'
+app.use(express.static(path.join(__dirname, 'application')));
 
 var port = process.env.PORT || 443; 		// set our port
-
-app.set(function() {
-    app.use(express.static(__dirname + '/public'));
-});
 
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router(); 				// get an instance of the express Router
 
-
 // REGISTER OUR ROUTES -------------------------------
 router.get('/',function(req,res){
-	res.sendfile(__dirname + '/application/index.html');
+	res.sendfile(__dirname + 'index.html');
 });
 
 router.post('/api/login', function(req, res) {
@@ -243,7 +238,7 @@ app.use('', router);
 // Create a http and https server for our app
 var httpServer = http.createServer(function(req, res){
 	res.writeHead(301, {
-		"location" : "https://feuphub.fe.up.pt"
+		"location" : "https://localhost"
 	});
 	
 	res.end();

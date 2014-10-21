@@ -1,4 +1,946 @@
 /* Put your CSS here */
 .ember-application {
-    margin: 20px;
+    margin: 0px;
+	height: 100%;
+}
+
+
+
+/* FONTS ------------------------------------------------------------------------------------------------ */
+
+@font-face
+{
+  font-family: HELVETICA;
+  src: url(../fonts/Helvetica-Regular.ttf);
+}
+
+
+@font-face
+{
+  font-family: EXOL;
+  src: url(../fonts/Exo-ExtraLight.otf);
+}
+
+@font-face
+{
+  font-family: EXO;
+  src: url(../fonts/Exo-Regular.otf);
+}
+
+@font-face
+{
+  font-family: EXOB;
+  src: url(../fonts/Exo-Bold.otf);
+}
+
+/* ------------------------------------------------------------------------------------------------------ */
+
+html,
+body {
+	margin:0;
+	padding:0;
+	height:100%;
+	min-width: 800px;
+}
+
+body > .ember-view {
+    height: 100%;
+}
+
+.wrapper {
+	min-height:100%;
+	position:relative;
+}
+
+.midpage {
+	padding-bottom:151px; /* Height of the footer element */
+	overflow:auto;
+}
+
+.footer {
+	background-color: rgba(42, 45, 51, 1);
+	width:100%;
+	height:150px;
+	position:absolute;
+	bottom:0;
+	left:0;
+	
+	text-align: center;
+}
+
+/* HEADER ----------------------------------------------------------------------------------------------- */
+
+.header {
+	height: 112px;
+	border-bottom: 1px solid #E0E0E0 ;
+	background-color: white;
+}
+
+.logo {
+	float: left;
+	width: 284px;
+	height: 112px;
+	background-image: url(../images/Logo/logo.png);
+}
+
+.topmid {
+	float: left;
+	height: 112px;
+	background-color: white;
+}
+
+.topright{
+	float:right;
+	width: 284px;
+	height: 112px;
+	background-image: url(../images/Logo/test.png);
+}
+
+.clear
+ {
+	clear: both;
+ }
+ 
+/* ------------------------------------------------------------------------------------------------------ */
+
+/* CONTENT -------------------------------------------------------------------------------------------- */
+
+.content
+{
+	overflow: hidden;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.years
+{
+	height: 85px;
+	background-color: rgba(42, 45, 51, 1);
+	border-bottom: 1px solid rgb(211,219,225);
+	border-right: 1px solid rgb(211,219,225);
+}
+
+.courses
+{
+	height: 85px;
+	background-color: rgba(42, 45, 51, 1);
+	/*border-bottom: 1px solid rgb(211,219,225);*/
+	border-right: 1px solid rgb(211,219,225);
+	text-align: center;
+}
+
+.courses .mieic_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/mieic.png);
+	display: inline-block;
+}
+
+.courses .mieig_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/mieig.png);
+	display: inline-block;
+}
+
+.courses .miea_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/miea.png);
+	display: inline-block;
+}
+
+.courses .miec_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/miec.png);
+	display: inline-block;
+}
+
+.courses .mib_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/mib.png);
+	display: inline-block;
+}
+
+.courses .miem_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/miem.png);
+	display: inline-block;
+}
+
+.courses .miemm_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/miemm.png);
+	display: inline-block;
+}
+
+.courses .mieq_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/mieq.png);
+	display: inline-block;
+}
+
+.courses .mieec_icon
+{
+	float: left;
+	height: 85px;
+	width: 56px;
+	background-image: url(../images/Courses/mieec.png);
+	display: inline-block;
+}
+
+.courses .mieic_icon:hover,.mieec_icon:hover,.mib_icon:hover,.miea_icon:hover,.mieig_icon:hover,.miem_icon:hover,.miemm_icon:hover,.mieq_icon:hover,.miec_icon:hover
+{
+-moz-box-shadow: inset rgb(113,200,236) 0 -4px 0 0;
+-webkit-box-shadow: inset rgb(113,200,236) 0 -4px 0 0;
+box-shadow: inset rgb(113,200,236) 0 -4px 0 0;
+cursor: pointer;
+}
+
+.courses .year1
+{
+border-left: 1px solid #666;
+float: left;
+height: 76px;
+width: 56px;
+margin-top: 5px;
+font-family: EXOB;
+text-align: center;
+color: white;
+}
+
+.courses .year2, .courses .year3, .courses .year4, .courses .year5
+{
+float: left;
+height: 76px;
+width: 56px;
+margin-top: 5px;
+font-family: EXOB;
+text-align: center;
+color: white;
+}
+
+.courses .year1:hover, .courses .year2:hover, .courses .year3:hover, .courses .year4:hover, .courses .year5:hover
+{
+border-bottom: 4px solid rgb(113,200,236);
+cursor: pointer;
+}
+
+/*-----------PEDRO------------*/
+
+.uc
+{
+	height: 135px;
+	background-color: rgb(53,56,62);
+	border-bottom: 1px solid rgb(211,219,225);
+	border-right: 1px solid rgb(211,219,225);
+	text-align: center;
+}
+
+.uc .firstSemesterLogo
+{
+	float:left;
+	font-family: EXO;
+	text-align: center;
+	color: white;
+	width: 56px;
+	height: 57px;
+	font-size:11px;
+	margin-top:5px;
+	border-right: 1px solid #666;
+}
+
+.uc .firstSemesterDiv
+{
+	height:50%;
+	margin-left:61px;
+	border-bottom: 1px solid #666;
+	margin-right: 289px;
+}
+
+.uc .secondSemesterLogo
+{
+	float:left;
+	font-family: EXO;
+	text-align: center;
+	color: white;
+	width: 56px;
+	height: 57px;
+	font-size:11px;
+	margin-top:5px;
+	border-right: 1px solid #666;
+}
+
+.uc .secondSemesterDiv
+{
+	height:50%;
+	margin-left:61px;
+	margin-right: 289px;
+}
+
+/*-----------PEDRO------------*/
+
+.topic
+{
+	height: 80px;
+	background-color: white;
+	border: 1px solid rgb(211,219,225);
+	margin-bottom: 3px;
+	overflow: hidden;
+}
+
+.topic .score
+{
+	float: left;
+	height: 80px;
+	width: 50px;
+	border-right: 1px solid rgb(211,219,225);
+}
+
+.topic .score .upvote
+{
+	height: 30px;
+	width: 50px;
+	background-image: url(../images/Topic/upvote.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.topic .score .upvote:hover
+{
+	cursor:pointer;
+	opacity:0.5;
+}
+
+.topic .score .number
+{
+	height: 18px;
+	width: 50px;
+	margin-top: 2px;
+	font-family: EXO;
+	font-size: 12px;
+	text-align: center;
+
+	
+}
+
+.topic .score .downvote
+{
+	height: 30px;
+	width: 50px;
+	background-image: url(../images/Topic/downvote.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.topic .score .downvote:hover
+{
+	cursor:pointer;
+	opacity:0.5;
+}
+
+.topic .title
+{
+	margin-left: 10px;
+	margin-top: 2px;
+	margin-left: 60px;
+	height:63px;
+	font-size: medium;
+	font-weight: normal;
+	font-family: verdana;
+	overflow: hidden;
+	color:black;
+	text-decoration: none;
+}
+
+.linkto-none{
+
+	text-decoration: none;
+ }
+ 
+.topic .data
+{
+	float:left;
+	margin-left: 10px;
+	margin-bottom: 2px;
+	margin-right: 10px;
+	height:27px;
+	font-family: EXO;
+	font-size: 10px;
+    color: black;
+}
+
+.topic .user_op
+{
+	float:left;
+	margin-left: 10px;
+	margin-bottom: 2px;
+	margin-right: 10px;
+	height:27px;
+	font-family: EXOB;
+	font-size: 10px;
+    /*color: black;*/
+	color: rgb(24,152,231);
+}
+
+.topic .comments
+{
+	float: right;
+	height: 80px;
+	width:50px;
+	margin-left: 10px;
+	background-image: url(../images/Topic/comments.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	
+}
+
+.topic .comments:hover
+{
+	cursor:pointer;
+	opacity:0.9;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------ */
+
+/* RIGHT BAR -------------------------------------------------------------------------------------------- */
+
+.right_bar
+{
+  float:right;
+  width: 284px;
+  min-height: 160px;
+  margin-left: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: rgba(42, 45, 51, 1);
+}
+
+.right_bar .bestprof
+{
+	width: 260px;
+	margin-left: 12px;
+	/*border-bottom:	1px solid white;*/
+	margin-bottom: 20px;
+}
+
+.right_bar .bestprof .bestprof_title
+{
+	font-family: EXOB;
+	font-size: 20px;
+	color:white;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.right_bar .bestprof .bestprof_name
+{
+	font-family: EXO;
+	font-size: 20px;
+	color:white;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.bestprof .circular_photo {
+	margin-left: 79px;
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	background: url(../images/Prof/prof.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center center;
+	border: 3px solid white;
+}
+
+.right_bar .gaG
+{
+	width: 100%;
+	background-color: rgb(46,205,113);
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+.right_bar .gaR
+{
+	width: 100%;
+	background-color: rgb(231,76,111);
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+.right_bar .gaG .gaTitle, .gaR .gaTitle
+{
+	font-family: EXOB;
+	font-size: 20px;
+	color:white;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.right_bar .gaG .gaPercentage, .gaR .gaPercentage
+{
+	font-family: EXO;
+	font-size: 20px;
+	color:white;
+	text-align: center;
+}
+
+.right_bar .feedback
+{
+	margin-top: 25px;
+	font-family: EXOB;
+	font-size: 20px;
+	color:white;
+	text-align: center;
+}
+
+.right_bar .feedback .feedbackPAR
+{
+	padding-top:10px;
+	padding-bottom:10px;
+	background-color: rgb(53,56,62);
+}
+
+.right_bar .feedback .feedbackIMPAR
+{
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+.right_bar .feedback .feed
+{
+	font-family: EXOL;
+	font-size: 13px;
+	color:white;
+	margin-left: 15px;
+	text-align: left;
+}
+
+.right_bar .feedback .user
+{
+	font-family: EXO;
+	font-size: 12px;
+	color: rgb(24,152,231);
+	margin-right: 15px;
+	text-align: right;
+}
+
+/* ------------------------------------------------------------------------------------------------------ */
+
+/* FOOTER ----------------------------------------------------------------------------------------------- */
+
+.footer .footer_links {	
+    float: left;
+    list-style: none outside none;
+    text-align: left;
+	font-family: EXOL;
+	color: white;
+	
+	margin-top: 30px;
+}
+
+.footer .footer_links li{
+	margin-bottom: 10px;
+}
+
+.footer .footer_links a{
+	text-decoration: none;
+	color: #CCC;
+}
+
+.footer .footer_links a:link, .footer .footer_linksa a:visited,  .footer .footer_links a:hover , .footer .footer_links a:visited  {
+	text-decoration: none;
+	color: #CCC;
+
+}
+
+
+.footer .footer_mascote {
+	margin-left: -120px;
+    display: inline-block;
+    margin-top: 20px;
+	line-height:13px;
+	
+	font-family: EXOL;
+	font-size: 13px;
+	color: #666;
+}
+
+.footer .footer_mascote .footer_logo{
+	height: 58px;
+	width: 194px;
+	background-image : url(../images/Logo/feupzilla.png);
+	display: inline-block;
+	text-indent:-9999px;
+}
+
+.footer .footer_right {
+    float: right;
+    clear: none;
+    margin: 30px;
+}
+
+.fb-share-button
+{
+	height:10px;
+	width: 10px;
+	background-color: white;
+}
+
+.footer .footer_links a:hover{opacity:0.5;}
+
+/* FOOTER ---------------------------------------------------------------------------------- */
+
+
+.question .title{
+	font-family: EXOB;
+	font-size: 18px;
+	color: #666;
+}
+
+.question .description
+{
+	margin-top: 3px;
+}
+
+.question .description .top_description
+{
+	height: 18px;
+	margin-top: 5px;
+	
+	background-color: #35383E;
+	color:white;
+	padding-left: 3px;
+	
+	overflow: hidden;
+}
+
+.question .description .top_description .upvote_desc
+{
+	float:left;
+	height: 15px;
+	width: 20px;
+	background-image: url(../images/Topic/upvote_desc.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-right: 5px;
+}
+
+.question .description .top_description .score_desc
+{
+	float: left;
+	height: 15px;
+	margin-right: 5px;
+	font-family: EXO;
+	font-size: 13px;
+}
+
+.question .description .top_description .username_desc
+{
+	float: left;
+	height: 15px;
+	margin-right: 5px;
+	font-family: EXO;
+	font-size: 13px;
+}
+
+.question .description .top_description .downvote_desc
+{
+	float:left;
+	height: 15px;
+	width: 20px;
+	background-image: url(../images/Topic/downvote_desc.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-right: 5px;
+}
+
+.question .description .mid_description
+{
+	min-height: 40px;
+	background-color: white;
+	/*border: 1px solid rgb(211,219,225);*/
+	border: 1px solid rgb(171,173,179);
+	overflow: hidden;
+	
+	font-family: EXO;
+	font-size: 13px;
+	padding:5px;
+
+	/*color: #666;*/
+}
+
+.question .description .score
+{
+	float: left;
+	height: 80px;
+	width: 50px;
+	border-right: 1px solid rgb(211,219,225);
+}
+
+.question .description .score .upvote
+{
+	height: 30px;
+	width: 50px;
+	background-image: url(../images/Topic/upvote.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.question .description .score .upvote:hover
+{
+	cursor:pointer;
+	opacity:0.5;
+}
+
+.question .description .score .number
+{
+	height: 18px;
+	width: 50px;
+	margin-top: 2px;
+	font-family: EXO;
+	font-size: 12px;
+	text-align: center;
+
+	
+}
+
+.question .description .score .downvote
+{
+	height: 30px;
+	width: 50px;
+	background-image: url(../images/Topic/downvote.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.question .description .score .downvote:hover
+{
+	cursor:pointer;
+	opacity:0.5;
+}
+
+.question .description .title
+{
+	margin-left: 10px;
+	margin-top: 2px;
+	margin-left: 60px;
+	height:63px;
+	font-size: medium;
+	font-weight: normal;
+	font-family: verdana;
+	overflow: hidden;
+}
+
+.question .description .data
+{
+	float:left;
+	margin-left: 10px;
+	margin-bottom: 2px;
+	margin-right: 10px;
+	height:27px;
+	font-family: EXO;
+	font-size: 10px;
+    color: black;
+}
+
+.question .description .user_op
+{
+	float:left;
+	margin-left: 10px;
+	margin-bottom: 2px;
+	margin-right: 10px;
+	height:27px;
+	font-family: EXOB;
+	font-size: 10px;
+    /*color: black;*/
+	color: rgb(24,152,231);
+}
+
+.reply_section{
+	margin-top: 25px;
+	border-top: 1px dotted rgba(180, 180, 180, 1);
+	padding-top: 20px;
+}
+
+.makeReply{
+	border-bottom: 1px dotted rgba(180, 180, 180, 1);
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.makeReply .makeReplyTitle{
+	font-family: EXOB;
+	font-size: 13px;
+	
+	color: #1898E7;
+}
+
+.makeReply .textarea{
+	width: 490px;
+	height: 100px;
+	max-width: 490px;
+}
+
+.makeReply .botaosubmeter{
+	background: #428BCA;
+    color: #fff;
+	
+    font-family: EXO;
+    font-size: 13px;
+	
+    height: 30px;
+    width: 150px;
+	
+    line-height: 30px;
+	
+	margin-top: 5px;
+    /*margin: 25px 25px;*/
+	
+    text-align: center;
+    border: 0;
+    transition: all 0.3s ease 0s;
+}
+
+.makeReply .botaosubmeter:hover {
+  background: #CF4647;
+}
+
+.reply_section .ReplyDivisor{
+	font-family: EXOB;
+	font-size: 13px;
+	margin-bottom: 10px;
+	
+	color: #1898E7;
+}
+
+.reply {
+	margin-bottom: 10px;
+}
+
+.reply .description .top_description
+{
+	height: 18px;
+	background-color: #35383E;
+	color:white;
+	padding-left: 3px;
+	
+	/*background-color: white;*/
+	overflow: hidden;
+}
+
+.reply .description .top_description .upvote_desc
+{
+	float:left;
+	height: 15px;
+	width: 20px;
+	background-image: url(../images/Topic/upvote_desc.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-right: 5px;
+}
+
+.reply .description .top_description .score_desc
+{
+	float: left;
+	height: 15px;
+	margin-right: 5px;
+	font-family: EXO;
+	font-size: 13px;
+}
+
+.reply .description .top_description .username_desc
+{
+	float: left;
+	height: 15px;
+	margin-right: 5px;
+	font-family: EXO;
+	font-size: 13px;
+}
+
+.reply .description .top_description .downvote_desc
+{
+	float:left;
+	height: 15px;
+	width: 20px;
+	background-image: url(../images/Topic/downvote_desc.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-right: 5px;
+}
+
+.reply .description .mid_description
+{
+	min-height: 40px;
+	background-color: white;
+	/*border: 1px solid rgb(211,219,225);*/
+	border: 1px solid rgb(171,173,179);
+	overflow: hidden;
+	
+	font-family: EXO;
+	font-size: 13px;
+	padding:5px;
+}
+
+/* LOADING LOGIN ------------------------------------------------------------------------------------ */
+
+#spinner
+{
+	display: none;
+    position: absolute;
+	margin: auto;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+
+#spinner > *
+{
+	position: absolute;
+	margin: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#spinner > p
+{
+	background-color: white;
+	height: 35;
+	width: 220;
+	bottom: 50;
+	text-align: -webkit-center;
+	padding-top: 5px;
+	font-size: smaller;
 }
