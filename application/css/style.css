@@ -90,10 +90,55 @@ body > .ember-view {
 }
 
 .topright{
-	float:right;
-	width: 284px;
-	height: 112px;
-	background-image: url(../images/Logo/test.png);
+float:right;
+width: 284px;
+height: 112px;
+}
+
+.topright .loginbar{
+width: 230px;
+height: 28px;
+font-family: EXO;
+font-size:15px;
+margin-top:35px;
+color:rgb(24,152,231);
+text-align:right;
+}
+
+.topright .searchbar{
+width: 284px;
+height: 28px;
+margin-top:19px;
+font-family: EXO;
+font-size:11px;
+}
+
+.topright .searchbar .procurar{
+padding:6px 12px;
+background:white;
+border: 1px solid rgb(24,152,231);
+width:228px;
+font-style: italic;
+font-family: EXO;
+}
+
+.topright .searchbar .procurarButton{
+font-family: EXO;
+padding:4px 12px;
+left:-8px;
+border:3px solid #207cca;
+background-color:#207cca;
+color:#fafafa;
+width:30px;
+margin-left:-3px;
+background-image: url(../images/Misc/search.png);
+background-repeat: no-repeat;
+background-size:contain;
+}
+
+.topright .searchbar .procurarButton:hover{
+opacity:0.8;
+cursor:pointer;
 }
 
 .clear
@@ -943,4 +988,16 @@ cursor: pointer;
 	text-align: -webkit-center;
 	padding-top: 5px;
 	font-size: smaller;
+}
+
+#disciplinas li{
+    text-decoration: none;
+	font-family: EXOB;
+	font-size: 13px;
+	
+	color: #1898E7;
+	
+	margin-bottom: 10px;
+	
+	
 }

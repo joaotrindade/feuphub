@@ -235,16 +235,6 @@ router.get('/api/certifiedLogin',function(req,res){
 // all of our routes will be prefixed with
 app.use('', router);
 
-// Create a http and https server for our app
-var httpServer = http.createServer(function(req, res){
-	res.writeHead(301, {
-		"location" : "https://localhost"
-	});
-	
-	res.end();
-
-}).listen(80);
-
 // START HTTPS SERVER
 https.createServer(options, app).listen(port);
 // =============================================================================

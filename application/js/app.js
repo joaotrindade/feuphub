@@ -98,7 +98,7 @@ function getCourses(username){
 
 		$.ajax({
 			type: "GET",
-			url: "/api/getCourses",
+			url: "/api/getStudentCourses",
 			data: "pv_login="+username,
 			success: function(data, textStatus, jqXHR)
 			{
