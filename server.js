@@ -13,6 +13,10 @@ var bodyParser = require('body-parser');
 var request = require('request');			//for proxy http requests
 var fs = require('fs');						//ssl certificates
 var path = require('path');
+var cheerio = require('cheerio');			//Dom manipulation
+var Q = require('q');						//promises
+var qhttp = require('q-io/http');			//http promises
+var lodarsh = require('lodash');			//multi function call
 
 var options = {
   key: fs.readFileSync('opt/certs/feuphub_fe_up_pt.key'),
@@ -67,18 +71,26 @@ var studentPage = {
     headers: headers,
 }
 
-var urlStudentCourses = "https://sigarra.up.pt/feup/pt/fest_geral.curso_percurso_academico_view";
+var urlStudentAcademicPath = "https://sigarra.up.pt/feup/pt/fest_geral.curso_percurso_academico_view";
 
-var studentCourses = {
+var studentAcademicPath = {
 	url: 'https://sigarra.up.pt/feup/pt/fest_geral.curso_percurso_academico_view',
     method: 'GET',
     headers: headers,
 }
 
-var urlCourses = "https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas_login";
+var urlStudentCourses = "https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas_login";
 
-var courses = {
+var studentCourses = {
 	url: 'https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas_login',
+    method: 'GET',
+    headers: headers,
+}
+
+var urlAllCourses = "http://sigarra.up.pt/feup/pt/cur_geral.cur_inicio";
+
+var allCourses = {
+	url: 'http://sigarra.up.pt/feup/pt/cur_geral.cur_inicio',
     method: 'GET',
     headers: headers,
 }
@@ -185,8 +197,26 @@ router.get('/api/getStudentPage',function(req,res){
 	})
 });
 
-router.get('/api/studentCourses',function(req,res){
-	studentCourses.url += "?pv_fest_id=" + req.query.pv_fest_id;
+router.get('/api/studentAcademicPath',function(req,res){
+	studentAcademicPath.url += "?pv_fest_id=" + req.query.pv_fest_id;
+	headers["Cookie"] = req.headers.cookie;
+	
+	// Start the request
+	request(studentAcademicPath, function(error, response, body){
+	if (!error && response.statusCode == 200) {
+			res.send(response);
+		}
+		else{
+			res.send(response);
+		}
+		studentAcademicPath.url = urlStudentAcademicPath;
+		resetCookies();
+	})
+});
+
+router.get('/api/getStudentCourses',function(req,res){
+
+	studentCourses.url += "?pv_login=" + req.query.pv_login;
 	headers["Cookie"] = req.headers.cookie;
 	
 	// Start the request
@@ -202,24 +232,11 @@ router.get('/api/studentCourses',function(req,res){
 	})
 });
 
-router.get('/api/getCourses',function(req,res){
+router.get('/api/getAllCourses',function(req,res){
 
-	courses.url += "?pv_login=" + req.query.pv_login;
-	headers["Cookie"] = req.headers.cookie;
+	getCourses().then(function(results){res.send(results);}).done();
 	
-	// Start the request
-	request(courses, function(error, response, body){
-	if (!error && response.statusCode == 200) {
-			res.send(response);
-		}
-		else{
-			res.send(response);
-		}
-		courses.url = urlCourses;
-		resetCookies();
-	})
-
-})
+});
 
 router.get('/api/certifiedLogin',function(req,res){
 
@@ -248,3 +265,148 @@ function resetCookies(){
 	headers["Cookie"] = "";
 	return;
 }
+
+function getCourses(){
+	var deferred = Q.defer();
+	// Start the request
+	request(allCourses, function(error, response, body){
+	if (!error && response.statusCode == 200) {
+
+		    $ = cheerio.load(response.body);
+			var urls = [];
+			$('#MI_a li').map(function(i, link) {
+				var href = $(link).find('a:first-child').attr('href');
+				var url = 'http://sigarra.up.pt/feup/pt/'+href;
+				urls.push(url);
+			});
+			
+			var coursePromises = urls.map(getCourse);
+
+			Q.all(coursePromises).then(function(courses){
+				deferred.resolve(courses);
+			});
+		}
+		else{
+			deferred.reject();
+		}
+		allCourses.url = urlAllCourses;
+	})
+    return deferred.promise;
+}
+
+function getCourse(url){
+	var deferred = Q.defer();
+
+	request({
+		url: url,
+		method: 'GET',
+		headers: headers,
+	},function(error,response,body){
+		if(error){
+			console.log("getCourse failed");
+			deferred.reject();
+		}
+		else if (response.statusCode == 200) {
+			$ = cheerio.load(body);
+			var course = new Curso($('#conteudoinner').children()[2].children[0].data,$('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data);
+			var urlCourseUnits = 'http://sigarra.up.pt/feup/pt/' + $('.curso-informacoes div:nth-child(4) li a')[0].attribs.href;
+			getCourseUnits(urlCourseUnits).then(getCourseUnitTeachers).then(function(){deferred.resolve(course);}).done();	
+		}});
+	
+    return deferred.promise;
+}
+
+function getCourseUnits(urlCourseUnits){
+	var deferred = Q.defer();
+	request({
+		url: urlCourseUnits,
+		method: 'GET',
+		headers: headers,
+	},function(error,response,body){
+		if(error){
+			console.log("getCourseUnits failed");
+			deferred.reject();
+		}else if (response.statusCode == 200) {
+			$ = cheerio.load(body);
+			
+			//most generic case
+			var years = $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td ');
+			
+			//common branches
+			var common = $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > table');
+			//semestres $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > table > tbody > tr > td');
+			
+			//detected branching
+			var branches = $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > div')
+			//ramos $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > div >div:nth-child(2) > div > div')
+			//semestres de ramos $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > div >div:nth-child(2) > div > div > table > tbody > tr > td > table > tbody > tr > td')
+			console.log(years);
+		}});
+		
+	deferred.resolve(3);
+    return deferred.promise;
+}
+
+function getCourseUnitTeachers(courseUnit){
+	var deferred = Q.defer();
+	//console.log(courseUnit);
+	deferred.resolve(2);
+    return deferred.promise;
+}
+
+function parseCourses(array)
+{
+	var ar = new Array();
+	var arrayLength = array.length;
+	for (var i = 0; i < arrayLength; i++) {
+    request({
+		url: array[i],
+		method: 'GET',
+		headers: headers,
+	},function(error,response,body){
+		if (!error && response.statusCode == 200) {
+			$ = cheerio.load(body);
+			ar.push({ url: url, Course: new Course($('#conteudoinner').children()[2].children[0].data,$('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data)});
+			//array[i]['Course'] = 1;// new Course($('#conteudoinner').children()[2].children[0].data,$('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data);
+			return;
+		}});
+	}
+	console.log(ar);
+	return;
+}
+
+function Curso(nome, sigla)
+{
+	this.nome = nome;
+	this.sigla = sigla;
+	this.plano = new Array();
+}
+
+function Semestre(ano, semestre, tronco)
+{
+	this.nome = nome;
+	this.semestre = semestre;
+	this.tronco = tronco;
+}
+
+function Tronco(tipo)
+{
+	this.tipo = tipo;
+	this.cadeiras = new Array();
+}
+
+function Cadeira(nome, sigla, codigo, optativa)
+{
+	this.nome = nome;
+	this.sigla = sigla;
+	this.codigo = codigo;
+	this.optativa = optativa;
+	this.profs = new Array();
+}
+
+function Professor(nome,codigo)
+{
+	this.nome = nome;
+	this.codigo = codigo;
+}
+
