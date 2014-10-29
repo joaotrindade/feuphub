@@ -1,0 +1,118 @@
+Magic happens on port 443
+Mestrado Integrado em Engenharia Industrial e Gest�o
+Anos: 5
+div {"class":"caixa","id":"2678ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2678ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2678ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2678ano_4"}
+undefined table undefined 
+div {"class":"caixa","id":"2678ano_5"}
+undefined table undefined 
+
+Mestrado Integrado em Bioengenharia
+Anos: 5
+div {"class":"caixa","id":"2475ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2475ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2475ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2475ano_4"}
+undefined table undefined div undefined div undefined 
+div {"class":"caixa","id":"2475ano_5"}
+undefined table undefined div undefined div undefined div undefined 
+
+Mestrado Integrado em Engenharia Civil
+Anos: 5
+div {"class":"caixa","id":"2480ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2480ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2480ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2480ano_4"}
+undefined table undefined 
+div {"class":"caixa","id":"2480ano_5"}
+undefined table undefined 
+
+Mestrado Integrado em Engenharia do Ambiente
+Anos: 5
+div {"class":"caixa","id":"2922ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2922ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2922ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2922ano_4"}
+undefined table undefined 
+div {"class":"caixa","id":"2922ano_5"}
+undefined table undefined 
+
+Mestrado Integrado em Engenharia Electrot�cnica e de Computadores
+Anos: 5
+div {"class":"caixa","id":"2639ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2639ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2639ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2639ano_4"}
+undefined table undefined div undefined div undefined 
+div {"class":"caixa","id":"2639ano_5"}
+undefined table undefined div undefined div undefined div undefined 
+
+Mestrado Integrado em Engenharia Qu�mica
+Anos: 5
+div {"class":"caixa","id":"2708ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2708ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2708ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2708ano_4"}
+undefined table undefined 
+div {"class":"caixa","id":"2708ano_5"}
+undefined table undefined div undefined 
+
+Mestrado Integrado em Engenharia Metal�rgica e de Materiais
+Anos: 5
+div {"class":"caixa","id":"2479ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2479ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2479ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2479ano_4"}
+undefined table undefined 
+div {"class":"caixa","id":"2479ano_5"}
+undefined table undefined 
+
+Mestrado Integrado em Engenharia Inform�tica e Computa��o
+Anos: 5
+div {"class":"caixa","id":"2496ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2496ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2496ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2496ano_4"}
+undefined table tr undefined 
+div {"class":"caixa","id":"2496ano_5"}
+undefined table tr undefined 
+
+Mestrado Integrado em Engenharia Mec�nica
+Anos: 5
+div {"class":"caixa","id":"2484ano_1"}
+undefined table undefined 
+div {"class":"caixa","id":"2484ano_2"}
+undefined table undefined 
+div {"class":"caixa","id":"2484ano_3"}
+undefined table undefined 
+div {"class":"caixa","id":"2484ano_4"}
+undefined table tr undefined div undefined div undefined div undefined 
+div {"class":"caixa","id":"2484ano_5"}
+undefined table tr undefined div undefined div undefined div undefined 
+

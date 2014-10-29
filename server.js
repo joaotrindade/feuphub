@@ -17,6 +17,8 @@ var cheerio = require('cheerio');			//Dom manipulation
 var Q = require('q');						//promises
 var qhttp = require('q-io/http');			//http promises
 var lodarsh = require('lodash');			//multi function call
+var util = require('util');					//redirect console log to file
+
 
 var options = {
   key: fs.readFileSync('opt/certs/feuphub_fe_up_pt.key'),
@@ -255,7 +257,7 @@ app.use('', router);
 // START HTTPS SERVER
 https.createServer(options, app).listen(port);
 // =============================================================================
-console.log('Magic happens on port ' + port);
+console.log('Magic happens on port ' + port+"\n");
 
 //Auxiliar functions
 function resetCookies(){
@@ -318,6 +320,7 @@ function getCourse(url){
 
 function getCourseUnits(urlCourseUnits){
 	var deferred = Q.defer();
+		
 	request({
 		url: urlCourseUnits,
 		method: 'GET',
@@ -330,20 +333,34 @@ function getCourseUnits(urlCourseUnits){
 			$ = cheerio.load(body);
 			
 			//most generic case
-			var years = $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td ');
+			var curso = $('#conteudoinner > h1:nth-child(3)')[0].children[0].data;
+			var year = $('div[id*="ano_"]:not([id*="div_percursos"]) > table');			
 			
-			//common branches
-			var common = $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > table');
-			//semestres $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > table > tbody > tr > td');
+			var log_file = fs.createWriteStream('debug.log', {flags : 'w'});
+			var log_stdout = process.stdout;
+		
+			console.log = function(d) { //
+			  log_file.write(util.format(d));
+			  log_stdout.write(util.format(d));
+			  return;
+			};
+						
+			console.log(curso+"\n");
+			var parseYearPromises = [0,1,2,3,4].map(function(a) {return parseYear(body,a);});
+			/*
+			for(i=0; i<year.length;i++)
+			{
+				parseYearPromises.push(parseYear(body,i));
+			}*/
 			
-			//detected branching
-			var branches = $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > div')
-			//ramos $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > div >div:nth-child(2) > div > div')
-			//semestres de ramos $('#anos_curr_div div.caixa[id]:lt(5) > table >tbody > tr:first-child > td > div >div:nth-child(2) > div > div > table > tbody > tr > td > table > tbody > tr > td')
-			console.log(years);
+			Q.all(parseYearPromises).then(function(){
+				deferred.resolve(3);
+			});
+
+			console.log("\n");
+			deferred.resolve(3);
 		}});
 		
-	deferred.resolve(3);
     return deferred.promise;
 }
 
@@ -410,3 +427,30 @@ function Professor(nome,codigo)
 	this.codigo = codigo;
 }
 
+function parseYear(html, year) //parses html for year
+{
+	console.log("parsing ano: "+(year+1)+"\n");
+	var deferred = Q.defer();
+	$ = cheerio.load(html);
+	
+	var yearData = $('div[id*="ano_"]:not([id*="div_percursos"]) > table')[year];
+	console.log("\t");
+	try{
+		console.log(yearData.name+": ");
+		console.log(yearData.attribs);
+		console.log("\n");
+		for(i=0; i<yearData.children.length;i++){
+			try{
+				console.log("\t\t");
+				console.log(yearData.children[0]);
+				console.log("\n");
+			}catch(err){}
+		}		
+	}catch(err){
+		console.log(yearData);
+	}
+	console.log("\n");
+	deferred.resolve(3);
+
+	return deferred.promise;
+}
