@@ -167,15 +167,6 @@ function clearCookies(){
 	return cleared;
 }
 
-function func(data)
-{
-	if(data) //has data
-	{
-		alert(data);
-	}
-	return;
-}
-
 function parserLogin(input_html){
 	/* PARSES PCT_ID */
 	var e1 = document.createElement( 'div' );

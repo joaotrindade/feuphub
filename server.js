@@ -16,7 +16,6 @@ var path = require('path');
 var cheerio = require('cheerio');			//Dom manipulation
 var Q = require('q');						//promises
 var qhttp = require('q-io/http');			//http promises
-var lodarsh = require('lodash');			//multi function call
 var util = require('util');					//redirect console log to file
 
 
@@ -433,23 +432,41 @@ function parseYear(html, year) //parses html for year
 	var deferred = Q.defer();
 	$ = cheerio.load(html);
 	
-	var yearData = $('div[id*="ano_"]:not([id*="div_percursos"]) > table')[year];
+	var yearData = $('div[id*="ano_"]:not([id*="div_percursos"]) > table ')[year];
+	var aux = yearData.find('tr');
+	console.log(aux);
 	console.log("\t");
+	var informationDivs = new Array();
 	try{
 		console.log(yearData.name+": ");
 		console.log(yearData.attribs);
+		console.log(" child len: "+yearData.children.length);
 		console.log("\n");
-		for(i=0; i<yearData.children.length;i++){
-			try{
-				console.log("\t\t");
-				console.log(yearData.children[0]);
-				console.log("\n");
-			}catch(err){}
-		}		
+		for(i=0; i<yearData.children.length;i++){ //remove wierd children
+			if(yearData.children[i].type == 'tag'){
+				//console.log("\t\t");
+				//console.log(yearData.children[i].name);
+				//console.log(" "+yearData.children[i].type);
+				informationDivs.push(yearData.children[i]);
+				//console.log("\n");
+			}
+		}
+		var att;
+		informationDivs.forEach(function(entry)
+		{
+			console.log("\t\t"+entry.name);
+			att = entry.find("table").attribs;
+			console.log(att);
+			console.log("\n");
+		});
+		
+		
 	}catch(err){
-		console.log(yearData);
+		console.log("here: "+err);
+		//console.log(yearData);
 	}
-	console.log("\n");
+	
+	console.log("\n");		
 	deferred.resolve(3);
 
 	return deferred.promise;
