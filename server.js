@@ -17,7 +17,8 @@ var cheerio = require('cheerio');			//Dom manipulation
 var Q = require('q');						//promises
 var qhttp = require('q-io/http');			//http promises
 var util = require('util');					//redirect console log to file
-
+var curso = require('./database/curso');
+var cadeira = require('./database/cadeira');
 
 var options = {
   key: fs.readFileSync('opt/certs/feuphub_fe_up_pt.key'),
@@ -96,7 +97,6 @@ var allCourses = {
     headers: headers,
 }
 
-
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -112,6 +112,20 @@ var port = process.env.PORT || 443; 		// set our port
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router(); 				// get an instance of the express Router
+
+// DATABASE ROUTES -----------------------------------
+
+// Curso
+app.get('/database/curso',curso.getAll);
+app.get('/database/curso/:sigla',curso.getOne);
+
+// Cadeira
+app.get('/database/cadeira', cadeira.getAll);
+app.get('/database/cadeira/:codigo', cadeira.getOne);
+
+
+
+// ---------------------------------------------------
 
 // REGISTER OUR ROUTES -------------------------------
 router.get('/',function(req,res){
