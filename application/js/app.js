@@ -113,9 +113,11 @@ function getCourses(username){
 					var obj = JSON.parse(data.body);
 					var k=0;
 					$("#disciplinas").empty();
-					for(x=0;x<obj[0]["inscricoes"].length;x++) {
-						$("#disciplinas").append("<li>" + obj[0]["inscricoes"][x]["ucurr_sigla"] + "</li>");
-						vec.push(obj[0]["inscricoes"][x]["ucurr_sigla"]);
+					for(y=0;y<obj.length;y++) {
+						for(x=0;x<obj[y]["inscricoes"].length;x++) {
+							$("#disciplinas").append("<li>" + obj[y]["cur_nome"] + " - " + obj[y]["inscricoes"][x]["ucurr_sigla"] + "</li>");
+							vec.push(obj[y]["inscricoes"][x]["ucurr_sigla"]);
+						}
 					}
 					console.log(vec);
 				}
@@ -165,6 +167,15 @@ function clearCookies(){
 		cleared=true;
 	}
 	return cleared;
+}
+
+function func(data)
+{
+	if(data) //has data
+	{
+		alert(data);
+	}
+	return;
 }
 
 function parserLogin(input_html){
