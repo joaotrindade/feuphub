@@ -2,14 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title> FeupHub </title>
+  <title>Ember Starter Kit</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <script type="text/x-handlebars">
-		
 		<div class="wrapper">
 		
 			<div class='header'>
@@ -25,7 +24,10 @@
 					
 					<div class='topright'>
 						<div class='loginbar'>
+						{{#if loggedIn}}
+						{{else}}
 						{{#link-to 'login' class='linkto-none'}}Autenticar-se{{/link-to}}.
+						{{/if}}
 						</div>
 						
 						<div class='searchbar'>
@@ -652,23 +654,20 @@
   
   <!-- PARTE DE LOGIN QUE ESTA NO SERVIDOR -->
   
-  <script type="text/x-handlebars" id="login">
-  
-    {{#view App.LoginFormView}}
-        <label>
-          Username:
-          {{view Ember.TextField type="text" valueBinding="view.username"}} 
-        </label>
-        <br><br>
-        <label>
-          Password:
-          {{view Ember.TextField type="password" valueBinding="view.password"}}
-        </label>
-        <br><br>
-        <button>Login</button>
-        <br><br>
-		
-    {{/view}}
+  <script type="text/x-handlebars" data-template-name="login">
+    {{#if loggedIn}}
+      <p>You are already logged in!</p>
+    {{else}}
+      <form class="form-inline" {{action login on="submit"}}>
+        <h2>Log In</h2>
+        {{input value=username type="text" placeholder="Username"}}
+        {{input value=password type="password" placeholder="Password"}}
+        {{input class="btn" type="submit" value="Log In"}}
+      </form>
+      {{#if errorMessage}}
+        <div class="alert alert-error">{{errorMessage}}</div>
+      {{/if}}
+    {{/if}}
 	<div id="spinner">
 		<p id="statusText"></p>
 		<img src="resources/ajax-loader.gif" alt="Loading..."/>
