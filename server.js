@@ -20,6 +20,35 @@ var util = require('util');					//redirect console log to file
 var curso = require('./database/curso');
 var cadeira = require('./database/cadeira');
 
+//TESTE PARA LOGIN
+
+/*var ARTICLES = [
+  {
+    id: 1,
+    title: 'How to write a JavaScript Framework',
+    author: 'Tomhuda Katzdale',
+    body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+  },
+  {
+    id: 2,
+    title: 'Chronicles of an Embereño',
+    author: 'Alerik Bryneer',
+    body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+  },
+  {
+    id: 3,
+    title: 'The Eyes of Thomas',
+    author: 'Yehuda Katz',
+    body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+  }
+];
+
+var PHOTOS = [
+  { id: 1, src: "/images/potd.png" },
+  { id: 2, src: "/images/yohuda.jpg" },
+  { id: 3, src: "/images/easter.jpg" }
+];*/
+
 var options = {
   key: fs.readFileSync('opt/certs/feuphub_fe_up_pt.key'),
   cert: fs.readFileSync('opt/certs/cert-437-feuphub.fe.up.pt.pem')
@@ -263,6 +292,61 @@ router.get('/api/certifiedLogin',function(req,res){
 			res.send(response);
 	})
 });
+
+//BEGIN LOGIN
+var currentToken;
+app.post('/auth.json', function(req, res) {
+
+  var body = req.body,
+      username = body.username,
+      password = body.password,
+	  loginSuccess = body.loginSuccess;
+	  
+	  
+  if (loginSuccess=="able") {
+    // Generate and save the token (forgotten upon server restart).
+    currentToken = 'da39a3ee5e6b4b0d3255bfef95';
+    res.send({
+      success: true,
+      token: currentToken
+    });
+  } else {
+    res.send({
+      success: false,
+      message: 'Something went wrong'
+    });
+  }
+});
+
+function validTokenProvided(req, res) {
+
+  // Check POST, GET, and headers for supplied token.
+  var userToken = req.body.token || req.param('token') || req.headers.token;
+
+  if (!currentToken || userToken != currentToken) {
+    res.send(401, { error: 'Invalid token. You provided: ' + userToken });
+    return false;
+  }
+
+  return true;
+}
+
+//EXEMPLOS DE VERIFICAR PAGINA COM AUTENTICACAO
+
+/*app.get('/articles.json', function(req, res) {
+  if (validTokenProvided(req, res)) {
+    res.send(ARTICLES);
+  }
+});
+
+// Returns URL to pic of the day.
+app.get('/photos.json', function(req, res) {
+  if (validTokenProvided(req, res)) {
+    res.send(PHOTOS);
+  }
+});*/
+
+//END LOGIN
 
 // all of our routes will be prefixed with
 app.use('', router);

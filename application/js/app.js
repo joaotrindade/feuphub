@@ -5,6 +5,8 @@ App.Router.map(function() {
   this.resource('anos');
   this.resource('topic');
   this.resource('login');
+  this.route('articles');
+  this.route('photos');
   this.route("credentials");
 });
 
@@ -12,48 +14,71 @@ App.ApplicationController = Ember.Controller.extend({
   page: "Trek"
 });
 
-App.IndexView = Ember.View.extend({
-  didInsertElement: function() {
-  
-	/*$(document).ready(function(){
+//LOGIN
 
-		var height = $('.midpage').height();
-	
-		$('.right_bar').css("height",height+"px");
-	});*/	
+App.LoginRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.reset();
   }
 });
 
-App.MieicController = Ember.ObjectController.extend({
-	queryParams: ['ano'],
-	isExpanded: false,
-	ano: null,
-	
-	getAno: function(){
-		var ano = this.get('ano');
-		if(ano==null)
-		{
-			this.set('isExpanded', false);
-		}
-		else
-		{
-			this.set('ano', this.get('ano'));
-			this.set('isExpanded', true);
-		}
-	}.property('ano'),
-	
-	
-  });
-  
-  /* PARTE DE LOGIN QUE ESTAVA NO SERVIDOR */
-  
-  App.LoginFormView = Ember.View.extend({
-    tagName: 'form',
-    username: null,
-    password: null,
+App.AuthenticatedRoute = Ember.Route.extend({
 
-    submit: function(event) {
-		event.preventDefault();
+  beforeModel: function(transition) {
+    if (!this.controllerFor('login').get('token')) {
+      this.redirectToLogin(transition);
+    }
+  },
+
+  redirectToLogin: function(transition) {
+    alert('You must log in!');
+
+    var loginController = this.controllerFor('login');
+    loginController.set('attemptedTransition', transition);
+    this.transitionTo('login');
+  },
+
+  getJSONWithToken: function(url) {
+    var token = this.controllerFor('login').get('token');
+    return $.getJSON(url, { token: token });
+  },
+
+  events: {
+    error: function(reason, transition) {
+      if (reason.status === 401) {
+        this.redirectToLogin(transition);
+      } else {
+        alert('Something went wrong');
+      }
+    }
+  }
+});
+
+
+// Controllers
+App.LoginController = Ember.Controller.extend({
+
+  reset: function() {
+    this.setProperties({
+      username: "",
+      password: "",
+	  loginSuccess: "",
+      errorMessage: ""
+    });
+  },
+
+  token: localStorage.token,
+  tokenChanged: function() {
+    localStorage.token = this.get('token');
+  }.observes('token'),
+
+  login: function() {
+
+    var self = this, data2 = this.getProperties('username', 'password');
+
+    // Clear out any error messages.
+    this.set('errorMessage', null);
+	event.preventDefault();
 		
 		$('#spinner').fadeIn(100);
 		$('#spinner #statusText').text("Validating your login with SIFEUP");
@@ -78,7 +103,28 @@ App.MieicController = Ember.ObjectController.extend({
 						document.cookie=data.headers["set-cookie"][0];
 						document.cookie=data.headers["set-cookie"][1];
 						$('#spinner #statusText').text("Login successful!");
+						self.set('loginSuccess', "able");
+						//alert(self.get('loginSuccess'));
+						var datan = self.getProperties('username', 'password','loginSuccess');
 						setTimeout(function(){ getCourses(username);},1000);
+						$.post('/auth.json', datan).then(function(response) {
+
+						  self.set('errorMessage', response.message);
+						  if (response.success) {
+							//alert('Login succeeded!');
+							//alert(response.token);
+							self.set('token', response.token);
+							//alert(self.get('token'));
+							var attemptedTransition = self.get('attemptedTransition');
+							if (attemptedTransition) {
+							  attemptedTransition.retry();
+							  self.set('attemptedTransition', null);
+							} else {
+							  // Redirect to 'articles' by default.
+							  self.transitionToRoute('index');
+							}
+						  }
+						});
 					}
 					else{
 						$('#spinner #statusText').text("incorrect sifeup login credentials");
@@ -87,8 +133,46 @@ App.MieicController = Ember.ObjectController.extend({
 				}
 			});
 		}, 1000);
-    },
+  }
 });
+
+//EXEMPLO DE ACEDER A UMA PAGINA COM O TOKEN
+
+/*App.ArticlesRoute = App.AuthenticatedRoute.extend({
+  model: function() {
+    return this.getJSONWithToken('/articles.json');
+  }
+});
+
+App.PhotosRoute = App.AuthenticatedRoute.extend({
+  model: function() {
+    return this.getJSONWithToken('/photos.json');
+  }
+});*/
+
+//END LOGIN
+
+
+App.MieicController = Ember.ObjectController.extend({
+	queryParams: ['ano'],
+	isExpanded: false,
+	ano: null,
+	
+	getAno: function(){
+		var ano = this.get('ano');
+		if(ano==null)
+		{
+			this.set('isExpanded', false);
+		}
+		else
+		{
+			this.set('ano', this.get('ano'));
+			this.set('isExpanded', true);
+		}
+	}.property('ano'),
+	
+	
+  });
 
 function getCourses(username){
 	$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
