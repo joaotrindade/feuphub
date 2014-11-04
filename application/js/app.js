@@ -78,7 +78,9 @@ App.LoginController = Ember.Controller.extend({
 
     // Clear out any error messages.
     this.set('errorMessage', null);
-	event.preventDefault();
+	$('#bttn').click(function(event) {   
+     event.preventDefault(event);  
+	});	
 		
 		$('#spinner').fadeIn(100);
 		$('#spinner #statusText').text("Validating your login with SIFEUP");
