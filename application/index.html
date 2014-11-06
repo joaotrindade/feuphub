@@ -511,6 +511,17 @@
 	
   </script>
   
+  <script type="text/x-handlebars" id="cadeiras">
+	{{#each model}}
+          <li class="span4">
+            <span class="thumbnail">
+              {{bindAttr codigo="src"}}
+            </span>
+          </li>
+    {{/each}}
+  </script>
+  
+  
   <script type="text/x-handlebars" id="topic">
 	
 	<div class="midpage">

@@ -7,7 +7,8 @@ App.Router.map(function() {
   this.resource('login');
   this.route('articles');
   this.route('photos');
-  this.route("credentials");
+  this.route('credentials');
+  this.route('cadeiras');
 });
 
 App.ApplicationController = Ember.Controller.extend({
@@ -41,6 +42,11 @@ App.AuthenticatedRoute = Ember.Route.extend({
   getJSONWithToken: function(url) {
     var token = this.controllerFor('login').get('token');
     return $.getJSON(url, { token: token });
+  },
+  
+  postJSONWithToken: function() {
+    var token = this.controllerFor('login').get('token');
+	return token;
   },
 
   events: {
@@ -151,6 +157,14 @@ App.PhotosRoute = App.AuthenticatedRoute.extend({
     return this.getJSONWithToken('/photos.json');
   }
 });*/
+
+App.CadeirasRoute = App.AuthenticatedRoute.extend({
+  model: function() {
+	return $.post('/database/cadeira', {token: this.postJSONWithToken()} , function(response) {
+	alert(response);
+}, 'json');
+  }
+});
 
 //END LOGIN
 

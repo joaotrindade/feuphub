@@ -149,7 +149,13 @@ app.get('/database/curso',curso.getAll);
 app.get('/database/curso/:sigla',curso.getOne);
 
 // Cadeira
-app.get('/database/cadeira', cadeira.getAll);
+//app.get('/database/cadeira', cadeira.getAll);
+app.post('/database/cadeira', function(req, res) {
+	if (validTokenProvided(req, res)) {
+		res.send(cadeira.getAll);
+	}
+});
+
 app.get('/database/cadeira/:codigo', cadeira.getOne);
 
 
@@ -322,7 +328,6 @@ function validTokenProvided(req, res) {
 
   // Check POST, GET, and headers for supplied token.
   var userToken = req.body.token || req.param('token') || req.headers.token;
-
   if (!currentToken || userToken != currentToken) {
     res.send(401, { error: 'Invalid token. You provided: ' + userToken });
     return false;
