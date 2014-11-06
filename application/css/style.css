@@ -107,31 +107,37 @@ text-align:right;
 
 .topright .searchbar{
 width: 284px;
-height: 28px;
+height: 29px;
 margin-top:19px;
 font-family: EXO;
 font-size:11px;
+overflow:hidden;
 }
 
 .topright .searchbar .procurar{
 padding:6px 12px;
 background:white;
 border: 1px solid rgb(24,152,231);
-width:228px;
+width:255px;
+height:29px;
 font-style: italic;
 font-family: EXO;
+
+box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
 }
 
 .topright .searchbar .procurarButton{
 font-family: EXO;
 padding:4px 12px;
 left:-8px;
-border:3px solid #207cca;
-background-color:#207cca;
-color:#fafafa;
-width:30px;
+background-color:red;
+border: 0;
+width:29px;
+height:29px;
 margin-left:-3px;
-background-image: url(../images/Misc/search.png);
+background-image: url(../images/Misc/searchBttn.png);
 background-repeat: no-repeat;
 background-size:contain;
 }
