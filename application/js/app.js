@@ -160,9 +160,20 @@ App.PhotosRoute = App.AuthenticatedRoute.extend({
 
 App.CadeirasRoute = App.AuthenticatedRoute.extend({
   model: function() {
-	return $.post('/database/cadeira', {token: this.postJSONWithToken()} , function(response) {
-	alert(response);
-}, 'json');
+	$.post('/database/cadeira', {token: this.postJSONWithToken()} , function(response) {
+
+						if (response.success) {
+							alert('Login succeeded!');
+							alert(response.success);
+							//alert(response.token);
+							alert(response.cadeiras);
+							//alert(self.get('token'));
+						}
+						else
+						{
+							alert("error");
+						}
+	});
   }
 });
 

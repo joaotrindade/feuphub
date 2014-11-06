@@ -149,10 +149,10 @@ app.get('/database/curso',curso.getAll);
 app.get('/database/curso/:sigla',curso.getOne);
 
 // Cadeira
-//app.get('/database/cadeira', cadeira.getAll);
+//app.post('/database/cadeira', cadeira.getAll);
 app.post('/database/cadeira', function(req, res) {
 	if (validTokenProvided(req, res)) {
-		res.send(cadeira.getAll);
+		cadeira.getAll;
 	}
 });
 

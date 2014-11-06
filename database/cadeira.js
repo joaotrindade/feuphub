@@ -10,7 +10,10 @@ var connection = mysql.createConnection({
 exports.getAll = function(req, res){
 	connection.query("select * from Cadeira", function(err, results)
 	{
-		res.send(results);
+		res.send({
+		  success: true,
+		  cadeiras: results
+		});
 	});
 }
 
