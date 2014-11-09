@@ -160,16 +160,16 @@ App.PhotosRoute = App.AuthenticatedRoute.extend({
 
 App.CadeirasRoute = App.AuthenticatedRoute.extend({
   model: function() {
-	$.ajax({
-		type:POST,
-		url: "/database/cadeira",  
-		data: {token: this.postJSONWithToken()},
-		dataType: "json",
-		success: function(data) {
-			alert(data);
-		  return data; 
+	 $.post('/database/cadeira', {"token": this.postJSONWithToken()}).then(function(response) {
+		if (response.success) {
+			$("#cadeiras").append("<table>");
+			$("#cadeiras").append("<tr><th>Codigo</th><th>Nome</th><th>Sigla</th><th>Ano</th><th>Semestre</th></tr>");
+			for(x=0;x<response.results.length;x++) {
+				$("#cadeiras").append("<tr><td>" + response.results[x].codigo + "</td><td>" + response.results[x].nome + "</td><td>" + response.results[x].sigla + "</td><td>" + response.results[x].ano + "</td><td>" + response.results[x].semestre + "</td></tr>");
+			}
+			$("#cadeiras").append("</table>");
 		}
-	});
+	 });
   }
 });
 

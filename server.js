@@ -149,10 +149,26 @@ app.get('/database/curso',curso.getAll);
 app.get('/database/curso/:sigla',curso.getOne);
 
 // Cadeira
-//app.post('/database/cadeira', cadeira.getAll);
+//app.get('/database/cadeira', cadeira.getAll);
 app.post('/database/cadeira', function(req, res) {
 	if (validTokenProvided(req, res)) {
-		cadeira.getAll;
+		cadeira.getAll(function(err, result){
+			if(err)
+			{
+				console.log(err);
+				res.send({
+					success: false,
+					results: "fail"
+				});
+			}
+			else {
+				console.log(result);
+				res.send({
+					success: true,
+					results: result
+				});
+			}
+		});
 	}
 });
 

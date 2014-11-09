@@ -7,15 +7,14 @@ var connection = mysql.createConnection({
   database : 'feuphubmain'
 });
 
-exports.getAll = function(req, res){
-	connection.query("select * from Cadeira", function(err, results)
-	{
-		res.send({
-		  success: true,
-		  cadeiras: results
-		});
+exports.getAll = function getCadeiras (callback) {
+    var query = connection.query('SELECT * from Cadeira',function(err, results) {
+		if (err) 
+            callback(err,null);
+        else
+            callback(null,results);
 	});
-}
+};
 
 exports.getOne = function(req, res){
 	var codigo = req.params.codigo;
