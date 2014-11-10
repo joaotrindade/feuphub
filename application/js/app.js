@@ -62,6 +62,28 @@ App.AuthenticatedRoute = Ember.Route.extend({
 
 
 // Controllers
+
+App.MieicController = Ember.ObjectController.extend({
+	queryParams: ['ano'],
+	isExpanded: false,
+	ano: null,
+	
+	getAno: function(){
+		var ano = this.get('ano');
+		if(ano==null)
+		{
+			this.set('isExpanded', false);
+		}
+		else
+		{
+			this.set('ano', this.get('ano'));
+			this.set('isExpanded', true);
+		}
+	}.property('ano'),
+	
+	
+  });
+  
 App.LoginController = Ember.Controller.extend({
 
   reset: function() {
@@ -144,20 +166,6 @@ App.LoginController = Ember.Controller.extend({
   }
 });
 
-//EXEMPLO DE ACEDER A UMA PAGINA COM O TOKEN
-
-/*App.ArticlesRoute = App.AuthenticatedRoute.extend({
-  model: function() {
-    return this.getJSONWithToken('/articles.json');
-  }
-});
-
-App.PhotosRoute = App.AuthenticatedRoute.extend({
-  model: function() {
-    return this.getJSONWithToken('/photos.json');
-  }
-});*/
-
 App.CadeirasRoute = App.AuthenticatedRoute.extend({
   model: function() {
 	 $.post('/database/cadeira', {"token": this.postJSONWithToken()}).then(function(response) {
@@ -173,29 +181,42 @@ App.CadeirasRoute = App.AuthenticatedRoute.extend({
   }
 });
 
+
+App.TopicController = Ember.ObjectController.extend({
+	
+	actions: {
+		subcomment: function() {
+		  var text = document.getElementById("commentarea").value;
+		  alert(text);
+		},
+		
+		upvotecomment: function(id) {
+			alert("Fazer Upvote Ao Comentario com id= " + id);
+		},
+		
+		downvotecomment: function(id) {
+			alert("Fazer Upvote Ao Comentario com id= " + id);
+		}
+	}
+});
+
+
+//EXEMPLO DE ACEDER A UMA PAGINA COM O TOKEN
+
+/*App.ArticlesRoute = App.AuthenticatedRoute.extend({
+  model: function() {
+    return this.getJSONWithToken('/articles.json');
+  }
+});
+
+App.PhotosRoute = App.AuthenticatedRoute.extend({
+  model: function() {
+    return this.getJSONWithToken('/photos.json');
+  }
+});*/
+
+
 //END LOGIN
-
-
-App.MieicController = Ember.ObjectController.extend({
-	queryParams: ['ano'],
-	isExpanded: false,
-	ano: null,
-	
-	getAno: function(){
-		var ano = this.get('ano');
-		if(ano==null)
-		{
-			this.set('isExpanded', false);
-		}
-		else
-		{
-			this.set('ano', this.get('ano'));
-			this.set('isExpanded', true);
-		}
-	}.property('ano'),
-	
-	
-  });
 
 function getCourses(username){
 	$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
