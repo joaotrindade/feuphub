@@ -711,6 +711,11 @@ cursor: pointer;
 	font-size: 13px;
 }
 
+.reply .description .top_description .upvote_desc:hover, .reply .description .top_description .downvote_desc:hover
+{
+	cursor: pointer;
+}
+
 .question .description .top_description .username_desc
 {
 	float: left;
