@@ -606,8 +606,8 @@
 			<div class="reply_section">
 				<div class="makeReply">
 					<div class="makeReplyTitle">Comente:</div>
-					<textarea data-limit="10000" rows="1" cols="1" name="text" class="textarea"></textarea>
-					<div><button class="botaosubmeter">Submeter</button></div>
+					<textarea data-limit="10000" rows="1" cols="1" name="text" class="textarea" id="commentarea"></textarea>
+					<div><button {{action 'subcomment'}} class="botaosubmeter">Submeter</button></div>
 				</div>
 				
 				<div class="ReplyDivisor">Comentários:</div>
@@ -618,9 +618,9 @@
 						<div class="description">
 						
 							<div class="top_description">
-								<div class="upvote_desc"></div>
+								<div {{action 'upvotecomment' 1}} class="upvote_desc"></div>
 								<div class="score_desc">12</div>
-								<div class="downvote_desc"></div>
+								<div {{action 'downvotecomment' 1}}class="downvote_desc"></div>
 								<div class="username_desc">Artur João</div>
 							</div>
 							
@@ -637,9 +637,9 @@
 						<div class="description">
 						
 							<div class="top_description">
-								<div class="upvote_desc"></div>
+								<div {{action 'upvotecomment' 2}} class="upvote_desc"></div>
 								<div class="score_desc">8</div>
-								<div class="downvote_desc"></div>
+								<div {{action 'downvotecomment' 2}} class="downvote_desc"></div>
 								<div class="username_desc">Jaguar Pistachio</div>
 							</div>
 							
