@@ -11,8 +11,8 @@ module.exports = (function() {
 		connection.query("INSERT INTO resposta2(id,texto,data,userid) VALUES(" + idn + ",'" + texton + "','" + datan + "','" + user_id + "')", function(err, results)
 		{
 			callback(err,results);
-		}
-	}
+		});
+	};
 	
 	api.post('/', function(req, res) {
 	if (auth.validTokenProvided(req, res)) {
