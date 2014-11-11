@@ -143,21 +143,38 @@
 						<div class="mieic_icon"></div>
 					{{/link-to}}
 					
+					{{#link-to 'cursos' (query-params codigo="mieec")}}
 					<div class="mieec_icon"></div>
+					{{/link-to}}
 					
+					{{#link-to 'cursos' (query-params codigo="mieig")}}
 					<div class="mieig_icon"></div>
+					{{/link-to}}
 					
+					{{#link-to 'cursos' (query-params codigo="miea")}}
 					<div class="miea_icon"></div>
+					{{/link-to}}
 					
+					{{#link-to 'cursos' (query-params codigo="miec")}}
 					<div class="miec_icon"></div>
+					{{/link-to}}
 					
+					{{#link-to 'cursos' (query-params codigo="mib")}}
 					<div class="mib_icon"></div>
+					{{/link-to}}
 					
+					{{#link-to 'cursos' (query-params codigo="miem")}}
 					<div class="miem_icon"></div>
+					{{/link-to}}
 					
+					{{#link-to 'cursos' (query-params codigo="miemm")}}
 					<div class="miemm_icon"></div>
+					{{/link-to}}
 					
+					{{#link-to 'cursos' (query-params codigo="mieq")}}
 					<div class="mieq_icon"></div>
+					{{/link-to}}
+					
 				</div>
 				
 				<div class="content">
@@ -458,9 +475,9 @@
 				
 					<div class='topic'>
 						<div class='score'>
-							<div class='upvote'></div>
+							<div {{action 'upvotetopic' 1}} class='upvote'></div>
 							<div class='number'>3450</div>
-							<div class='downvote'></div>
+							<div {{action 'downvotetopic' 1}}  class='downvote'></div>
 						</div>
 						
 						<div class='comments'>
@@ -483,9 +500,9 @@
 					
 					<div class='topic'>
 						<div class='score'>
-							<div class='upvote'></div>
+							<div {{action 'upvotetopic' 2}} class='upvote'></div>
 							<div class='number'>3450</div>
-							<div class='downvote'></div>
+							<div {{action 'downvotetopic' 2}}  class='downvote'></div>
 						</div>
 						
 						<div class='comments'>
@@ -509,6 +526,11 @@
 					
 			</div>
 	
+  </script>
+  
+  <script type="text/x-handlebars" id="cursos">
+	<p>Tchuna</p>
+	{{alerta}}
   </script>
   
   <script type="text/x-handlebars" id="cadeiras">
@@ -691,8 +713,8 @@
  </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>
-  <script src="js/libs/handlebars-1.1.2.js"></script>
-  <script src="js/libs/ember-1.7.0.js"></script>
+  <script src="js/libs/handlebars-v1.3.0.js"></script>
+  <script src="js/libs/ember-1.8.0.js"></script>
   <script src="js/app.js"></script>
   <!-- to activate the test runner, add the "?test" query string parameter -->
   <script src="tests/runner.js"></script>

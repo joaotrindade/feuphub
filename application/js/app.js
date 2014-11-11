@@ -1,3 +1,5 @@
+Ember.FEATURES["query-params"]=true;
+
 App = Ember.Application.create();
 
 App.Router.map(function() {
@@ -5,6 +7,7 @@ App.Router.map(function() {
   this.resource('anos');
   this.resource('topic');
   this.resource('login');
+  this.resource('cursos');
   this.route('articles');
   this.route('photos');
   this.route('credentials');
@@ -89,7 +92,17 @@ App.MieicController = Ember.ObjectController.extend({
 	}.property('ano'),
 	
 	
-  });
+});
+
+App.CursosController = Ember.ObjectController.extend({
+	queryParams: ['codigo'],
+	codigo:null,
+		
+	alerta: function(){
+		this.set('codigo', this.get('codigo')); 
+		alert(this.codigo);
+	}.property('codigo')
+});
   
 App.LoginController = Ember.Controller.extend({
 
