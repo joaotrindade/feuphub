@@ -2,7 +2,7 @@ module.exports = (function() {
     'use strict';
 	var mysql      = require('mysql');
 	var connection = mysql.createConnection({
-		host     : 'ldso08.fe.up.pt',
+		host     : '127.0.0.1',
 		user     : 'feuphub',
 		password : 'chituc2014',
 		database : 'feuphubmain'
