@@ -13,14 +13,13 @@ module.exports = (function() {
 	course.start(connection);
 	var cadeira = require("./cadeira");
 	cadeira.start(connection);
-
-    api.get('/', function(req, res) {
-        res.send('hello database');
-    });
+	var resposta = require("./resposta");
+	resposta.start(connection);
 	
 	api.use('/curso', course.api);
 	api.use('/cadeira', cadeira.api);
-
+	api.use('/resposta',resposta.api);
     return api;
+
 	
 }(module || {}));
