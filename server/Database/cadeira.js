@@ -30,6 +30,21 @@ module.exports = (function() {
 				res.send(results);
 		});
     });
+	
+	api.post('/', function(req, res) {
+		if (auth.validTokenProvided(req, res)) {
+			getAll(function(err,results)
+			{
+				if(err)
+					res.send(err);
+				else
+					res.send(results);
+			});
+		}
+		else
+			res.send("not allowed");
+    });
+	
 
 	api.get('/:codigo', function(req, res) {
 		var codigo = req.params.codigo;		
