@@ -136,7 +136,7 @@ app.use(cookieParser());
 // Everything in public will be accessible from '/'
 app.use(express.static(path.join(__dirname, 'application')));
 
-var port = process.env.PORT || 443; 		// set our port
+var port = process.env.PORT || 444; 		// set our port
 
 // ROUTES FOR OUR API
 // =============================================================================

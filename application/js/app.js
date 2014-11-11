@@ -11,6 +11,8 @@ App.Router.map(function() {
   this.route('cadeiras');
 });
 
+var usrname = "";
+
 App.ApplicationController = Ember.Controller.extend({
   page: "Trek"
 });
@@ -47,6 +49,11 @@ App.AuthenticatedRoute = Ember.Route.extend({
   postJSONWithToken: function() {
     var token = this.controllerFor('login').get('token');
 	return token;
+  },
+  
+  getUsername: function() {
+    var usr = this.controllerFor('login').get('usr');
+	return usr;
   },
 
   events: {
@@ -99,6 +106,11 @@ App.LoginController = Ember.Controller.extend({
   tokenChanged: function() {
     localStorage.token = this.get('token');
   }.observes('token'),
+  
+  usr: localStorage.usr,
+  usrChanged: function() {
+    localStorage.usr = this.get('usr');
+  }.observes('usr'),
 
   login: function() {
 
@@ -144,6 +156,8 @@ App.LoginController = Ember.Controller.extend({
 							//alert('Login succeeded!');
 							//alert(response.token);
 							self.set('token', response.token);
+							self.set('usr',self.get('username'));
+							usrname = self.get('username');
 							//alert(self.get('token'));
 							var attemptedTransition = self.get('attemptedTransition');
 							if (attemptedTransition) {
@@ -168,6 +182,7 @@ App.LoginController = Ember.Controller.extend({
 
 App.CadeirasRoute = App.AuthenticatedRoute.extend({
   model: function() {
+	alert(this.getUsername());
 	 $.post('/database/cadeira', {"token": this.postJSONWithToken()}).then(function(response) {
 		if (response.success) {
 			$("#cadeiras").append("<table>");
@@ -183,21 +198,30 @@ App.CadeirasRoute = App.AuthenticatedRoute.extend({
 
 
 App.TopicController = Ember.ObjectController.extend({
-	
-	actions: {
-		subcomment: function() {
-		  var text = document.getElementById("commentarea").value;
-		  alert(text);
-		},
-		
-		upvotecomment: function(id) {
-			alert("Fazer Upvote Ao Comentario com id= " + id);
-		},
-		
-		downvotecomment: function(id) {
-			alert("Fazer Upvote Ao Comentario com id= " + id);
-		}
-	}
+    
+    actions: {
+        subcomment: function() {
+          
+          //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+          var usr = this.controllerFor('login').get('usr');
+          alert(usr);
+          if(usr != null)
+          {
+            var text = document.getElementById("commentarea").value;
+            alert(text);
+          }
+          else
+            alert("NAO FEZ LOGIN, NAO PODE COMENTAR");
+        },
+        
+        upvotecomment: function(id) {
+            alert("Fazer Upvote Ao Comentario com id= " + id);
+        },
+        
+        downvotecomment: function(id) {
+            alert("Fazer Upvote Ao Comentario com id= " + id);
+        }
+    }
 });
 
 
