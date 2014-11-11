@@ -50,15 +50,14 @@ module.exports = (function() {
 				headers["Cookie"] = http_session+" "+si_session+" "+si_security;
 				
 				request({url: 'https://sigarra.up.pt/feup/pt/WEB_PAGE.INICIAL',
-				method: 'GET'
+				method: 'GET',
+				headers: headers
 				},function (error, response){
 					if(response.statusCode = 200)
 						res.send(response);
 					else 
 						res.status(401).send(response);
-				})
-				
-				res.send(response);
+				});
 			}else{
 				res.status(401).send(response);
 			}
