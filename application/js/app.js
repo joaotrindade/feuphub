@@ -132,7 +132,7 @@ App.LoginController = Ember.Controller.extend({
 
 			$.ajax({
 				type: "POST",
-				url: "api/login",
+				url: "/api/sigarra/login",
 				data: {'username':username,'password':password},
 				async: false,
 				beforeSend : function(){
@@ -149,7 +149,7 @@ App.LoginController = Ember.Controller.extend({
 						//alert(self.get('loginSuccess'));
 						var datan = self.getProperties('username', 'password','loginSuccess');
 						setTimeout(function(){ getCourses(username);},1000);
-						$.post('/auth.json', datan).then(function(response) {
+						$.post('/api/auth/authenticate', datan).then(function(response) {
 
 						  self.set('errorMessage', response.message);
 						  if (response.success) {
@@ -183,7 +183,7 @@ App.LoginController = Ember.Controller.extend({
 App.CadeirasRoute = App.AuthenticatedRoute.extend({
   model: function() {
 	alert(this.getUsername());
-	 $.post('/database/cadeira', {"token": this.postJSONWithToken()}).then(function(response) {
+	 $.post('/api/database/cadeira', {"token": this.postJSONWithToken()}).then(function(response) {
 		if (response.success) {
 			$("#cadeiras").append("<table>");
 			$("#cadeiras").append("<tr><th>Codigo</th><th>Nome</th><th>Sigla</th><th>Ano</th><th>Semestre</th></tr>");
@@ -227,7 +227,7 @@ App.TopicController = Ember.ObjectController.extend({
  
                         today = yyyy+'-'+mm+'-'+dd;
                        
-                        $.post('/database/resposta', {"token": token, "id_questao" : 1, "texto" : text, "data" : today, "userid" : usr}).then( function(response)
+                        $.post('/api/database/resposta', {"token": token, "id_questao" : 1, "texto" : text, "data" : today, "userid" : usr}).then( function(response)
                         {
                           if (response.success)
                           {
@@ -278,7 +278,7 @@ function getCourses(username){
 
 		$.ajax({
 			type: "GET",
-			url: "/api/getStudentCourses",
+			url: "/api/sigarra/getStudentCourses",
 			data: "pv_login="+username,
 			success: function(data, textStatus, jqXHR)
 			{
@@ -322,7 +322,7 @@ function logoff(){
 	{
 		$.ajax({
 		type: "POST",
-		url: "api/logout",
+		url: "/api/sigarra/logout",
 		async: false,
 		success: function(data, textStatus, jqXHR)
 		{}
