@@ -105,6 +105,16 @@ color:rgb(24,152,231);
 text-align:right;
 }
 
+.linkto-none-login{
+
+	text-decoration: none;
+	color:#1898E7;
+ }
+ 
+  .linkto-none-login:hover{
+	color:#116ca5;
+ }
+
 .topright .searchbar{
 width: 284px;
 height: 29px;
