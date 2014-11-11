@@ -14,6 +14,12 @@ module.exports = (function() {
 		'Cookie' : ''
 	}
 	
+	var homePage = {
+		url: 'http://sigarra.up.pt/feup/pt/web_page.inicial',
+		method: 'GET',
+		headers: headers
+	}
+	
 	// Configure the checklogin request
 	var loginCredentials = {
 		url: 'https://sigarra.up.pt/feup/pt/vld_validacao.validacao',
@@ -38,31 +44,23 @@ module.exports = (function() {
 	}
 	
     api.post('/login', function(req, res) {
-        loginCredentials.form.p_user = req.body.username;
-		loginCredentials.form.p_pass = req.body.password;
+        loginCredentials.form['p_user'] = req.body.username;
+		loginCredentials.form['p_pass'] = req.body.password;
 	
 		// Start the request	
 		request(loginCredentials, function (error, response) {
-			if (!error && response.statusCode == 200 && response.headers["set-cookie"].length>0) {				
+			if (!error && response.statusCode == 200 && response.headers["set-cookie"].length>0) {
 				si_session = response.headers["set-cookie"][0];
 				si_security = response.headers["set-cookie"][1];
 				headers["Cookie"] = "";
 				headers["Cookie"] = http_session+" "+si_session+" "+si_security;
-				
-				request({url: 'https://sigarra.up.pt/feup/pt/WEB_PAGE.INICIAL',
-				method: 'GET',
-				headers: headers
-				},function (error, response){
-					if(response.statusCode = 200)
-						res.send(response);
-					else 
-						res.status(401).send(response);
-				});
+				res.send(response);
 			}else{
 				res.status(401).send(response);
 			}
 			resetCookies();
-		})
+		});
+		
     });
 	
 	api.get('/getStudentCourses',function(req,res){

@@ -9,6 +9,9 @@ request = require('request');			//for proxy http requests
 cheerio = require('cheerio');			//Dom manipulation
 Q = require('q');						//promises
 app = express();						// define our app using express
+// convert utf8-iso 8859
+iconv = require('iconv-lite');
+
 
 database = require("./server/Database/database");
 sigarra = require("./server/Sigarra/sigarra");
@@ -33,8 +36,14 @@ var options = {
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+//app.use(bodyParser.json({ type: 'application/*+json' }))
+app.use(bodyParser.text({ type: 'text/html',defaultCharset :"iso-8859-15" }))
 app.use(cookieParser());
+
+app.use(function(req, res, next) {
+	res.header("Content-Type", "application/json; charset=utf-16");
+    next();
+});
 app.use(express.static(path.join(__dirname, 'application')));
 
 // Port definitions based on execution mode

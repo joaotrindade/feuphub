@@ -24,7 +24,7 @@ function getCourses(){
 	// Start the request
 	request(allCourses, function(error, response, body){
 	if (!error && response.statusCode == 200) {
-
+			console.log(response.headers['content-type']);
 		    $ = cheerio.load(response.body);
 			var urls = [];
 			$('#MI_a li').map(function(i, link) {
@@ -52,15 +52,17 @@ function getCourse(url){
 
 	request({
 		url: url,
-		method: 'GET'
+		method: 'GET',
+		encoding:null
 	},function(error,response,body){
 		if(error){
 			console.log("getCourse failed");
 			deferred.reject();
 		}
 		else if (response.statusCode == 200) {
-			$ = cheerio.load(body);
-			var course = new Curso($('#conteudoinner').children()[2].children[0].data,$('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data);
+			var html = iconv.decode(new Buffer(body), "iso-8859-15");
+			$ = cheerio.load(html);
+			var course = new Curso($('#conteudoinner').children()[2].children[0].data, $('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data);
 			var urlCourseUnits = 'http://sigarra.up.pt/feup/pt/' + $('.curso-informacoes div:nth-child(4) li a')[0].attribs.href;
 			getCourseUnits(urlCourseUnits).then(getCourseUnitTeachers).then(function(){deferred.resolve(course);}).done();	
 		}});
@@ -73,19 +75,21 @@ function getCourseUnits(urlCourseUnits){
 		
 	request({
 		url: urlCourseUnits,
-		method: 'GET'
+		method: 'GET',
+		encoding: null
 	},function(error,response,body){
 		if(error){
 			console.log("getCourseUnits failed");
 			deferred.reject();
 		}else if (response.statusCode == 200) {
-			$ = cheerio.load(body);
+			var html = iconv.decode(new Buffer(body), "iso-8859-15");
+			$ = cheerio.load(html);
 			
 			//most generic case
 			var curso = $('#conteudoinner > h1:nth-child(3)')[0].children[0].data;
 			var year = $('div[id*="ano_"]:not([id*="div_percursos"]) > table');			
 						
-			console.log(curso+"\n");
+			//console.log(curso+"\n");
 			var parseYearPromises = [0,1,2,3,4].map(function(a) {return parseYear(body,a);});
 			/*
 			for(i=0; i<year.length;i++)
@@ -97,7 +101,7 @@ function getCourseUnits(urlCourseUnits){
 				deferred.resolve(3);
 			});
 
-			console.log("\n");
+			//console.log("\n");
 			deferred.resolve(3);
 		}});
 		
@@ -118,16 +122,18 @@ function parseCourses(array)
 	for (var i = 0; i < arrayLength; i++) {
     request({
 		url: array[i],
-		method: 'GET'
+		method: 'GET',
+		encoding: null
 	},function(error,response,body){
 		if (!error && response.statusCode == 200) {
-			$ = cheerio.load(body);
+			var html = iconv.decode(new Buffer(body), "iso-8859-15");
+			$ = cheerio.load(html);
 			ar.push({ url: url, Course: new Course($('#conteudoinner').children()[2].children[0].data,$('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data)});
 			//array[i]['Course'] = 1;// new Course($('#conteudoinner').children()[2].children[0].data,$('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data);
 			return;
 		}});
 	}
-	console.log(ar);
+	//console.log(ar);
 	return;
 }
 
@@ -182,11 +188,11 @@ function parseYear(html, year) //parses html for year
 		console.log("\n");
 		for(i=0; i<yearData.children.length;i++){ //remove wierd children
 			if(yearData.children[i].type == 'tag'){
-				//console.log("\t\t");
-				//console.log(yearData.children[i].name);
-				//console.log(" "+yearData.children[i].type);
+				console.log("\t\t");
+				console.log(yearData.children[i].name);
+				console.log(" "+yearData.children[i].type);
 				informationDivs.push(yearData.children[i]);
-				//console.log("\n");
+				console.log("\n");
 			}
 		}
 		var att;
@@ -200,11 +206,11 @@ function parseYear(html, year) //parses html for year
 		
 		
 	}catch(err){
-		console.log("here: "+err);
+		//console.log("here: "+err);
 		//console.log(yearData);
 	}
 	
-	console.log("\n");		
+	//console.log("\n");		
 	deferred.resolve(3);
 
 	return deferred.promise;
