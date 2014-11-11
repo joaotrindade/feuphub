@@ -25,9 +25,15 @@ module.exports = (function() {
         getAll(function(err,results)
 		{
 			if(err)
-				res.send(err);
+				res.send({
+					success: false,
+					results: err
+				});
 			else
-				res.send(results);
+				res.send({
+					success: true,
+					results: results
+				});	
 		});
     });
 	
@@ -36,9 +42,15 @@ module.exports = (function() {
 			getAll(function(err,results)
 			{
 				if(err)
-					res.send(err);
+					res.send({
+						success: false,
+						results: err
+					});
 				else
-					res.send(results);
+					res.send({
+						success: true,
+						results: results
+					});	
 			});
 		}
 		else
@@ -50,9 +62,15 @@ module.exports = (function() {
 		getAll(sigla,function(err,results)
 		{
 			if(err)
-				res.send(err);
+				res.send({
+					success: false,
+					results: err
+				});
 			else
-				res.send(results);
+				res.send({
+					success: true,
+					results: results
+				});	
 		});
     });
 	
