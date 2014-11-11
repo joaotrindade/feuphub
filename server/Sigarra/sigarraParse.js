@@ -1,3 +1,23 @@
+module.exports = (function() {
+    'use strict';
+	
+	var api = express.Router();
+
+	api.get('/', function(req, res) {
+        getCourses().then(function(results){res.send(results);}).done();
+    });
+	
+    return api;
+
+	
+}(module || {}));
+
+var urlAllCourses = "http://sigarra.up.pt/feup/pt/cur_geral.cur_inicio";
+
+var allCourses = {
+	url: 'http://sigarra.up.pt/feup/pt/cur_geral.cur_inicio',
+    method: 'GET'
+}
 
 function getCourses(){
 	var deferred = Q.defer();
@@ -32,8 +52,7 @@ function getCourse(url){
 
 	request({
 		url: url,
-		method: 'GET',
-		headers: headers,
+		method: 'GET'
 	},function(error,response,body){
 		if(error){
 			console.log("getCourse failed");
@@ -54,8 +73,7 @@ function getCourseUnits(urlCourseUnits){
 		
 	request({
 		url: urlCourseUnits,
-		method: 'GET',
-		headers: headers,
+		method: 'GET'
 	},function(error,response,body){
 		if(error){
 			console.log("getCourseUnits failed");
@@ -66,15 +84,6 @@ function getCourseUnits(urlCourseUnits){
 			//most generic case
 			var curso = $('#conteudoinner > h1:nth-child(3)')[0].children[0].data;
 			var year = $('div[id*="ano_"]:not([id*="div_percursos"]) > table');			
-			
-			var log_file = fs.createWriteStream('debug.log', {flags : 'w'});
-			var log_stdout = process.stdout;
-		
-			console.log = function(d) { //
-			  log_file.write(util.format(d));
-			  log_stdout.write(util.format(d));
-			  return;
-			};
 						
 			console.log(curso+"\n");
 			var parseYearPromises = [0,1,2,3,4].map(function(a) {return parseYear(body,a);});
@@ -109,8 +118,7 @@ function parseCourses(array)
 	for (var i = 0; i < arrayLength; i++) {
     request({
 		url: array[i],
-		method: 'GET',
-		headers: headers,
+		method: 'GET'
 	},function(error,response,body){
 		if (!error && response.statusCode == 200) {
 			$ = cheerio.load(body);
@@ -165,8 +173,6 @@ function parseYear(html, year) //parses html for year
 	$ = cheerio.load(html);
 	
 	var yearData = $('div[id*="ano_"]:not([id*="div_percursos"]) > table ')[year];
-	var aux = yearData.find('tr');
-	console.log(aux);
 	console.log("\t");
 	var informationDivs = new Array();
 	try{

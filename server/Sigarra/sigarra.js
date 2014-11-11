@@ -1,6 +1,8 @@
 module.exports = (function() {
     'use strict';
     var api = express.Router();
+	var sigarraParse = require("./sigarraParse");
+	api.use('/parse', sigarraParse);
 	
 	/////////////// SIGARRA SESSION VARIABLES ///////////////
 	var http_session='';
@@ -46,9 +48,19 @@ module.exports = (function() {
 				si_security = response.headers["set-cookie"][1];
 				headers["Cookie"] = "";
 				headers["Cookie"] = http_session+" "+si_session+" "+si_security;
+				
+				request({url: 'https://sigarra.up.pt/feup/pt/WEB_PAGE.INICIAL',
+				method: 'GET'
+				},function (error, response){
+					if(response.statusCode = 200)
+						res.send(response);
+					else 
+						res.status(401).send(response);
+				})
+				
 				res.send(response);
 			}else{
-				res.send(response);
+				res.status(401).send(response);
 			}
 			resetCookies();
 		})

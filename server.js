@@ -6,6 +6,8 @@ request = require('request');			//for proxy http requests
 fs = require('fs');						//ssl certificates
 path = require('path');					//static directory
 request = require('request');			//for proxy http requests
+cheerio = require('cheerio');			//Dom manipulation
+Q = require('q');						//promises
 app = express();						// define our app using express
 
 database = require("./server/Database/database");
