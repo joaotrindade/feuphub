@@ -91,6 +91,17 @@ App.MieicController = Ember.ObjectController.extend({
 		}
 	}.property('ano'),
 	
+	actions: {
+       
+        upvotetopic: function(id) {
+            alert("Fazer Upvote Ao Topico com id= " + id);
+        },
+       
+        downvotetopic: function(id) {
+            alert("Fazer Upvote Ao Topico com id= " + id);
+        }
+    }
+	
 	
 });
 
