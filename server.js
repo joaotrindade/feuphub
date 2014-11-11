@@ -19,7 +19,7 @@ var qhttp = require('q-io/http');			//http promises
 var util = require('util');					//redirect console log to file
 var curso = require('./database/curso');
 var cadeira = require('./database/cadeira');
-
+var resposta = require('./database/resposta');
 //TESTE PARA LOGIN
 
 /*var ARTICLES = [
@@ -166,6 +166,31 @@ app.post('/database/cadeira', function(req, res) {
 				res.send({
 					success: true,
 					results: result
+				});
+			}
+		});
+	}
+});
+
+app.post('/database/resposta', function(req, res) {
+	if (validTokenProvided(req, res)) {
+		var id = req.body.id_questao;
+		var texto = req.body.texto;
+		var data = req.body.data;
+		var user_id = req.body.userid;
+		console.log(texto);
+		resposta.insertOne(id,texto,data,user_id,function(err,result) {
+			if(err)
+			{
+				console.log(err);
+				res.send({
+					success: false,
+				});
+			}
+			else {
+				console.log(result);
+				res.send({
+					success: true,
 				});
 			}
 		});

@@ -198,26 +198,54 @@ App.CadeirasRoute = App.AuthenticatedRoute.extend({
 
 
 App.TopicController = Ember.ObjectController.extend({
-    
+   
     actions: {
         subcomment: function() {
-          
-          //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-          var usr = this.controllerFor('login').get('usr');
+         
+          var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
           alert(usr);
           if(usr != null)
           {
-            var text = document.getElementById("commentarea").value;
-            alert(text);
+                        var text = document.getElementById("commentarea").value;
+                        alert(text);
+                       
+                        var token = this.controllerFor('login').get('token');
+						alert(token);
+                       
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth()+1; //Janeiro = 0!
+                        var yyyy = today.getFullYear();
+ 
+                        if(dd<10) {
+                                dd='0'+dd
+                        }
+ 
+                        if(mm<10) {
+                                mm='0'+mm
+                        }
+ 
+                        today = yyyy+'-'+mm+'-'+dd;
+                       
+                        $.post('/database/resposta', {"token": token, "id_questao" : 1, "texto" : text, "data" : today, "userid" : usr}).then( function(response)
+                        {
+                          if (response.success)
+                          {
+                                alert("JA INSERI");
+                          }
+                          else
+                                alert("POIS, JA SABIA QUE IA DAR MAL");
+                        });
+               
           }
           else
             alert("NAO FEZ LOGIN, NAO PODE COMENTAR");
         },
-        
+       
         upvotecomment: function(id) {
             alert("Fazer Upvote Ao Comentario com id= " + id);
         },
-        
+       
         downvotecomment: function(id) {
             alert("Fazer Upvote Ao Comentario com id= " + id);
         }
