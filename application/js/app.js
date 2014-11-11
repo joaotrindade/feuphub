@@ -183,7 +183,7 @@ App.LoginController = Ember.Controller.extend({
 App.CadeirasRoute = App.AuthenticatedRoute.extend({
   model: function() {
 	alert(this.getUsername());
-	 $.post('/api/database/cadeira', {"token": this.postJSONWithToken()}).then(function(response) {
+	 $.post('/api/database/cadeira/', {"token": this.postJSONWithToken()}).then(function(response) {
 		if (response.success) {
 			$("#cadeiras").append("<table>");
 			$("#cadeiras").append("<tr><th>Codigo</th><th>Nome</th><th>Sigla</th><th>Ano</th><th>Semestre</th></tr>");
@@ -227,7 +227,7 @@ App.TopicController = Ember.ObjectController.extend({
  
                         today = yyyy+'-'+mm+'-'+dd;
                        
-                        $.post('/api/database/resposta', {"token": token, "id_questao" : 1, "texto" : text, "data" : today, "userid" : usr}).then( function(response)
+                        $.post('/api/database/resposta/', {"token": token, "id_questao" : 1, "texto" : text, "data" : today, "userid" : usr}).then( function(response)
                         {
                           if (response.success)
                           {
