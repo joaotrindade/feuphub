@@ -33,7 +33,7 @@ var options = {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'application')));
 
 // Port definitions based on execution mode
 if (app.get('ENV')=="deployment") {
