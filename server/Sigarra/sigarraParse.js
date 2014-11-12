@@ -11,7 +11,7 @@ module.exports = (function() {
 
 	
 }(module || {}));
-
+/*
 fs.unlink('debug.log');
 var log_file = fs.createWriteStream('debug.log', {flags : 'w'});
 var log_stdout = process.stdout;
@@ -20,7 +20,7 @@ console.log = function(d) { //
 	log_file.write(util.format(d));
 	//log_stdout.write(util.format(d));
 	return;
-};
+};*/
 
 var urlAllCourses = "http://sigarra.up.pt/feup/pt/cur_geral.cur_inicio";
 
@@ -149,6 +149,7 @@ function parseCourseUnit(courseUnitUrl)
 				var ativo = $('#conteudoinner > .formulario > tr > td:contains("Ativa?") +td')[0].children[0].data;
 				var str = $('#conteudoinner > h2').text();
 				var semestre = str.substring(str.length-1,str.length-2);
+				var ano = 
 				console.log(courseUnitUrl+ " nome: "+name+" ,sigla: "+sigla+" ,codigo: "+codigo+" ,semestre: "+semestre+" ,ativo: "+ativo+"\n");
 				deferred.resolve(2);
 			}
