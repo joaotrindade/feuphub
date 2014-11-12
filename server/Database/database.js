@@ -21,7 +21,7 @@ module.exports = (function() {
 	api.use('/curso', course.api);
 	api.use('/cadeira', cadeira.api);
 	api.use('/resposta',resposta.api);
-	api.use('/resposta',topico.api);
+	api.use('/topico',topico.api);
     return api;
 
 	
