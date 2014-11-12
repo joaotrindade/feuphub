@@ -53,8 +53,9 @@ module.exports = (function() {
 					});
 			});
 		}
-		else
+		else{
 			res.send("not allowed");
+		}
     });
 	
 

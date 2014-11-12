@@ -40,7 +40,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'application')));
 
-
 // Port definitions based on execution mode
 if (app.get('ENV')=="deployment") {
 	app.set('port', process.env.PORT || 443);
@@ -64,5 +63,5 @@ app.use('*',function(req, res){
 
 /////////////// APPLICATION START ///////////////
 https.createServer(options, app).listen(app.get('port'), function(){
-  console.log("Server listening on port " + app.get('port') + "\n");
+  console.log("Server listening on port " + app.get('port'));
 });
