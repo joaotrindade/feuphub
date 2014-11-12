@@ -12,7 +12,7 @@ module.exports = (function() {
 		{
 			callback(err,results);
 		});
-	};
+	}
 	
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
