@@ -109,9 +109,32 @@ App.CursosController = Ember.ObjectController.extend({
 	queryParams: ['codigo'],
 	codigo:null,
 		
-	alerta: function(){
+	getCursoTopics: function(){
 		this.set('codigo', this.get('codigo')); 
 		alert(this.codigo);
+		
+		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
+		
+		$.post(apigo).then( function(response)
+		{
+		  if (response.success)
+		  {
+			for(x=0;x<response.results.length;x++) 
+			{
+				var scorediff = response.results[x].upvote -  response.results[x].downvote;
+				$("#content").append("<div class='topic'>");
+				$("#content").append("<div class='score'>(<div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div> <div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>");
+				$("#content").append("<div class='comments'></div>");
+				$("#content").append("{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}");
+				$("#content").append("<div class='data'>" + response.results[x].data + "</div>");
+				$("#content").append("<div class='user_op'>" + response.results[x].UtilizadorKey + "</div>"); //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
+				$("#content").append("</div>");
+			}
+		  }
+		  else
+				alert("POIS, JA SABIA QUE IA DAR MAL");
+		});
+		
 	}.property('codigo')
 });
   
@@ -250,7 +273,7 @@ App.TopicController = Ember.ObjectController.extend({
                         }
  
                         today = yyyy+'-'+mm+'-'+dd;
-                       
+						
                         $.post('/api/database/resposta/', {"token": token, "id_questao" : 1, "texto" : text, "data" : today, "userid" : usr}).then( function(response)
                         {
                           if (response.success)
