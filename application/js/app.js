@@ -119,6 +119,7 @@ App.CursosController = Ember.ObjectController.extend({
 		{
 		  if (response.success)
 		  {
+			alert(response.results.length);
 			for(x=0;x<response.results.length;x++) 
 			{
 				var scorediff = response.results[x].upvote -  response.results[x].downvote;
