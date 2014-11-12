@@ -16,7 +16,7 @@ module.exports = (function() {
 	var resposta = require("./resposta");
 	resposta.start(connection);
 	var topico = require("./topico");
-	resposta.start(connection);
+	topico.start(connection);
 	
 	api.use('/curso', course.api);
 	api.use('/cadeira', cadeira.api);
