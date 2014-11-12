@@ -166,12 +166,6 @@ cursor:pointer;
 /* CONTENT -------------------------------------------------------------------------------------------- */
 
 
-#cursos .midpage .content
-{
-	height: 500px;
-	background-color: red;
-}
-
 .content
 {
 	overflow: hidden;

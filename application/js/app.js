@@ -123,13 +123,13 @@ App.CursosController = Ember.ObjectController.extend({
 			for(x=0;x<response.results.length;x++) 
 			{
 				var scorediff = response.results[x].upvote -  response.results[x].downvote;
-				$("#cursos .midpage .content").append("<div class='topic'>");
-				$("#cursos .midpage .content").append("<div class='score'>(<div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div> <div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>");
-				$("#cursos .midpage .content").append("<div class='comments'></div>");
-				$("#cursos .midpage .content").append("{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}");
-				$("#cursos .midpage .content").append("<div class='data'>" + response.results[x].data + "</div>");
-				$("#cursos .midpage .content").append("<div class='user_op'>" + response.results[x].UtilizadorKey + "</div>"); //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
-				$("#cursos .midpage .content").append("</div>");
+				$(".content .contentcursos").append("<div class='topic'>");
+				$(".content .contentcursos").append("<div class='score'>(<div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div> <div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>");
+				$(".content .contentcursos").append("<div class='comments'></div>");
+				$(".content .contentcursos").append("{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}");
+				$(".content .contentcursos").append("<div class='data'>" + response.results[x].data + "</div>");
+				$(".content .contentcursos").append("<div class='user_op'>" + response.results[x].UtilizadorKey + "</div>"); //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
+				$(".content .contentcursos").append("</div>");
 			}
 		  }
 		  else
