@@ -120,10 +120,8 @@ App.CursosController = Ember.ObjectController.extend({
 		  if (response.success)
 		  {
 			alert(response.results.length);
-			$("#content").append("<p>LA</p>");
 			for(x=0;x<response.results.length;x++) 
 			{
-				alert("ENTREI");
 				var scorediff = response.results[x].upvote -  response.results[x].downvote;
 				$("#content").append("<div class='topic'>");
 				$("#content").append("<div class='score'>(<div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div> <div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>");
