@@ -123,13 +123,13 @@ App.CursosController = Ember.ObjectController.extend({
 			for(x=0;x<response.results.length;x++) 
 			{
 				var scorediff = response.results[x].upvote -  response.results[x].downvote;
-				$(".content .contentcursos").append("<div class='topic'>");
-				$(".content .contentcursos").append("<div class='score'>(<div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div> <div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>");
-				$(".content .contentcursos").append("<div class='comments'></div>");
-				$(".content .contentcursos").append("{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}");
-				$(".content .contentcursos").append("<div class='data'>" + response.results[x].data + "</div>");
-				$(".content .contentcursos").append("<div class='user_op'>" + response.results[x].UtilizadorKey + "</div>"); //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
-				$(".content .contentcursos").append("</div>");
+				var stringhtml = "<div class='topic'>";
+				stringhtml = "<div class='score'><div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div> <div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>";
+				stringhtml = "<div class='comments'></div>";
+				stringhtml = "{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}";
+				stringhtml = "<div class='data'>" + response.results[x].data + "</div>";
+				stringhtml = "<div class='user_op'>" + response.results[x].UtilizadorKey + "</div></div>"; //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
+				$(".content .contentcursos").append(stringhtml); //TEM DE SER SO UMA VEZ APPEND, SENAO ELE PODE FECHAR TAGS - O JS É AUTO INTELIGENTE PARA FECHAR A TAG DE UM APPEND SE NÓS NOS ESQUECERMOS.
 			}
 		  }
 		  else
