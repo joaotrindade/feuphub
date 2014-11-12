@@ -124,11 +124,11 @@ App.CursosController = Ember.ObjectController.extend({
 			{
 				var scorediff = response.results[x].upvote -  response.results[x].downvote;
 				var stringhtml = "<div class='topic'>";
-				stringhtml = "<div class='score'><div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div> <div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>";
-				stringhtml = "<div class='comments'></div>";
-				stringhtml = "{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}";
-				stringhtml = "<div class='data'>" + response.results[x].data + "</div>";
-				stringhtml = "<div class='user_op'>" + response.results[x].UtilizadorKey + "</div></div>"; //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
+				stringhtml += "<div class='score'><div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div> <div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>";
+				stringhtml += "<div class='comments'></div>";
+				stringhtml += "{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}";
+				stringhtml += "<div class='data'>" + response.results[x].data + "</div>";
+				stringhtml += "<div class='user_op'>" + response.results[x].UtilizadorKey + "</div></div>"; //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
 				$(".content .contentcursos").append(stringhtml); //TEM DE SER SO UMA VEZ APPEND, SENAO ELE PODE FECHAR TAGS - O JS É AUTO INTELIGENTE PARA FECHAR A TAG DE UM APPEND SE NÓS NOS ESQUECERMOS.
 			}
 		  }
