@@ -15,10 +15,13 @@ module.exports = (function() {
 	cadeira.start(connection);
 	var resposta = require("./resposta");
 	resposta.start(connection);
+	var topico = require("./topico");
+	resposta.start(connection);
 	
 	api.use('/curso', course.api);
 	api.use('/cadeira', cadeira.api);
 	api.use('/resposta',resposta.api);
+	api.use('/resposta',topico.api);
     return api;
 
 	
