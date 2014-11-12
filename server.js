@@ -11,13 +11,15 @@ Q = require('q');						//promises
 app = express();						// define our app using express
 // convert utf8-iso 8859
 iconv = require('iconv-lite');
-
+util = require('util');					//redirect console log to file
 
 database = require("./server/Database/database");
 sigarra = require("./server/Sigarra/sigarra");
 auth = require("./server/Auth/auth");
 
 //Testing arguments
+	
+
 if(process.argv.length == 2){
 	app.set('ENV', "development");
 }
@@ -69,5 +71,5 @@ app.use('*',function(req, res){
 
 /////////////// APPLICATION START ///////////////
 https.createServer(options, app).listen(app.get('port'), function(){
-  console.log("Server listening on port " + app.get('port'));
+  console.log("Server listening on port " + app.get('port') + "\n");
 });
