@@ -108,6 +108,7 @@ App.MieicController = Ember.ObjectController.extend({
 App.CursosController = Ember.ObjectController.extend({
 	queryParams: ['codigo'],
 	codigo:null,
+	topicscurso:null,
 		
 	getCursoTopics: function(){
 		this.set('codigo', this.get('codigo')); 
@@ -120,18 +121,21 @@ App.CursosController = Ember.ObjectController.extend({
 		  if (response.success)
 		  {
 			alert(response.results.length);
-			for(x=0;x<response.results.length;x++) 
+			this.set('topicscurso', response.results); 
+			
+			/*for(x=0;x<response.results.length;x++) 
 			{
 				var scorediff = response.results[x].upvote -  response.results[x].downvote;
 				var stringhtml = "<div class='topic'>";
 				stringhtml += "<div class='score'><div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div></div></div>";	//<div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>";
 				alert(stringhtml);
-				/*stringhtml += "<div class='comments'></div>";
+				stringhtml += "<div class='comments'></div>";
 				stringhtml += "{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}";
 				stringhtml += "<div class='data'>" + response.results[x].data + "</div>";
-				stringhtml += "<div class='user_op'>" + response.results[x].UtilizadorKey + "</div></div>"; //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR*/
+				stringhtml += "<div class='user_op'>" + response.results[x].UtilizadorKey + "</div></div>"; //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
 				$(".content .contentcursos").append(stringhtml); //TEM DE SER SO UMA VEZ APPEND, SENAO ELE PODE FECHAR TAGS - O JS É AUTO INTELIGENTE PARA FECHAR A TAG DE UM APPEND SE NÓS NOS ESQUECERMOS.
-			}
+			}*/
+			
 		  }
 		  else
 				alert("POIS, JA SABIA QUE IA DAR MAL");
