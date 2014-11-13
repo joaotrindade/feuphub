@@ -115,33 +115,20 @@ App.CursosController = Ember.ObjectController.extend({
 		alert(this.codigo);
 		
 		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
+		var temp = null;
 		
 		$.post(apigo).then( function(response)
 		{
 		  if (response.success)
 		  {
-			alert(response.results.length);
-			alert(response.results);
-			this.set('topicscurso', response.results); 
-			alert(this.get('topicscurso'));
-			
-			/*for(x=0;x<response.results.length;x++) 
-			{
-				var scorediff = response.results[x].upvote -  response.results[x].downvote;
-				var stringhtml = "<div class='topic'>";
-				stringhtml += "<div class='score'><div {{action 'upvotetopic' " + response.results[x].id + " }} class='upvote'></div></div></div>";	//<div class='number'>" + scorediff + "</div> <div {{action 'downvotetopic' " + response.results[x].id + " }}  class='downvote'></div></div>";
-				alert(stringhtml);
-				stringhtml += "<div class='comments'></div>";
-				stringhtml += "{{#link-to 'topic' class='linkto-none' (query-params idtopico="+response.results[x].id+")}} <div class='title'>" + response.results[x].titulo + "</div> {{/link-to}}";
-				stringhtml += "<div class='data'>" + response.results[x].data + "</div>";
-				stringhtml += "<div class='user_op'>" + response.results[x].UtilizadorKey + "</div></div>"; //TODO - SELECT DEVOLVER O USERNAME DO CRIADOR
-				$(".content .contentcursos").append(stringhtml); //TEM DE SER SO UMA VEZ APPEND, SENAO ELE PODE FECHAR TAGS - O JS É AUTO INTELIGENTE PARA FECHAR A TAG DE UM APPEND SE NÓS NOS ESQUECERMOS.
-			}*/
-			
+			temp = response.results;
 		  }
 		  else
 				alert("POIS, JA SABIA QUE IA DAR MAL");
 		});
+
+		this.set('topicscurso', temp); 
+		alert(this.get('topicscurso'));
 		
 	}.property('codigo')
 });
