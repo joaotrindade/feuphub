@@ -121,7 +121,9 @@ App.CursosController = Ember.ObjectController.extend({
 		  if (response.success)
 		  {
 			alert(response.results.length);
+			alert(response.results);
 			this.set('topicscurso', response.results); 
+			alert(this.get('topicscurso'));
 			
 			/*for(x=0;x<response.results.length;x++) 
 			{
