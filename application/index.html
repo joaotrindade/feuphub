@@ -588,12 +588,41 @@
 			</div>
 			
 		</div>
-		{{getAno}}
+		{{checkLogo}}
 		<div class="courses">
-		
-			{{#link-to 'mieic'}} 
-				<a href="#/mieic"><div class="mieic_icon"></div></a>
-			{{/link-to}}
+			{{#if isMieic}}
+				<div class="mieic_icon"></div>
+			{{else}}
+				{{#if isMieec}}
+					<div class="mieec_icon"></div>
+				{{else}}
+					{{#if isMieig}}
+						<div class="mieig_icon"></div>
+					{{else}}
+						{{#if isMiea}}
+							<div class="miea_icon"></div>
+						{{else}}
+							{{#if isMiec}}
+								<div class="miec_icon"></div>
+							{{else}}
+								{{#if isMib}}
+									<div class="mib_icon"></div>
+								{{else}}
+									{{#if isMiem}}
+										<div class="miem_icon"></div>
+									{{else}}
+										{{#if isMiemm}}
+											<div class="miemm_icon"></div>
+										{{else}}
+											<div class="mieq_icon"></div>
+										{{/if}}
+									{{/if}}
+								{{/if}}
+							{{/if}}
+						{{/if}}
+					{{/if}}
+				{{/if}}
+			{{/if}}
 				
 				<a href="#/mieic?ano=1">
 					<div class="year1">
@@ -648,7 +677,29 @@
 		
 		<div class="content">
 			{{#each item in topicscurso}}
-				 <p>{{item.id}}</p>
+				 <div class='topic'>
+						<div class='score'>
+							<div {{action 'upvotetopic' item.id }} class='upvote'></div>
+							<div class='number'>{{item.upvote}}</div>
+							<div {{action 'downvotetopic' item.id }}  class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						<div class='title'>
+							{{item.titulo}} 
+						</div>
+						
+						<div class='data'>
+							{{item.data}} 
+						</div>
+						
+						<div class='user_op'>
+							{{item.UtilizadorKey}}
+						</div>
+						
+					</div>
 			{{/each}}
 		</div>
 			

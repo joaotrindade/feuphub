@@ -8,7 +8,7 @@ module.exports = (function() {
 	};
 	
 	function getTopicos(courseID,callback){
-		connection.query("SELECT * FROM Topico WHERE CursoKey like '" + courseID + "'", function(err, results)
+		connection.query("SELECT id,topico.tipo,titulo,upvote-downvote as difference,texto,data,topico.CursoKey,utilizador.nome FROM topico inner join utilizador on topico.UtilizadorKey = utilizador.numero WHERE topico.CursoKey like '" + courseID + "'", function(err, results)
 		{
 			callback(err,results);
 		});

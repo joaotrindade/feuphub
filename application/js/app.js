@@ -109,28 +109,87 @@ App.CursosController = Ember.ObjectController.extend({
 	queryParams: ['codigo'],
 	codigo:null,
 	topicscurso:null,
+	
+	isMieic:false,
+	isMieec:false,
+	isMieig:false,
+	isMiea:false,
+	isMiec:false,
+	isMib:false,
+	isMiem:false,
+	isMiemm:false,
+	isMieq:false,
+		
+	checkLogo: function(){
+		this.set('isMieic', false);
+		this.set('isMieec', false);
+		this.set('isMieig', false);
+		this.set('isMiea', false);
+		this.set('isMiec', false);
+		this.set('isMib', false);
+		this.set('isMiem', false);
+		this.set('isMiemm', false);
+		this.set('isMieq', false);
+		
+		if(this.codigo == "mieq")
+		{
+			this.set('isMieq', true);
+		}else if (this.codigo == "mieic")
+		{
+			this.set('isMieic', true);
+		}else if (this.codigo == "mieec")
+		{
+			this.set('isMieec', true);
+		}else if (this.codigo == "mieig")
+		{
+			this.set('isMieig', true);
+		}else if (this.codigo == "miea")
+		{
+			this.set('isMiea', true);
+		}else if (this.codigo == "miec")
+		{
+			this.set('isMiec', true);
+		}else if (this.codigo == "mib")
+		{
+			this.set('isMib', true);
+		}else if (this.codigo == "miem")
+		{
+			this.set('isMiem', true);
+		}else if (this.codigo == "miemm")
+		{
+			this.set('isMiemm', true);
+		}
+	}.property('codigo'),
 		
 	getCursoTopics: function(){
+		var self = this;
 		this.set('codigo', this.get('codigo')); 
 		alert(this.codigo);
 		
 		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
-		var temp = null;
 		
 		$.post(apigo).then( function(response)
 		{
 		  if (response.success)
 		  {
-			temp = response.results;
+			self.set('topicscurso', response.results);
 		  }
 		  else
 				alert("POIS, JA SABIA QUE IA DAR MAL");
 		});
-
-		this.set('topicscurso', temp); 
-		alert(this.get('topicscurso'));
 		
-	}.property('codigo')
+	}.property('codigo'),
+	
+	actions: {
+       
+        upvotetopic: function(id) {
+            alert("Fazer Upvote Ao Topico com id= " + id);
+        },
+       
+        downvotetopic: function(id) {
+            alert("Fazer Upvote Ao Topico com id= " + id);
+        }
+    }
 });
   
 App.LoginController = Ember.Controller.extend({
