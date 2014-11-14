@@ -529,6 +529,7 @@
   </script>
   
   <script type="text/x-handlebars" id="cursos">	
+	{{getCursoTopics}}
 	<div class="midpage">
 			
 		<div class="right_bar">
@@ -687,9 +688,11 @@
 						<div class='comments'>
 						</div>
 						
+						{{#link-to 'topic' (query-params topicoid=item.id) class='linkto-none'}} 
 						<div class='title'>
 							{{item.titulo}} 
 						</div>
+						{{/link-to}} 
 						
 						<div class='data'>
 							{{item.data}} 
@@ -704,7 +707,6 @@
 		</div>
 			
 	</div>
-	{{getCursoTopics}}
   </script>
   
   <script type="text/x-handlebars" id="cadeiras">

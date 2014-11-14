@@ -20,6 +20,8 @@ App.ApplicationController = Ember.Controller.extend({
   page: "Trek"
 });
 
+// ROUTES -----------------------------------------------------------------------------------
+
 //LOGIN
 
 App.LoginRoute = Ember.Route.extend({
@@ -70,8 +72,31 @@ App.AuthenticatedRoute = Ember.Route.extend({
   }
 });
 
+App.CadeirasRoute = App.AuthenticatedRoute.extend({
+  model: function() {
+	alert(this.getUsername());
+	 $.post('/api/database/cadeira/', {"token": this.postJSONWithToken()}).then(function(response) {
+		if (response.success) {
+			$("#cadeiras").append("<table>");
+			$("#cadeiras").append("<tr><th>Codigo</th><th>Nome</th><th>Sigla</th><th>Ano</th><th>Semestre</th></tr>");
+			for(x=0;x<response.results.length;x++) {
+				$("#cadeiras").append("<tr><td>" + response.results[x].codigo + "</td><td>" + response.results[x].nome + "</td><td>" + response.results[x].sigla + "</td><td>" + response.results[x].ano + "</td><td>" + response.results[x].semestre + "</td></tr>");
+			}
+			$("#cadeiras").append("</table>");
+		}
+	 });
+  }
+});
 
-// Controllers
+App.TopicRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.getData();
+  }
+});
+
+/*------------------------------------------------------------------------------------------*/
+
+// CONTROLLERS ------------------------------------------------------------------------------
 
 App.MieicController = Ember.ObjectController.extend({
 	queryParams: ['ano'],
@@ -281,25 +306,15 @@ App.LoginController = Ember.Controller.extend({
   }
 });
 
-App.CadeirasRoute = App.AuthenticatedRoute.extend({
-  model: function() {
-	alert(this.getUsername());
-	 $.post('/api/database/cadeira/', {"token": this.postJSONWithToken()}).then(function(response) {
-		if (response.success) {
-			$("#cadeiras").append("<table>");
-			$("#cadeiras").append("<tr><th>Codigo</th><th>Nome</th><th>Sigla</th><th>Ano</th><th>Semestre</th></tr>");
-			for(x=0;x<response.results.length;x++) {
-				$("#cadeiras").append("<tr><td>" + response.results[x].codigo + "</td><td>" + response.results[x].nome + "</td><td>" + response.results[x].sigla + "</td><td>" + response.results[x].ano + "</td><td>" + response.results[x].semestre + "</td></tr>");
-			}
-			$("#cadeiras").append("</table>");
-		}
-	 });
-  }
-});
-
-
 App.TopicController = Ember.ObjectController.extend({
-   
+	queryParams: ['topicoid'],
+	topicoid:null,
+	
+	getData: function(){
+		this.set('topicoid', this.get('topcoid')); 
+		alert(this.topicoid);
+	},
+	
     actions: {
         subcomment: function() {
          
@@ -353,6 +368,7 @@ App.TopicController = Ember.ObjectController.extend({
     }
 });
 
+/*------------------------------------------------------------------------------------------*/
 
 //EXEMPLO DE ACEDER A UMA PAGINA COM O TOKEN
 
