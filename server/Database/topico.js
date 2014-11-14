@@ -14,9 +14,37 @@ module.exports = (function() {
 		});
 	};
 	
+	function getTopicoByID(tID,callback){
+		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,data,Topico.CursoKey,nome FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.id = " + tID + "", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
 		getTopicos(cID,function(err,result) {
+			if(err)
+			{
+				console.log(err);
+				res.send({
+					success: false,
+					results: err
+				});
+			}
+			else {
+				console.log(result);
+				res.send({
+					success: true,
+					results: result
+				});
+			}
+		});
+});
+
+	api.post('/id/:topicID', function(req, res) {
+		var tID = req.params.topicID;
+		getTopicoByID(tID,function(err,result) {
 			if(err)
 			{
 				console.log(err);

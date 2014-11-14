@@ -14,6 +14,13 @@ module.exports = (function() {
 		});
 	};
 	
+	function getRespostas(tID,callback){
+		connection.query("SELECT id,upvote,downvote,texto,data,nome FROM Resposta inner join Utilizador on Resposta.UtilizadorKey = Utilizador.numero WHERE TopicoKey = " + tID + "", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	api.post('/', function(req, res) {
 	if (auth.validTokenProvided(req, res)) {
 		var id = req.body.id_questao;
@@ -36,6 +43,27 @@ module.exports = (function() {
 			}
 		});
 	}
+});
+
+api.post('/:topicID', function(req, res) {
+		var tID = req.params.topicID;
+		getRespostas(tID,function(err,result) {
+			if(err)
+			{
+				console.log(err);
+				res.send({
+					success: false,
+					results: err
+				});
+			}
+			else {
+				console.log(result);
+				res.send({
+					success: true,
+					results: result
+				});
+			}
+		});
 });
    
     return {api: api, start: start};
