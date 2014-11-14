@@ -906,26 +906,33 @@ cursor: pointer;
 	color: #1898E7;
 }
 
+.replys{
+	margin-bottom: 15px;
+}
+
+
 .reply {
-	margin-bottom: 10px;
+	/*margin-bottom: 10px;*/
+	min-height:100px;
+	border: 1px solid rgb(220,220,220);
+	border-bottom: 0px solid rgb(220,220,220);
 }
 
 .reply .description .top_description
 {
-	height: 18px;
-	background-color: #35383E;
-	color:white;
-	padding-left: 3px;
-	
-	/*background-color: white;*/
+	float:left;
+	/*background-color: #35383E;*/
+	color:black;
+	/*padding-left: 3px;*/
+	width: 48px;
 	overflow: hidden;
 }
 
 .reply .description .top_description .upvote_desc
 {
-	float:left;
 	height: 15px;
-	width: 20px;
+	width: 48px;
+	padding-top: 5px;
 	background-image: url(../images/Topic/upvote_desc.png);
 	background-position: center;
 	background-repeat: no-repeat;
@@ -934,27 +941,53 @@ cursor: pointer;
 
 .reply .description .top_description .score_desc
 {
-	float: left;
+	width: 48px;
 	height: 15px;
 	margin-right: 5px;
 	font-family: EXO;
 	font-size: 13px;
+	text-align: center;
 }
 
-.reply .description .top_description .username_desc
+.reply .description .mid_description .username_desc
+{
+	float: left;
+	height: 15px;
+	margin-right: 5px;
+	font-family: EXOB;
+	font-size: 13px;
+	color: #428BCA;
+	padding-bottom: 5px;
+}
+
+.reply .description .mid_description .hora_desc
 {
 	float: left;
 	height: 15px;
 	margin-right: 5px;
 	font-family: EXO;
 	font-size: 13px;
+	color: rgb(170,169,168);
+	padding-bottom: 5px;
 }
+
+.reply .description .mid_description .data_desc
+{
+	float: left;
+	height: 15px;
+	margin-right: 5px;
+	font-family: EXO;
+	font-size: 13px;
+	color: rgb(170,169,168);
+	padding-bottom: 5px;
+}
+
 
 .reply .description .top_description .downvote_desc
 {
 	float:left;
 	height: 15px;
-	width: 20px;
+	width: 48px;
 	background-image: url(../images/Topic/downvote_desc.png);
 	background-position: center;
 	background-repeat: no-repeat;
@@ -963,15 +996,30 @@ cursor: pointer;
 
 .reply .description .mid_description
 {
-	min-height: 40px;
-	background-color: white;
-	/*border: 1px solid rgb(211,219,225);*/
-	border: 1px solid rgb(171,173,179);
+	min-height:100px;
+	/*background-color: white;
+	border: 1px solid rgb(211,219,225);*/
+	border-left: 1px solid rgb(220,220,220);
 	overflow: hidden;
 	
 	font-family: EXO;
 	font-size: 13px;
 	padding:5px;
+	padding-left: 10px;
+}
+
+.reply:nth-child(odd)
+{
+	background-color: white;
+}
+
+.reply:nth-child(even)
+{
+	background-color: rgb(240,240,240);
+}
+
+.reply:nth-last-child(1){
+	border-bottom: 1px solid rgb(220,220,220);
 }
 
 /* LOADING LOGIN ------------------------------------------------------------------------------------ */
