@@ -811,43 +811,26 @@
 				<div class="ReplyDivisor">Comentários:</div>
 				
 				<div class="replys">
+					{{#each item in topicoRespostas}}
 					<div class="reply">
-						
 						<div class="description">
 						
 							<div class="top_description">
-								<div {{action 'upvotecomment' 1}} class="upvote_desc"></div>
-								<div class="score_desc">12</div>
-								<div {{action 'downvotecomment' 1}}class="downvote_desc"></div>
-								<div class="username_desc">Artur João</div>
+								<div {{action 'upvotecomment' item.id}} class="upvote_desc"></div>
+								<div class="score_desc">{{item.difference}}</div>
+								<div {{action 'downvotecomment' item.id}}class="downvote_desc"></div>
+								<div class="username_desc">{{item.nome}}</div>
 							</div>
 							
 							<div class="mid_description">
-								Eu gostei muito do Souto. Muito boas aulas teóricas. Nunca ninguém se queixou!
+								{{item.texto}}
 							</div>
 							
 						</div>
 						
 					</div>
+					{{/each}}
 					
-					<div class="reply">
-						
-						<div class="description">
-						
-							<div class="top_description">
-								<div {{action 'upvotecomment' 2}} class="upvote_desc"></div>
-								<div class="score_desc">8</div>
-								<div {{action 'downvotecomment' 2}} class="downvote_desc"></div>
-								<div class="username_desc">Jaguar Pistachio</div>
-							</div>
-							
-							<div class="mid_description">
-								Eu tive aulas com a professor Chituc e adorei. Tenho imensa pena que tenha abandonado o projecto :( .
-							</div>
-							
-						</div>
-						
-					</div>
 				</div>
 			</div>
 		</div>

@@ -15,7 +15,7 @@ module.exports = (function() {
 	};
 	
 	function getRespostas(tID,callback){
-		connection.query("SELECT id,upvote,downvote,texto,data,nome FROM Resposta inner join Utilizador on Resposta.UtilizadorKey = Utilizador.numero WHERE TopicoKey = " + tID + "", function(err, results)
+		connection.query("SELECT id,upvote-downvote as difference,texto,data,nome FROM Resposta inner join Utilizador on Resposta.UtilizadorKey = Utilizador.numero WHERE TopicoKey = " + tID + "", function(err, results)
 		{
 			callback(err,results);
 		});

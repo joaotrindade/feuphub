@@ -310,20 +310,36 @@ App.TopicController = Ember.ObjectController.extend({
 	queryParams: ['topicoid'],
 	topicoid:null,
 	topicoDetails:null,
+	topicoRespostas:null,
 	
 	getData: function(){
 		var self = this;
 		 
+		this.set('topicoDetails', null);
+		this.set('topicoRespostas', null);
+		
 		this.set('topicoid', this.get('topicoid')); 
 		alert(this.topicoid);
 		
 		var apigo = "/api/database/topico/id/" + this.topicoid;
+		var apigo2 = "/api/database/resposta/" + this.topicoid;
 		
 		$.post(apigo).then( function(response)
 		{
 		  if (response.success)
 		  {
 			self.set('topicoDetails', response.results[0]);
+			
+			$.post(apigo2).then( function(response)
+			{
+			  if (response.success)
+			  {
+				self.set('topicoRespostas', response.results);
+			  }
+			  else
+					alert("POIS, JA SABIA QUE IA DAR MAL");
+			});
+			
 		  }
 		  else
 				alert("POIS, JA SABIA QUE IA DAR MAL");
