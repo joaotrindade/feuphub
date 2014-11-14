@@ -309,10 +309,25 @@ App.LoginController = Ember.Controller.extend({
 App.TopicController = Ember.ObjectController.extend({
 	queryParams: ['topicoid'],
 	topicoid:null,
+	topicoDetails:null,
 	
 	getData: function(){
-		this.set('topicoid', this.get('topcoid')); 
+		var self = this;
+		 
+		this.set('topicoid', this.get('topicoid')); 
 		alert(this.topicoid);
+		
+		var apigo = "/api/database/topico/id/" + this.topicoid;
+		
+		$.post(apigo).then( function(response)
+		{
+		  if (response.success)
+		  {
+			self.set('topicoDetails', response.results[0]);
+		  }
+		  else
+				alert("POIS, JA SABIA QUE IA DAR MAL");
+		});
 	},
 	
     actions: {
