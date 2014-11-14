@@ -908,6 +908,7 @@ cursor: pointer;
 
 .replys{
 	margin-bottom: 15px;
+	border-bottom: 1px solid rgb(220,220,220);
 }
 
 
@@ -1018,7 +1019,7 @@ cursor: pointer;
 	background-color: rgb(240,240,240);
 }
 
-.reply:nth-last-child(1){
+.reply:nth-last-child(0){
 	border-bottom: 1px solid rgb(220,220,220);
 }
 
