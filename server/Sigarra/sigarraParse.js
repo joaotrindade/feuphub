@@ -4,23 +4,15 @@ module.exports = (function() {
 	var api = express.Router();
 
 	api.get('/', function(req, res) {
-        getCourses().then(function(results){res.send(results);}).done();
+		//try{
+			getCourses().then(function(results){console.log("ALL DONE\n");res.send(results);}).done();
+		//}catch(err) {console.log("\nError: \n");console.log(err);}
     });
 	
     return api;
 
 	
 }(module || {}));
-/*
-fs.unlink('debug.log');
-var log_file = fs.createWriteStream('debug.log', {flags : 'w'});
-var log_stdout = process.stdout;
-		
-console.log = function(d) { //
-	log_file.write(util.format(d));
-	//log_stdout.write(util.format(d));
-	return;
-};*/
 
 var urlAllCourses = "http://sigarra.up.pt/feup/pt/cur_geral.cur_inicio";
 
@@ -43,12 +35,14 @@ function getCourses(){
 			});
 			
 			var coursePromises = urls.map(getCourse);
-
-			Q.all(coursePromises).then(function(courses){
-				deferred.resolve(courses);
+			
+			Q.all(coursePromises).then(function (results) {
+				deferred.resolve(results);
 			});
+			
 		}
 		else{
+			console.log("falhou cursos:"+response.statusCode+", "+error+"\n");
 			deferred.reject();
 		}
 		allCourses.url = urlAllCourses;
@@ -71,16 +65,22 @@ function getCourse(url){
 		else if (response.statusCode == 200) {
 			var html = iconv.decode(new Buffer(body), "iso-8859-15");
 			$ = cheerio.load(html);
-			var course = new Curso($('#conteudoinner').children()[2].children[0].data, $('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data);
+			var curso = new Curso($('#conteudoinner').children()[2].children[0].data, $('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data);
 			var coursePlanUrl = 'http://sigarra.up.pt/feup/pt/' + $('.curso-informacoes div:nth-child(4) li a')[0].attribs.href;
-			parseCoursePlan(coursePlanUrl).then(function(data){deferred.resolve(course);}).done();	
+			parseCoursePlan(coursePlanUrl,curso.sigla).then(function(data){
+				console.log("Feito curso:\n");
+				curso.cadeiras = data;
+				console.log(JSON.stringify(curso,undefined, 2));
+				console.log("\n\n");
+				deferred.resolve(curso);
+			});	
 		}});
 	
     return deferred.promise;
 }
 
 
-function parseCoursePlan(coursePlanUrl){
+function parseCoursePlan(coursePlanUrl, courseAcronym){
 	var deferred = Q.defer();
 		
 	request({
@@ -89,14 +89,15 @@ function parseCoursePlan(coursePlanUrl){
 		encoding: null
 	},function(error,response,body){
 		if(error){
-			console.log("parseCoursePlan failed");
+			console.log("parseCoursePlan: "+coursePlanUrl+ " failed\n");
+			console.log(error);
+			console.log("\n");
 			deferred.reject();
 		}else if (response.statusCode == 200) {
 			var html = iconv.decode(new Buffer(body), "iso-8859-15");
 			$ = cheerio.load(html);
 			
 			var curso = $('#conteudoinner > h1:nth-child(3)')[0].children[0].data;		
-			console.log(curso+"\n");	
 			
 			var courseUnitsHref = [];
 			$('a[href*="ucurr_geral.ficha_uc_view"]').each(function(i, elem) {
@@ -107,20 +108,20 @@ function parseCoursePlan(coursePlanUrl){
 				return index == self.indexOf(elem);
 			})
 			
-			console.log("têm "+uniqueCourseUnits.length + " cadeiras");
+			var courseUnitPromises = uniqueCourseUnits.map(function(a) {return parseCourseUnit(a,courseAcronym);});
 			
-			var courseUnitPromises = uniqueCourseUnits.map(function(a) {return parseCourseUnit(a);});
-			
-			Q.all(courseUnitPromises).then(function(data){
-				deferred.resolve(3);
+			Q.all(courseUnitPromises).then(function (results) {
+				//console.log(JSON.stringify(results));
+				//results.forEach(function(entry){});
+				//console.log("\n");
+				deferred.resolve(results);
 			});
-			console.log("\n\n");
 		}});
 		
     return deferred.promise;
 }
 
-function parseCourseUnit(courseUnitUrl)
+function parseCourseUnit(courseUnitUrl,courseAcronym)
 {
 	var deferred = Q.defer();
 	
@@ -131,27 +132,73 @@ function parseCourseUnit(courseUnitUrl)
 		followAllRedirects: true
 	},function(error,response,body){
 		if(error){
-			console.log("parseCourseUnit failed");
+			console.log("parseCourseUnit: "+courseUnitUrl+ " failed\n");
+			console.log(error);
+			console.log("\n");
 			deferred.reject();
 		}else if (response.statusCode == 200) {
 			var html = iconv.decode(new Buffer(body), "iso-8859-15");
 			$ = cheerio.load(html);
-			//console.log("\n\n");
-			//console.log($('body'));
-			//console.log("\n");
 			if($('body').children().length ==0){
-				//console.log("redirect to "+$('a')[0].attribs["href"]+"\n");
-				parseCourseUnit($('a')[0].attribs["href"]).then(function(promise){deferred.resolve(promise);})
+				parseCourseUnit($('a')[0].attribs["href"], courseAcronym).then(function(promise){
+				deferred.resolve(promise);
+				})
 			}else{
-				var name = $('#conteudoinner > h1:not([id])').text();
+				var nome = $('#conteudoinner > h1:not([id])').text();
 				var sigla = $('#conteudoinner > .formulario > tr > td:contains("Sigla") +td')[0].children[0].data;
 				var codigo = $('#conteudoinner > .formulario > tr > td:contains("Código") +td')[0].children[0].data;
 				var ativo = $('#conteudoinner > .formulario > tr > td:contains("Ativa?") +td')[0].children[0].data;
-				var str = $('#conteudoinner > h2').text();
-				var semestre = str.substring(str.length-1,str.length-2);
-				var ano = 
-				console.log(courseUnitUrl+ " nome: "+name+" ,sigla: "+sigla+" ,codigo: "+codigo+" ,semestre: "+semestre+" ,ativo: "+ativo+"\n");
-				deferred.resolve(2);
+				var aux = $('#conteudoinner > h2').text();
+				var periodo = aux.substring(aux.length-1,aux.length-2);
+				var courseUnitAcroynm = $('h3:contains("Ciclos de Estudo/Cursos") + .dados > tr > .k.t > a');
+				var courseUnitYears = $('h3:contains("Ciclos de Estudo/Cursos") + .dados  > tr >td:nth-child(4)');				
+				var found = false;
+				
+				for(var i=0; i< courseUnitAcroynm.length;i++)
+				{
+					if(courseUnitAcroynm[i].children[0].data==courseAcronym){
+						found = true;
+						
+						var ano = courseUnitYears[i].children[0].data;						
+						
+						//console.log(courseAcronym+" "+courseUnitUrl+ " nome: "+nome+", sigla: "+sigla+", codigo: "+codigo+", ano: "+ano+", semestre: "+periodo+", ativo: "+ativo+"\n");
+						
+						aux = $('.horas > .dados > tr >td > a[href*="func_geral"]');
+						var teacherUrls = [];
+						var n = courseUnitUrl.search("ucurr_geral");
+						var substr = courseUnitUrl.substring(0,n);
+						for(var j=0; j<aux.length; j++)
+						{
+							teacherUrls.push(substr+aux[j].attribs["href"]);
+						}
+												
+						var teacherPromises = teacherUrls.map(function(a) {return parseTeacher(a);});
+			
+						Q.all(teacherPromises).done(function (results) {
+							var cadeira = new Cadeira(nome, sigla, codigo, new Semestre(ano, periodo), ativo);
+							cadeira.profs = results;
+							//console.log("teacher: \n");
+							//console.log(results);
+							//console.log("\n\n");
+							deferred.resolve(cadeira);
+						});
+						
+						break;
+					}
+				}
+				if(found)
+					return;
+				else{
+				
+					console.log("no match in "+courseUnitUrl+" of : "+courseAcronym+" in array of size: "+courseUnitAcroynm.length+"\n");
+					for(var i=0; i< courseUnitAcroynm.length;i++)
+					{
+						console.log(courseUnitAcroynm[i].children[0].data+" vs "+courseAcronym+"\n");
+					}
+					
+					console.log("falhou cadeira\n");
+					deferred.reject();
+				}
 			}
 		}
 	});
@@ -160,10 +207,40 @@ function parseCourseUnit(courseUnitUrl)
 }
 
 
-function getCourseUnitTeachers(courseUnit){
+function parseTeacher(teacherUrl){
 	var deferred = Q.defer();
-	//console.log(courseUnit);
-	deferred.resolve(2);
+	request({
+		url: teacherUrl,
+		method: 'GET',
+		encoding: null,
+		followAllRedirects: true
+	},function(error,response,body){
+		if(error){
+			console.log("parseTeacher: "+teacherUrl+ " failed\n");
+			console.log(error);
+			console.log("\n");			
+			deferred.reject();
+		}else if (response.statusCode == 200) {
+			var html = iconv.decode(new Buffer(body), "iso-8859-15");
+			$ = cheerio.load(html);
+			
+			var fotoUrl = $('.informacao-pessoal-dados-foto > img').attr('src');
+			var nome = $('.informacao-pessoal-dados-dados > .tabela > tr:nth-child(1) > td:nth-child(2) > b').text();
+			var codigo = $('.informacao-pessoal-dados-dados > .tabela > tr:nth-child(3) > td:nth-child(2)').text();
+
+			var aux = fotoUrl.substring(0, 9);
+
+			var res = fotoUrl;
+			if(aux== "/feup/pt/")
+				res=fotoUrl.substring(9,fotoUrl.length);
+			
+			var str = "https://sigarra.up.pt/feup/pt/" + res;
+			var prof = new Professor(nome, codigo, str);
+			deferred.resolve(prof);
+			
+		}
+	});
+
     return deferred.promise;
 }
 
@@ -171,32 +248,28 @@ function Curso(nome, sigla)
 {
 	this.nome = nome;
 	this.sigla = sigla;
-	this.plano = new Array();
-}
-
-function Semestre(ano, semestre, tronco)
-{
-	this.nome = nome;
-	this.semestre = semestre;
-	this.tronco = tronco;
-}
-
-function Tronco(tipo)
-{
-	this.tipo = tipo;
 	this.cadeiras = new Array();
 }
 
-function Cadeira(nome, sigla, codigo)
+function Semestre(ano, periodo)
+{
+	this.ano = ano;
+	this.periodo = periodo;
+}
+
+function Cadeira(nome, sigla, codigo, semestre, ativo)
 {
 	this.nome = nome;
 	this.sigla = sigla;
 	this.codigo = codigo;
-	this.profs = new Array();
+	this.semestre = semestre;
+	this.ativo = ativo;
+	//this.profs = new Array();
 }
 
-function Professor(nome,codigo)
+function Professor(nome,codigo,foto)
 {
 	this.nome = nome;
 	this.codigo = codigo;
+	this.foto = foto;
 }
