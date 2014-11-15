@@ -19,7 +19,7 @@ module.exports = (function() {
 	topico.start(connection);
 	
 	api.get('/', function(req, res) {
-        res.send("Hello database!\n")
+        res.send("Hello, this is the database!\n")
     });
 	
 	api.use('/curso', course.api);
