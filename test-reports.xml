@@ -1,0 +1,16 @@
+
+[0m[0m
+Server listening on port 5000
+
+[0m  Simple tests (always pass)[0m
+[0m    Array[0m
+[0m      #indexOf()[0m
+      [32m  √[0m[90m should return -1 when the value is not present [0m
+
+[0m  API[0m
+[0m    Database[0m
+    [32m  √[0m[90m root answer with Hello [0m
+
+
+[92m [0m[32m 2 passing[0m[90m (18ms)[0m
+
