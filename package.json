@@ -10,7 +10,8 @@
     "mocha": "^2.0.1",
     "q": "^1.1.1",
     "q-io": "^1.11.5",
-    "request": "^2.47.0"
+    "request": "^2.47.0",
+    "supertest": "^0.15.0"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --recursive -R xunit test/ > test-reports.xml"

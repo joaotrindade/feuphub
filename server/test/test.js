@@ -1,4 +1,11 @@
-var assert = require("assert"); // node.js core module
+var request = require('supertest');
+var app = require('server.js');
+ 
+describe('GET /', function() {
+  it('respond withHello database', function(done) {
+    request(app).get('/api/database/').expect('Hello database', done);
+  });
+});
 
 describe('Array', function(){
   describe('#indexOf()', function(){

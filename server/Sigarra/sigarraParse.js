@@ -5,7 +5,7 @@ module.exports = (function() {
 
 	api.get('/', function(req, res) {
 		//try{
-			getCourses().then(function(results){console.log("ALL DONE\n");res.send(results);}).done();
+			getCourses().then(function(results){console.log(JSON.stringify(results,undefined, 2)); res.send(results);}).done();
 		//}catch(err) {console.log("\nError: \n");console.log(err);}
     });
 	
@@ -68,10 +68,10 @@ function getCourse(url){
 			var curso = new Curso($('#conteudoinner').children()[2].children[0].data, $('.formulario tr:nth-last-child(5) td:not([class])')[0].children[0].data);
 			var coursePlanUrl = 'http://sigarra.up.pt/feup/pt/' + $('.curso-informacoes div:nth-child(4) li a')[0].attribs.href;
 			parseCoursePlan(coursePlanUrl,curso.sigla).then(function(data){
-				console.log("Feito curso:\n");
-				curso.cadeiras = data;
-				console.log(JSON.stringify(curso,undefined, 2));
-				console.log("\n\n");
+				//console.log("Feito curso:\n");
+				//curso.cadeiras = data;
+				//console.log(JSON.stringify(curso,undefined, 2));
+				//console.log("\n\n");
 				deferred.resolve(curso);
 			});	
 		}});

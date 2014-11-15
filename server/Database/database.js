@@ -18,6 +18,10 @@ module.exports = (function() {
 	var topico = require("./topico");
 	topico.start(connection);
 	
+	api.get('/', function(req, res) {
+        res.send("Hello database\n")
+    });
+	
 	api.use('/curso', course.api);
 	api.use('/cadeira', cadeira.api);
 	api.use('/resposta',resposta.api);
