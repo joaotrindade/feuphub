@@ -37,7 +37,6 @@ else if(process.argv.length == 3 && process.argv[2]=="-p"){
 }
 else if(process.argv[6]=="--test"){
 	app.set('ENV', "testing");
-    console.log = function(){}; 
 }
 else{
 	console.log("server.js: incorrect call use");
@@ -81,7 +80,6 @@ app.use('*',function(req, res){
 
 /////////////// APPLICATION START ///////////////
 https.createServer(options, app).listen(app.get('port'), function(){
-  console.log("Server listening on port " + app.get('port')+"\n");
 });
 
 module.exports = app;
