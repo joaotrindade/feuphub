@@ -14,6 +14,6 @@
     "supertest": "^0.15.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./server/test/test.js --test > test-reports.xml"
+    "test": "./node_modules/.bin/mocha --recursive -R xunit ./server/test/test.js --test > test-reports.xml"
   }
 }
