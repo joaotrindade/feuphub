@@ -1,4 +1,4 @@
-https = require('https');
+https = require('https'); 
 express = require('express');
 cookieParser = require('cookie-parser');
 bodyParser = require('body-parser');
@@ -18,14 +18,28 @@ sigarra = require("./server/Sigarra/sigarra");
 auth = require("./server/Auth/auth");
 
 //Testing arguments
+
 if(process.argv.length == 2){
 	app.set('ENV', "development");
+	/*
+	fs.unlink('debug.log');
+	var log_file = fs.createWriteStream('debug.log', {flags : 'w'});
+	var log_stdout = process.stdout;
+			
+	console.log = function(d) { //
+		log_file.write(util.format(d));
+		//log_stdout.write(util.format(d));
+		return;
+	};*/
 }
 else if(process.argv.length == 3 && process.argv[2]=="-p"){
 	app.set('ENV', "deployment");
 }
+else if(process.argv.length == 4 && process.argv[3]=="--test"){
+	app.set('ENV', "testing");
+}
 else{
-	console.log("incorrect call use");
+	console.log("server.js: incorrect call use");
 	process.exit(1);
 }
 
@@ -47,6 +61,9 @@ if (app.get('ENV')=="deployment") {
 else if (app.get('ENV')=="development"){
 	app.set('port', process.env.PORT || 8100);
 }
+else if (app.get('ENV')=="testing"){
+	app.set('port', process.env.PORT || 5000);
+}
 
 /////////////// APPLICATION ROUTES ///////////////
 app.get('/', function(req, res){
@@ -55,7 +72,7 @@ app.get('/', function(req, res){
 
 app.use('/api/database', database);
 app.use('/api/sigarra', sigarra);
-app.use('/api/auth', auth.api)
+app.use('/api/auth', auth.api);
 
 app.use('*',function(req, res){
 	res.send('404 not found');
@@ -63,5 +80,7 @@ app.use('*',function(req, res){
 
 /////////////// APPLICATION START ///////////////
 https.createServer(options, app).listen(app.get('port'), function(){
-  console.log("Server listening on port " + app.get('port'));
+  console.log("Server listening on port " + app.get('port')+"\n");
 });
+
+module.exports = app;
