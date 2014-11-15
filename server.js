@@ -34,7 +34,6 @@ if(process.argv.length == 2){
 }
 else if(process.argv.length == 3 && process.argv[2]=="-p"){
 	app.set('ENV', "deployment");
-    console.log = function(){}; 
 }
 else if(process.argv[6]=="--test"){
 	app.set('ENV', "testing");
