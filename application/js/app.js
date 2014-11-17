@@ -214,8 +214,8 @@ App.CursosController = Ember.ObjectController.extend({
 			alert(usr);
 			if(usr != null)
 			{
-				var apigo = "/api/database/topico/up/";
-				$.post(apigo, {"token":token, "idUser":usr, "idTopico":id}).then( function(response)
+				var apigo = "/api/database/topico/up/" + id;
+				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
 				  {
@@ -236,8 +236,8 @@ App.CursosController = Ember.ObjectController.extend({
 			alert(usr);
 			if(usr != null)
 			{
-				var apigo = "/api/database/topico/down/";
-				$.post(apigo, {"token":token, "idUser":usr, "idTopico":id}).then( function(response)
+				var apigo = "/api/database/topico/down/" + id;
+				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
 				  {
@@ -440,8 +440,8 @@ App.TopicController = Ember.ObjectController.extend({
 			alert(usr);
 			if(usr != null)
 			{
-				var apigo = "/api/database/resposta/up/";
-				$.post(apigo, {"token":token, "idUser":usr, "idTopico":id}).then( function(response)
+				var apigo = "/api/database/resposta/up/" + id;
+				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
 				  {
@@ -462,8 +462,8 @@ App.TopicController = Ember.ObjectController.extend({
 			alert(usr);
 			if(usr != null)
 			{
-				var apigo = "/api/database/resposta/down/";
-				$.post(apigo, {"token":token, "idUser":usr, "idTopico":id}).then( function(response)
+				var apigo = "/api/database/resposta/down/" + id;
+				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
 				  {
