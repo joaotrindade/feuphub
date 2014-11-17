@@ -429,8 +429,30 @@ App.TopicController = Ember.ObjectController.extend({
 		});
 	},
 	
-	updateData:function(){
-		alert("LOL");
+	updateScore:function(id,tipo){
+		
+		tps.forEach(function(item){ 
+			
+			alert(item.id + " -> " + item.difference);
+			var lala = item.difference;
+			
+			if(tipo == "inseriu")
+			{
+				lala +=1;
+				item.set("difference", lala);
+			}
+			else if(tipo == "retirou")
+			{
+				lala -=1;
+				item.set("difference", lala);
+			}
+			else if(tipo == "trocou")
+			{
+				lala +=2;
+				item.set("difference", lala);
+			}
+			
+		});
 	},
 	
     actions: {
@@ -494,50 +516,8 @@ App.TopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						self.updateData();
+						self.updateData(id,response.results.tipo);
 						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
-						
-						/*tps.forEach(function(item){ 
-							alert(item.id + " -> " + item.difference);
-							var lala = item.difference;
-							if(response.results.tipo == "inseriu")
-							{
-								lala +=1;
-								item.set("difference", lala);
-							}
-							else if(response.results.tipo == "retirou")
-							{
-								lala -=1;
-								item.set("difference", lala);
-							}
-							else if(response.results.tipo == "trocou")
-							{
-								lala +=2;
-								item.set("difference", lala);
-							}
-							
-						});*/
-						/*for(i=0;i<tps.length;i++) {
-							if( tps[i].id == id )
-							{
-								if(response.results.tipo == "inseriu")
-								{
-									tps[i].set("difference", tps[i].difference+1);
-								}
-								else if(response.results.tipo == "retirou")
-								{
-									tps[i].set("difference", tps[i].difference-1);
-								}
-								else if(response.results.tipo == "trocou")
-								{
-									tps[i].set("difference", tps[i].difference+2);
-								}
-									
-								//alert(tps);
-								//self.set('topicoRespostas', tps);
-								break;
-							}
-						}*/
 				  }
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
