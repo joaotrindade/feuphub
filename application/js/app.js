@@ -429,35 +429,6 @@ App.TopicController = Ember.ObjectController.extend({
 		});
 	},
 	
-	updateScore:function(id,tipo){
-		alert("LOL");
-		this.get('topicoRespostas').forEach(function(item){ 
-			
-			alert(item.id + " -> " + item.difference);
-			var lala = item.difference;
-			
-			if(tipo == "inseriu" && item.id == id)
-			{
-				lala +=1;
-				Ember.set(item, "difference",	142); 
-				/*item.difference = 100;
-				item.set('difference', lala);*/
-			}
-			else if(tipo == "retirou" && item.id == id)
-			{
-				lala -=1;
-				Ember.set(item, "difference",	143); 
-				/*item.set('difference', lala);*/
-			}
-			else if(tipo == "trocou" && item.id == id)
-			{
-				lala +=2;
-				/*item.set('difference', lala);*/
-			}
-			
-		});
-	},
-	
     actions: {
         subcomment: function() {
         
@@ -502,14 +473,9 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         upvotecomment: function(id) {
-            //alert("Fazer Upvote Ao Comentario com id = " + id);
 			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
-			var tps = this.get("topicoRespostas");
-			
-			//this.set('topicoRespostas', tps);
-			//alert(usr);
-			
+		
 			if(usr != null)
 			{
 				var token = this.get('controllers.login').get('token');
@@ -519,8 +485,27 @@ App.TopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						self.updateScore(id,response.results.tipo);
-						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+						self.get('topicoRespostas').forEach(function(item){ 
+
+							var temporary = item.difference;
+							
+							if(response.results.tipo == "inseriu" && item.id == id)
+							{
+								temporary +=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "retirou" && item.id == id)
+							{
+								temporary -=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "trocou" && item.id == id)
+							{
+								temporary +=2;
+								Ember.set(item, "difference",	temporary); 
+							}
+							
+						});
 				  }
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
