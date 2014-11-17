@@ -311,6 +311,7 @@ App.LoginController = Ember.Controller.extend({
 							self.set('errorMessage', response.message);
 							if(response.statusCode = 200){
 								userId = parserLogin(response.body);
+								self.set('usr',userId);
 							}
 						}).then(function(){
 							self.set('loginSuccess', "able");
@@ -324,7 +325,7 @@ App.LoginController = Ember.Controller.extend({
 								//alert('Login succeeded!');
 								//alert(response.token);
 								self.set('token', response.token);
-								self.set('usr',self.get('username'));
+								//self.set('usr',self.get('username'));
 								usrname = self.get('username');
 								//alert(self.get('token'));
 								var attemptedTransition = self.get('attemptedTransition');
