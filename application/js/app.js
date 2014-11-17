@@ -482,6 +482,7 @@ App.TopicController = Ember.ObjectController.extend({
 				var token = this.controllerFor('login').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
 				
+				var tipo = null;
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
@@ -510,6 +511,14 @@ App.TopicController = Ember.ObjectController.extend({
 								}
 									
 								self.set('topicoRespostas', tps);
+								
+								var cona = self.topicoRespostas;
+								for(x=0;x<cona.length;x++) {
+									if(cona[x].id == id)
+									{
+										alert(cona[x].difference);
+									}
+								}
 								break;
 							}
 						}
