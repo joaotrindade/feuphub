@@ -491,11 +491,8 @@ App.TopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						alert(tps);
-						self.set('topicoRespostas',tps);
 						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
-						/*var tps = self.topicoRespostas;
-						
+
 						for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
@@ -516,10 +513,11 @@ App.TopicController = Ember.ObjectController.extend({
 									alert("TROCOU");
 								}
 									
-								self.set('topicoRespostas', tps);
+								alert(tps);
+								self.set('topicoRespostas',tps);
 								break;
 							}
-						}*/
+						}
 				  }
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
