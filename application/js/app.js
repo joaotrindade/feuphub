@@ -476,14 +476,14 @@ App.TopicController = Ember.ObjectController.extend({
 			var self = this;
 			var tps = this.topicoRespostas;
 			this.set('topicoRespostas',null);
-			
+			alert("NULL");
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			if(usr != null)
 			{
 				var token = this.controllerFor('login').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
 				
-				this.set('topicoRespostas',tps);
+				this.controllerFor('topic').set('topicoRespostas',tps);
 				/*
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
