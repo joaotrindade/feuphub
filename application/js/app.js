@@ -494,11 +494,20 @@ App.TopicController = Ember.ObjectController.extend({
 							{
 								alert("ENCONTREI");
 								if(response.results.tipo == "inseriu")
+								{
 									tps[i].difference = tps[i].difference + 1;
+									alert("INSERIU");
+								}
 								else if(response.results.tipo == "retirou")
+								{
 									tps[i].difference = tps[i].difference - 1;
+									alert("RETIROU");
+								}
 								else if(response.results.tipo == "trocou")
+								{
 									tps[i].difference = tps[i].difference + 2;
+									alert("TROCOU");
+								}
 									
 								self.set('topicoRespostas', tps);
 								break;
