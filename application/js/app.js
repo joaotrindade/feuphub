@@ -473,10 +473,12 @@ App.TopicController = Ember.ObjectController.extend({
        
         upvotecomment: function(id) {
             //alert("Fazer Upvote Ao Comentario com id = " + id);
+			var usr = this.controllerFor('login').get('usr');
 			var self = this;
 			var tps = this.topicoRespostas;
 			this.set('topicoRespostas',null);
-			alert("NULL");
+			
+			/*
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			if(usr != null)
 			{
@@ -484,7 +486,7 @@ App.TopicController = Ember.ObjectController.extend({
 				var apigo = "/api/database/resposta/up/" + id;
 				
 				this.controllerFor('topic').set('topicoRespostas',tps);
-				/*
+				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
