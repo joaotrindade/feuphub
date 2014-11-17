@@ -64,7 +64,10 @@ module.exports = (function() {
 			{
 				connection.query("INSERT INTO Utilizador_Topico VALUES(" + uID + "," + tID + ",1,0)", function(err, results)
 				{
-					callback(err,results);
+					connection.query("UPDATE Topico SET upvote=upvote+1 WHERE id = " + tID + "", function(err, results)
+					{
+						callback(err,results);
+					});
 				});
 			}
 		});
@@ -113,7 +116,10 @@ module.exports = (function() {
 			{
 				connection.query("INSERT INTO Utilizador_Topico VALUES(" + uID + "," + tID + ",0,1)", function(err, results)
 				{
-					callback(err,results);
+					connection.query("UPDATE Topico SET downvote=downvote+1 WHERE id = " + tID + "", function(err, results)
+					{
+						callback(err,results);
+					});
 				});
 			}
 		});
