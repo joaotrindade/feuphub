@@ -477,16 +477,15 @@ App.TopicController = Ember.ObjectController.extend({
 			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			var tps = this.topicoRespostas;
-			this.set('topicoRespostas',null);
-			alert(usr);
+			
+			//this.set('topicoRespostas',null);
+			//alert(usr);
 			
 			if(usr != null)
 			{
 				var token = this.get('controllers.login').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
-				
-				
-				
+
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
@@ -496,21 +495,17 @@ App.TopicController = Ember.ObjectController.extend({
 						for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
-								alert("ENCONTREI");
 								if(response.results.tipo == "inseriu")
 								{
 									tps[i].difference = tps[i].difference + 1;
-									alert("INSERIU");
 								}
 								else if(response.results.tipo == "retirou")
 								{
 									tps[i].difference = tps[i].difference - 1;
-									alert("RETIROU");
 								}
 								else if(response.results.tipo == "trocou")
 								{
 									tps[i].difference = tps[i].difference + 2;
-									alert("TROCOU");
 								}
 									
 								alert(tps);
