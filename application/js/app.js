@@ -521,10 +521,11 @@ App.TopicController = Ember.ObjectController.extend({
 				  }
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
-				});*/
+				});
 			}
 			else
 				alert("Faça Login para fazer upvote");
+			*/
         },
        
         downvotecomment: function(id) {
