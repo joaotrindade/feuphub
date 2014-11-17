@@ -429,6 +429,10 @@ App.TopicController = Ember.ObjectController.extend({
 		});
 	},
 	
+	updateData:function(){
+		alert("LOL");
+	},
+	
     actions: {
         subcomment: function() {
         
@@ -490,9 +494,10 @@ App.TopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
+						self.updateData();
 						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
 						
-						tps.forEach(function(item){ 
+						/*tps.forEach(function(item){ 
 							alert(item.id + " -> " + item.difference);
 							var lala = item.difference;
 							if(response.results.tipo == "inseriu")
@@ -511,7 +516,7 @@ App.TopicController = Ember.ObjectController.extend({
 								item.set("difference", lala);
 							}
 							
-						});
+						});*/
 						/*for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
