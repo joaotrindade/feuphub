@@ -474,18 +474,18 @@ App.TopicController = Ember.ObjectController.extend({
        
         upvotecomment: function(id) {
             //alert("Fazer Upvote Ao Comentario com id = " + id);
-			var usr = this.get('controllers.login').get('usr');
+			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			var tps = this.topicoRespostas;
 			this.set('topicoRespostas',null);
+			alert(usr);
 			
-			/*
-			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			if(usr != null)
 			{
-				var token = this.controllerFor('login').get('token');
+				var token = this.get('controllers.login').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
 				
+				/*
 				this.controllerFor('topic').set('topicoRespostas',tps);
 				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
@@ -523,10 +523,11 @@ App.TopicController = Ember.ObjectController.extend({
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
 				});
+				*/
 			}
 			else
 				alert("Faça Login para fazer upvote");
-			*/
+			
         },
        
         downvotecomment: function(id) {
