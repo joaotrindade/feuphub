@@ -34,6 +34,7 @@ module.exports = (function() {
 						{
 							connection.query("UPDATE Utilizador_Resposta SET upvote=0 WHERE UtilizadorKey = " + uID + " AND RespostaKey = " + tID + "", function(err, results3)
 							{
+								results['tipo'] = "retirou";
 								callback(err,results);
 							});
 						});
@@ -44,6 +45,7 @@ module.exports = (function() {
 						{
 							connection.query("UPDATE Utilizador_Resposta SET upvote=1,downvote=0 WHERE UtilizadorKey = " + uID + " AND RespostaKey = " + tID + "", function(err, results3)
 							{
+								results['tipo'] = "trocou";
 								callback(err,results);
 							});
 						});
@@ -54,6 +56,7 @@ module.exports = (function() {
 						{
 							connection.query("UPDATE Utilizador_Resposta SET upvote=1 WHERE UtilizadorKey = " + uID + " AND RespostaKey = " + tID + "", function(err, results3)
 							{
+								results['tipo'] = "inseriu";
 								callback(err,results);
 							});
 						});
@@ -66,6 +69,7 @@ module.exports = (function() {
 				{
 					connection.query("UPDATE Resposta SET upvote=upvote+1 WHERE id = " + tID + "", function(err, results)
 					{
+						results['tipo'] = "inseriu";
 						callback(err,results);
 					});
 				});
@@ -86,6 +90,7 @@ module.exports = (function() {
 						{
 							connection.query("UPDATE Utilizador_Resposta SET downvote=0 WHERE UtilizadorKey = " + uID + " AND RespostaKey = " + tID + "", function(err, results3)
 							{
+								results['tipo'] = "retirou";
 								callback(err,results);
 							});
 						});
@@ -96,6 +101,7 @@ module.exports = (function() {
 						{
 							connection.query("UPDATE Utilizador_Resposta SET downvote=1,upvote=0 WHERE UtilizadorKey = " + uID + " AND RespostaKey = " + tID + "", function(err, results3)
 							{
+								results['tipo'] = "trocou";
 								callback(err,results);
 							});
 						});
@@ -106,6 +112,7 @@ module.exports = (function() {
 						{
 							connection.query("UPDATE Utilizador_Resposta SET downvote=1 WHERE UtilizadorKey = " + uID + " AND RespostaKey = " + tID + "", function(err, results3)
 							{
+								results['tipo'] = "inseriu";
 								callback(err,results);
 							});
 						});
@@ -118,6 +125,7 @@ module.exports = (function() {
 				{
 					connection.query("UPDATE Resposta SET downvote=downvote+1 WHERE id = " + tID + "", function(err, results)
 					{
+						results['tipo'] = "inseriu";
 						callback(err,results);
 					});
 				});
