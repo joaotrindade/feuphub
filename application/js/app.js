@@ -493,7 +493,8 @@ App.TopicController = Ember.ObjectController.extend({
 						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
 						
 						tps.forEach(function(item){ 
-							if(response.results.tipo == "inseriu")
+							alert(item.id + " -> " + item.difference);
+							/*if(response.results.tipo == "inseriu")
 							{
 								item.set("difference", item.difference+1);
 							}
@@ -504,7 +505,7 @@ App.TopicController = Ember.ObjectController.extend({
 							else if(response.results.tipo == "trocou")
 							{
 								item.set("difference", item.difference+2);
-							}
+							}*/
 							
 						});
 						/*for(i=0;i<tps.length;i++) {
