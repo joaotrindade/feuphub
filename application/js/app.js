@@ -131,7 +131,7 @@ App.MieicController = Ember.ObjectController.extend({
 });
 
 App.CursosController = Ember.ObjectController.extend({
-	needs['login'],
+	needs:['login'],
 	queryParams: ['codigo'],
 	codigo:null,
 	topicscurso:null,
