@@ -476,9 +476,9 @@ App.TopicController = Ember.ObjectController.extend({
             //alert("Fazer Upvote Ao Comentario com id = " + id);
 			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
-			var tps = this.topicoRespostas;
+			var tps = this.get("topicoRespostas");
 			
-			this.set('topicoRespostas', tps);
+			//this.set('topicoRespostas', tps);
 			//alert(usr);
 			
 			if(usr != null)
@@ -497,19 +497,19 @@ App.TopicController = Ember.ObjectController.extend({
 							{
 								if(response.results.tipo == "inseriu")
 								{
-									tps[i].difference = tps[i].difference + 1;
+									item.set("difference", tps[i].difference+1);
 								}
 								else if(response.results.tipo == "retirou")
 								{
-									tps[i].difference = tps[i].difference - 1;
+									item.set("difference", tps[i].difference-1);
 								}
 								else if(response.results.tipo == "trocou")
 								{
-									tps[i].difference = tps[i].difference + 2;
+									item.set("difference", tps[i].difference+2);
 								}
 									
 								//alert(tps);
-								self.set('topicoRespostas', tps);
+								//self.set('topicoRespostas', tps);
 								break;
 							}
 						}
