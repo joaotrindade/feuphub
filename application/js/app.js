@@ -473,13 +473,12 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         upvotecomment: function(id) {
-			this._super();
             //alert("Fazer Upvote Ao Comentario com id = " + id);
 			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			var tps = this.topicoRespostas;
 			
-			//this.set('topicoRespostas',null);
+			this.set('topicoRespostas', tps);
 			//alert(usr);
 			
 			if(usr != null)
@@ -510,7 +509,7 @@ App.TopicController = Ember.ObjectController.extend({
 								}
 									
 								//alert(tps);
-								self.set('topicoRespostas',tps);
+								self.set('topicoRespostas', tps);
 								break;
 							}
 						}
