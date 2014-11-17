@@ -188,8 +188,8 @@ App.CursosController = Ember.ObjectController.extend({
 		
 	getCursoTopics: function(){
 		var self = this;
+		this.set('topicscurso', null); 
 		this.set('codigo', this.get('codigo')); 
-		alert(this.codigo);
 		
 		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
 		
@@ -208,21 +208,33 @@ App.CursosController = Ember.ObjectController.extend({
 	actions: {
        
         upvotetopic: function(id) {
-            alert("Fazer Upvote Ao Topico com id = " + id);
+            //alert("Fazer Upvote Ao Topico com id = " + id);
+			var self = this;
 			
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			alert(usr);
 			if(usr != null)
 			{
 				var token = this.controllerFor('login').get('token');
+				
 				var apigo = "/api/database/topico/up/" + id;
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
 				  {
-						alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
-				  }
-				  else
+						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+						var tps = self.topicscurso;
+						
+						for(i=0;i<tps.length;i++) {
+							if( tps[i].id == id )
+							{
+								tps[i].difference = tps[i].difference + 1;
+								self.set('topicscurso', tps);
+								break;
+							}
+						}
+					}
+					else
 						alert("ALGO DEU MAL NO UPVOTE");
 				});
 			}
@@ -231,7 +243,8 @@ App.CursosController = Ember.ObjectController.extend({
         },
        
         downvotetopic: function(id) {
-            alert("Fazer Upvote Ao Topico com id = " + id);
+            //alert("Fazer Upvote Ao Topico com id = " + id);
+			var self = this;
 			
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			alert(usr);
@@ -243,7 +256,18 @@ App.CursosController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						alert("DOWNVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+						//alert("DOWNVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+						
+						var tps = self.topicscurso;
+						
+						for(i=0;i<tps.length;i++) {
+							if( tps[i].id == id )
+							{
+								tps[i].difference = tps[i].difference - 1;
+								self.set('topicscurso', tps);
+								break;
+							}
+						}
 				  }
 				  else
 						alert("ALGO DEU MAL NO DOWNVOTE");
@@ -436,7 +460,8 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         upvotecomment: function(id) {
-            alert("Fazer Upvote Ao Comentario com id = " + id);
+            //alert("Fazer Upvote Ao Comentario com id = " + id);
+			var self = this;
 			
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			alert(usr);
@@ -449,7 +474,17 @@ App.TopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+						var tps = self.topicoRespostas;
+						
+						for(i=0;i<tps.length;i++) {
+							if( tps[i].id == id )
+							{
+								tps[i].difference = tps[i].difference + 1;
+								self.set('topicoRespostas', tps);
+								break;
+							}
+						}
 				  }
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
@@ -460,7 +495,8 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         downvotecomment: function(id) {
-            alert("Fazer Upvote Ao Comentario com id = " + id);
+            //alert("Fazer Upvote Ao Comentario com id = " + id);
+			var self = this;
 			
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			alert(usr);
@@ -473,7 +509,17 @@ App.TopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+						var tps = self.topicoRespostas;
+						
+						for(i=0;i<tps.length;i++) {
+							if( tps[i].id == id )
+							{
+								tps[i].difference = tps[i].difference - 1;
+								self.set('topicoRespostas', tps);
+								break;
+							}
+						}
 				  }
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
