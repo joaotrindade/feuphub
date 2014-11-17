@@ -228,7 +228,13 @@ App.CursosController = Ember.ObjectController.extend({
 						for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
-								tps[i].difference = tps[i].difference + 1;
+								if(response.results.tipo == "inseriu")
+									tps[i].difference = tps[i].difference + 1;
+								else if(response.results.tipo == "retirou")
+									tps[i].difference = tps[i].difference - 1;
+								else if(response.results.tipo == "trocou")
+									tps[i].difference = tps[i].difference + 2;
+									
 								self.set('topicscurso', tps);
 								break;
 							}
@@ -263,7 +269,13 @@ App.CursosController = Ember.ObjectController.extend({
 						for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
-								tps[i].difference = tps[i].difference - 1;
+								if(response.results.tipo == "inseriu")
+									tps[i].difference = tps[i].difference - 1;
+								else if(response.results.tipo == "retirou")
+									tps[i].difference = tps[i].difference + 1;
+								else if(response.results.tipo == "trocou")
+									tps[i].difference = tps[i].difference - 2;
+									
 								self.set('topicscurso', tps);
 								break;
 							}
@@ -480,7 +492,13 @@ App.TopicController = Ember.ObjectController.extend({
 						for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
-								tps[i].difference = tps[i].difference + 1;
+								if(response.results.tipo == "inseriu")
+									tps[i].difference = tps[i].difference + 1;
+								else if(response.results.tipo == "retirou")
+									tps[i].difference = tps[i].difference - 1;
+								else if(response.results.tipo == "trocou")
+									tps[i].difference = tps[i].difference + 2;
+									
 								self.set('topicoRespostas', tps);
 								break;
 							}
@@ -515,7 +533,13 @@ App.TopicController = Ember.ObjectController.extend({
 						for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
-								tps[i].difference = tps[i].difference - 1;
+								if(response.results.tipo == "inseriu")
+									tps[i].difference = tps[i].difference - 1;
+								else if(response.results.tipo == "retirou")
+									tps[i].difference = tps[i].difference + 1;
+								else if(response.results.tipo == "trocou")
+									tps[i].difference = tps[i].difference - 2;
+									
 								self.set('topicoRespostas', tps);
 								break;
 							}
