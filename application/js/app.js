@@ -485,16 +485,16 @@ App.TopicController = Ember.ObjectController.extend({
 				var token = this.get('controllers.login').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
 				
-				alert(tps);
-				this.set('topicoRespostas',tps);
 				
-				/*
+				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
 				  {
+						alert(tps);
+						this.set('topicoRespostas',tps);
 						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
-						var tps = self.topicoRespostas;
+						/*var tps = self.topicoRespostas;
 						
 						for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
@@ -519,12 +519,11 @@ App.TopicController = Ember.ObjectController.extend({
 								self.set('topicoRespostas', tps);
 								break;
 							}
-						}
+						}*/
 				  }
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
 				});
-				*/
 			}
 			else
 				alert("Faça Login para fazer upvote");
