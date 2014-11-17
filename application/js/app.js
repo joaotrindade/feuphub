@@ -439,6 +439,7 @@ App.TopicController = Ember.ObjectController.extend({
 			if(tipo == "inseriu")
 			{
 				lala +=1;
+				item.difference = 100;
 				item.set('difference', lala);
 			}
 			else if(tipo == "retirou")
