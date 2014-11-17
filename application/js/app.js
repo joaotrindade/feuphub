@@ -494,18 +494,22 @@ App.TopicController = Ember.ObjectController.extend({
 						
 						tps.forEach(function(item){ 
 							alert(item.id + " -> " + item.difference);
-							/*if(response.results.tipo == "inseriu")
+							var lala = item.difference;
+							if(response.results.tipo == "inseriu")
 							{
-								item.set("difference", item.difference+1);
+								lala +=1;
+								item.set("difference", lala);
 							}
 							else if(response.results.tipo == "retirou")
 							{
-								item.set("difference", item.difference-1);
+								lala -=1;
+								item.set("difference", lala);
 							}
 							else if(response.results.tipo == "trocou")
 							{
-								item.set("difference", item.difference+2);
-							}*/
+								lala +=2;
+								item.set("difference", lala);
+							}
 							
 						});
 						/*for(i=0;i<tps.length;i++) {
