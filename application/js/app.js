@@ -389,6 +389,7 @@ App.LoginController = Ember.Controller.extend({
 });
 
 App.TopicController = Ember.ObjectController.extend({
+	needs: ['login'],
 	queryParams: ['topicoid'],
 	topicoid:null,
 	topicoDetails:null,
@@ -430,7 +431,7 @@ App.TopicController = Ember.ObjectController.extend({
 	
     actions: {
         subcomment: function() {
-         
+        
           var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
           //alert(usr);
           if(usr != null)
@@ -473,7 +474,7 @@ App.TopicController = Ember.ObjectController.extend({
        
         upvotecomment: function(id) {
             //alert("Fazer Upvote Ao Comentario com id = " + id);
-			var usr = this.controllerFor('login').get('usr');
+			var usr = this.get('controllers.login').get('usr');
 			var self = this;
 			var tps = this.topicoRespostas;
 			this.set('topicoRespostas',null);
