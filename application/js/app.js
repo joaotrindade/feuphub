@@ -212,7 +212,7 @@ App.CursosController = Ember.ObjectController.extend({
 			var self = this;
 			
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-			alert(usr);
+			//alert(usr);
 			if(usr != null)
 			{
 				var token = this.controllerFor('login').get('token');
@@ -253,7 +253,7 @@ App.CursosController = Ember.ObjectController.extend({
 			var self = this;
 			
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-			alert(usr);
+			//alert(usr);
 			if(usr != null)
 			{
 				var token = this.controllerFor('login').get('token');
@@ -432,7 +432,7 @@ App.TopicController = Ember.ObjectController.extend({
         subcomment: function() {
          
           var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-          alert(usr);
+          //alert(usr);
           if(usr != null)
           {
                         var text = document.getElementById("commentarea").value;
@@ -476,7 +476,7 @@ App.TopicController = Ember.ObjectController.extend({
 			var self = this;
 			
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-			alert(usr);
+			//alert(usr);
 			if(usr != null)
 			{
 				var token = this.controllerFor('login').get('token');
@@ -492,6 +492,7 @@ App.TopicController = Ember.ObjectController.extend({
 						for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
+								alert("ENCONTREI");
 								if(response.results.tipo == "inseriu")
 									tps[i].difference = tps[i].difference + 1;
 								else if(response.results.tipo == "retirou")
@@ -517,7 +518,7 @@ App.TopicController = Ember.ObjectController.extend({
 			var self = this;
 			
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-			alert(usr);
+			//alert(usr);
 			if(usr != null)
 			{
 				var token = this.controllerFor('login').get('token');
