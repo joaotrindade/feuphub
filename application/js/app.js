@@ -474,7 +474,11 @@ App.TopicController = Ember.ObjectController.extend({
         upvotecomment: function(id) {
             //alert("Fazer Upvote Ao Comentario com id = " + id);
 			var self = this;
+			var tps = this.topicoRespostas;
+			this.set('topicoRespostas',null);
 			
+			alert(tps);
+			/*
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			//alert(usr);
 			if(usr != null)
@@ -482,7 +486,6 @@ App.TopicController = Ember.ObjectController.extend({
 				var token = this.controllerFor('login').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
 				
-				var tipo = null;
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
@@ -511,14 +514,6 @@ App.TopicController = Ember.ObjectController.extend({
 								}
 									
 								self.set('topicoRespostas', tps);
-								
-								var cona = self.topicoRespostas;
-								for(x=0;x<cona.length;x++) {
-									if(cona[x].id == id)
-									{
-										alert(cona[x].difference);
-									}
-								}
 								break;
 							}
 						}
@@ -529,6 +524,7 @@ App.TopicController = Ember.ObjectController.extend({
 			}
 			else
 				alert("Faça Login para fazer upvote");
+				*/
         },
        
         downvotecomment: function(id) {
