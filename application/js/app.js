@@ -508,7 +508,7 @@ App.TopicController = Ember.ObjectController.extend({
 									tps[i].difference = tps[i].difference + 2;
 								}
 									
-								alert(tps);
+								//alert(tps);
 								self.set('topicoRespostas',tps);
 								break;
 							}
