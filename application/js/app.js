@@ -131,6 +131,7 @@ App.MieicController = Ember.ObjectController.extend({
 });
 
 App.CursosController = Ember.ObjectController.extend({
+	needs['login'],
 	queryParams: ['codigo'],
 	codigo:null,
 	topicscurso:null,
@@ -208,37 +209,39 @@ App.CursosController = Ember.ObjectController.extend({
 	actions: {
        
         upvotetopic: function(id) {
-            //alert("Fazer Upvote Ao Topico com id = " + id);
+            var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-			//alert(usr);
 			if(usr != null)
 			{
-				var token = this.controllerFor('login').get('token');
-				
+				var token = this.get('controllers.login').get('token');
 				var apigo = "/api/database/topico/up/" + id;
+				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
-				  if (response.success)
-				  {
-						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
-						var tps = self.topicscurso;
-						
-						for(i=0;i<tps.length;i++) {
-							if( tps[i].id == id )
+					if (response.success)
+					{
+						self.get('topicscurso').forEach(function(item){ 
+
+							var temporary = item.difference;
+							
+							if(response.results.tipo == "inseriu" && item.id == id)
 							{
-								if(response.results.tipo == "inseriu")
-									tps[i].difference = tps[i].difference + 1;
-								else if(response.results.tipo == "retirou")
-									tps[i].difference = tps[i].difference - 1;
-								else if(response.results.tipo == "trocou")
-									tps[i].difference = tps[i].difference + 2;
-									
-								self.set('topicscurso', tps);
-								break;
+								temporary +=1;
+								Ember.set(item, "difference",	temporary); 
 							}
-						}
+							else if(response.results.tipo == "retirou" && item.id == id)
+							{
+								temporary -=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "trocou" && item.id == id)
+							{
+								temporary +=2;
+								Ember.set(item, "difference",	temporary); 
+							}
+							
+						});
 					}
 					else
 						alert("ALGO DEU MAL NO UPVOTE");
@@ -249,37 +252,39 @@ App.CursosController = Ember.ObjectController.extend({
         },
        
         downvotetopic: function(id) {
-            //alert("Fazer Upvote Ao Topico com id = " + id);
+            var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
-			
-			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-			//alert(usr);
+
 			if(usr != null)
 			{
-				var token = this.controllerFor('login').get('token');
+				var token = this.get('controllers.login').get('token');
 				var apigo = "/api/database/topico/down/" + id;
+				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
 				  {
-						//alert("DOWNVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
-						
-						var tps = self.topicscurso;
-						
-						for(i=0;i<tps.length;i++) {
-							if( tps[i].id == id )
+						self.get('topicscurso').forEach(function(item){ 
+
+							var temporary = item.difference;
+							
+							if(response.results.tipo == "inseriu" && item.id == id)
 							{
-								if(response.results.tipo == "inseriu")
-									tps[i].difference = tps[i].difference - 1;
-								else if(response.results.tipo == "retirou")
-									tps[i].difference = tps[i].difference + 1;
-								else if(response.results.tipo == "trocou")
-									tps[i].difference = tps[i].difference - 2;
-									
-								self.set('topicscurso', tps);
-								break;
+								temporary -=1;
+								Ember.set(item, "difference",	temporary); 
 							}
-						}
+							else if(response.results.tipo == "retirou" && item.id == id)
+							{
+								temporary +=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "trocou" && item.id == id)
+							{
+								temporary -=2;
+								Ember.set(item, "difference",	temporary); 
+							}
+							
+						});
 				  }
 				  else
 						alert("ALGO DEU MAL NO DOWNVOTE");
@@ -290,104 +295,7 @@ App.CursosController = Ember.ObjectController.extend({
         }
     }
 });
-  
-App.LoginController = Ember.Controller.extend({
-
-  reset: function() {
-    this.setProperties({
-      username: "",
-      password: "",
-	  loginSuccess: "",
-      errorMessage: ""
-    });
-  },
-
-  token: localStorage.token,
-  tokenChanged: function() {
-    localStorage.token = this.get('token');
-  }.observes('token'),
-  
-  usr: localStorage.usr,
-  usrChanged: function() {
-    localStorage.usr = this.get('usr');
-  }.observes('usr'),
-
-  login: function() {
-
-    var self = this, data2 = this.getProperties('username', 'password');
-
-    // Clear out any error messages.
-    this.set('errorMessage', null);
-	$('#bttn').click(function(event) {   
-     event.preventDefault(event);  
-	});	
-		
-		$('#spinner').fadeIn(100);
-		$('#spinner #statusText').text("Validating your login with SIFEUP");
-		
-		var username = this.get('username');
-		var password = this.get('password');
-		var userId;
-		var datan;
-		setTimeout(function(){
-
-			$.ajax({
-				type: "POST",
-				url: "/api/sigarra/login",
-				data: {'username':username,'password':password},
-				async: false,
-				success: function(data, textStatus, jqXHR)
-				{
-					if(data.headers["set-cookie"].length >1)
-					{
-						//set sigarra cookies
-						document.cookie=data.headers["set-cookie"][0];
-						document.cookie=data.headers["set-cookie"][1];
-						$('#spinner #statusText').text("Login successful!");
-						
-						$.get('/api/sigarra/getPct_id').then(function(response){
-							self.set('errorMessage', response.message);
-							if(response.statusCode = 200){
-								userId = parserLogin(response.body);
-								self.set('usr',userId);
-							}
-						}).then(function(){
-							self.set('loginSuccess', "able");
-							console.log("User identifier: "+ userId+"\n");
-							datan = self.getProperties('username', 'password','loginSuccess');
-							setTimeout(function(){ getCourses(username);},1000);
-						}).then(function(){
-							$.post('/api/auth/authenticate', datan).then(function(response) {
-							  self.set('errorMessage', response.message);
-							  if (response.success) {
-								//alert('Login succeeded!');
-								//alert(response.token);
-								self.set('token', response.token);
-								//self.set('usr',self.get('username'));
-								usrname = self.get('username');
-								//alert(self.get('token'));
-								var attemptedTransition = self.get('attemptedTransition');
-								if (attemptedTransition) {
-								  attemptedTransition.retry();
-								  self.set('attemptedTransition', null);
-								} else {
-								  // Redirect to 'articles' by default.
-								  self.transitionToRoute('index');
-								}
-							  }
-							});
-						});
-					}
-					else{
-						$('#spinner #statusText').text("incorrect sifeup login credentials");
-						setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
-					}
-				}
-			});
-		}, 1000);
-  }
-});
-
+ 
 App.TopicController = Ember.ObjectController.extend({
 	needs: ['login'],
 	queryParams: ['topicoid'],
@@ -517,47 +425,148 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         downvotecomment: function(id) {
-            //alert("Fazer Upvote Ao Comentario com id = " + id);
+			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-			//alert(usr);
 			if(usr != null)
 			{
-				var token = this.controllerFor('login').get('token');
+				var token = this.get('controllers.login').get('token');
 				var apigo = "/api/database/resposta/down/" + id;
 				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
 				  {
-						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
-						var tps = self.topicoRespostas;
-						
-						for(i=0;i<tps.length;i++) {
-							if( tps[i].id == id )
+						self.get('topicoRespostas').forEach(function(item){ 
+
+							var temporary = item.difference;
+							
+							if(response.results.tipo == "inseriu" && item.id == id)
 							{
-								if(response.results.tipo == "inseriu")
-									tps[i].difference = tps[i].difference - 1;
-								else if(response.results.tipo == "retirou")
-									tps[i].difference = tps[i].difference + 1;
-								else if(response.results.tipo == "trocou")
-									tps[i].difference = tps[i].difference - 2;
-									
-								self.set('topicoRespostas', tps);
-								break;
+								temporary -=1;
+								Ember.set(item, "difference",	temporary); 
 							}
-						}
+							else if(response.results.tipo == "retirou" && item.id == id)
+							{
+								temporary +=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "trocou" && item.id == id)
+							{
+								temporary -=2;
+								Ember.set(item, "difference",	temporary); 
+							}
+							
+						});
 				  }
 				  else
-						alert("ALGO DEU MAL NO UPVOTE");
+						alert("ALGO DEU MAL NO DOWNVOTE");
 				});
 			}
 			else
-				alert("Faça Login para fazer upvote");
+				alert("Faça Login para fazer downvote");
         }
     }
 });
+
+App.LoginController = Ember.Controller.extend({
+
+  reset: function() {
+    this.setProperties({
+      username: "",
+      password: "",
+	  loginSuccess: "",
+      errorMessage: ""
+    });
+  },
+
+  token: localStorage.token,
+  tokenChanged: function() {
+    localStorage.token = this.get('token');
+  }.observes('token'),
+  
+  usr: localStorage.usr,
+  usrChanged: function() {
+    localStorage.usr = this.get('usr');
+  }.observes('usr'),
+
+  login: function() {
+
+    var self = this, data2 = this.getProperties('username', 'password');
+
+    // Clear out any error messages.
+    this.set('errorMessage', null);
+	$('#bttn').click(function(event) {   
+     event.preventDefault(event);  
+	});	
+		
+		$('#spinner').fadeIn(100);
+		$('#spinner #statusText').text("Validating your login with SIFEUP");
+		
+		var username = this.get('username');
+		var password = this.get('password');
+		var userId;
+		var datan;
+		setTimeout(function(){
+
+			$.ajax({
+				type: "POST",
+				url: "/api/sigarra/login",
+				data: {'username':username,'password':password},
+				async: false,
+				success: function(data, textStatus, jqXHR)
+				{
+					if(data.headers["set-cookie"].length >1)
+					{
+						//set sigarra cookies
+						document.cookie=data.headers["set-cookie"][0];
+						document.cookie=data.headers["set-cookie"][1];
+						$('#spinner #statusText').text("Login successful!");
+						
+						$.get('/api/sigarra/getPct_id').then(function(response){
+							self.set('errorMessage', response.message);
+							if(response.statusCode = 200){
+								userId = parserLogin(response.body);
+								self.set('usr',userId);
+							}
+						}).then(function(){
+							self.set('loginSuccess', "able");
+							console.log("User identifier: "+ userId+"\n");
+							datan = self.getProperties('username', 'password','loginSuccess');
+							setTimeout(function(){ getCourses(username);},1000);
+						}).then(function(){
+							$.post('/api/auth/authenticate', datan).then(function(response) {
+							  self.set('errorMessage', response.message);
+							  if (response.success) {
+								//alert('Login succeeded!');
+								//alert(response.token);
+								self.set('token', response.token);
+								//self.set('usr',self.get('username'));
+								usrname = self.get('username');
+								//alert(self.get('token'));
+								var attemptedTransition = self.get('attemptedTransition');
+								if (attemptedTransition) {
+								  attemptedTransition.retry();
+								  self.set('attemptedTransition', null);
+								} else {
+								  // Redirect to 'articles' by default.
+								  self.transitionToRoute('index');
+								}
+							  }
+							});
+						});
+					}
+					else{
+						$('#spinner #statusText').text("incorrect sifeup login credentials");
+						setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
+					}
+				}
+			});
+		}, 1000);
+  }
+});
+
+
 
 /*------------------------------------------------------------------------------------------*/
 
