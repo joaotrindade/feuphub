@@ -208,11 +208,47 @@ App.CursosController = Ember.ObjectController.extend({
 	actions: {
        
         upvotetopic: function(id) {
-            alert("Fazer Upvote Ao Topico com id= " + id);
+            alert("Fazer Upvote Ao Topico com id = " + id);
+			
+			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+			alert(usr);
+			if(usr != null)
+			{
+				var apigo = "/api/database/topico/up/";
+				$.post(apigo, {"token":token, "idUser":usr, "idTopico":id}).then( function(response)
+				{
+				  if (response.success)
+				  {
+						alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+				  }
+				  else
+						alert("ALGO DEU MAL NO UPVOTE");
+				});
+			}
+			else
+				alert("Faça Login para fazer upvote");
         },
        
         downvotetopic: function(id) {
-            alert("Fazer Upvote Ao Topico com id= " + id);
+            alert("Fazer Upvote Ao Topico com id = " + id);
+			
+			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+			alert(usr);
+			if(usr != null)
+			{
+				var apigo = "/api/database/topico/down/";
+				$.post(apigo, {"token":token, "idUser":usr, "idTopico":id}).then( function(response)
+				{
+				  if (response.success)
+				  {
+						alert("DOWNVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+				  }
+				  else
+						alert("ALGO DEU MAL NO DOWNVOTE");
+				});
+			}
+			else
+				alert("Faça Login para fazer downvote");
         }
     }
 });
@@ -397,11 +433,47 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         upvotecomment: function(id) {
-            alert("Fazer Upvote Ao Comentario com id= " + id);
+            alert("Fazer Upvote Ao Comentario com id = " + id);
+			
+			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+			alert(usr);
+			if(usr != null)
+			{
+				var apigo = "/api/database/resposta/up/";
+				$.post(apigo, {"token":token, "idUser":usr, "idTopico":id}).then( function(response)
+				{
+				  if (response.success)
+				  {
+						alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+				  }
+				  else
+						alert("ALGO DEU MAL NO UPVOTE");
+				});
+			}
+			else
+				alert("Faça Login para fazer upvote");
         },
        
         downvotecomment: function(id) {
-            alert("Fazer Upvote Ao Comentario com id= " + id);
+            alert("Fazer Upvote Ao Comentario com id = " + id);
+			
+			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+			alert(usr);
+			if(usr != null)
+			{
+				var apigo = "/api/database/resposta/down/";
+				$.post(apigo, {"token":token, "idUser":usr, "idTopico":id}).then( function(response)
+				{
+				  if (response.success)
+				  {
+						alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
+				  }
+				  else
+						alert("ALGO DEU MAL NO UPVOTE");
+				});
+			}
+			else
+				alert("Faça Login para fazer upvote");
         }
     }
 });
