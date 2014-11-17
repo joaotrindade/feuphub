@@ -162,17 +162,32 @@ module.exports = (function() {
 });
 
 	api.post('/:typeID/:topicID', function(req, res) {
-		console.log("aqui");
-		var body = req.body,
-		  token = body.token,
-		  uID = body.idUser,
-		  type = req.params.typeID,
-		  tID = req.params.topicID;
-		  console.log(type);
-		  console.log(uID);
-		  console.log(tID);
-		  if(type=="up") {
-				upvoteTopico(uID,tID,function(err,result) {
+		if (auth.validTokenProvided(req, res)) {
+			var body = req.body,
+			  uID = body.idUser,
+			  type = req.params.typeID,
+			  tID = req.params.topicID;
+			  if(type=="up") {
+					upvoteTopico(uID,tID,function(err,result) {
+						if(err)
+						{
+							console.log(err);
+							res.send({
+								success: false,
+								results: err
+							});
+						}
+						else {
+							console.log(result);
+							res.send({
+								success: true,
+								results: result
+							});
+						}
+					});
+			  }
+			  else if(type=="down") {
+					downvoteTopico(uID,tID,function(err,result) {
 					if(err)
 					{
 						console.log(err);
@@ -189,26 +204,8 @@ module.exports = (function() {
 						});
 					}
 				});
-		  }
-		  else if(type=="down") {
-				downvoteTopico(uID,tID,function(err,result) {
-				if(err)
-				{
-					console.log(err);
-					res.send({
-						success: false,
-						results: err
-					});
-				}
-				else {
-					console.log(result);
-					res.send({
-						success: true,
-						results: result
-					});
-				}
-			});
-		  }
+			  }
+		}
 });
    
     return {api: api, start: start};
