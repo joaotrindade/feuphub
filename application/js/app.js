@@ -478,6 +478,7 @@ App.TopicController = Ember.ObjectController.extend({
 			this.set('topicoRespostas',null);
 			
 			alert(tps);
+			this.set('topicoRespostas',tps);
 			/*
 			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 			//alert(usr);
