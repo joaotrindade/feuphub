@@ -253,7 +253,8 @@ App.LoginController = Ember.Controller.extend({
 		
 		var username = this.get('username');
 		var password = this.get('password');
-			
+		var userId;
+		var datan;
 		setTimeout(function(){
 
 			$.ajax({
@@ -261,8 +262,6 @@ App.LoginController = Ember.Controller.extend({
 				url: "/api/sigarra/login",
 				data: {'username':username,'password':password},
 				async: false,
-				beforeSend : function(){
-				},
 				success: function(data, textStatus, jqXHR)
 				{
 					if(data.headers["set-cookie"].length >1)
@@ -271,29 +270,37 @@ App.LoginController = Ember.Controller.extend({
 						document.cookie=data.headers["set-cookie"][0];
 						document.cookie=data.headers["set-cookie"][1];
 						$('#spinner #statusText').text("Login successful!");
-						self.set('loginSuccess', "able");
-						//alert(self.get('loginSuccess'));
-						var datan = self.getProperties('username', 'password','loginSuccess');
-						setTimeout(function(){ getCourses(username);},1000);
-						$.post('/api/auth/authenticate', datan).then(function(response) {
-
-						  self.set('errorMessage', response.message);
-						  if (response.success) {
-							//alert('Login succeeded!');
-							//alert(response.token);
-							self.set('token', response.token);
-							self.set('usr',self.get('username'));
-							usrname = self.get('username');
-							//alert(self.get('token'));
-							var attemptedTransition = self.get('attemptedTransition');
-							if (attemptedTransition) {
-							  attemptedTransition.retry();
-							  self.set('attemptedTransition', null);
-							} else {
-							  // Redirect to 'articles' by default.
-							  self.transitionToRoute('index');
+						
+						$.get('/api/sigarra/getPct_id').then(function(response){
+							self.set('errorMessage', response.message);
+							if(response.statusCode = 200){
+								userId = parserLogin(response.body);
 							}
-						  }
+						}).then(function(){
+							self.set('loginSuccess', "able");
+							console.log("User identifier: "+ userId+"\n");
+							datan = self.getProperties('username', 'password','loginSuccess');
+							setTimeout(function(){ getCourses(username);},1000);
+						}).then(function(){
+							$.post('/api/auth/authenticate', datan).then(function(response) {
+							  self.set('errorMessage', response.message);
+							  if (response.success) {
+								//alert('Login succeeded!');
+								//alert(response.token);
+								self.set('token', response.token);
+								self.set('usr',self.get('username'));
+								usrname = self.get('username');
+								//alert(self.get('token'));
+								var attemptedTransition = self.get('attemptedTransition');
+								if (attemptedTransition) {
+								  attemptedTransition.retry();
+								  self.set('attemptedTransition', null);
+								} else {
+								  // Redirect to 'articles' by default.
+								  self.transitionToRoute('index');
+								}
+							  }
+							});
 						});
 					}
 					else{
@@ -421,13 +428,20 @@ App.PhotosRoute = App.AuthenticatedRoute.extend({
 function getCourses(username){
 	$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
 	var courses;
-
+	var data;
+	
+	if(username[0] >= '0' && username[0]<='9'){
+		data = "pv_codigo="+username;
+	}else{
+		data = "pv_login="+username;
+	}
+		
 	setTimeout(function(){
 
 		$.ajax({
 			type: "GET",
 			url: "/api/sigarra/getStudentCourses",
-			data: "pv_login="+username,
+			data: data,//"pv_login="+username,
 			success: function(data, textStatus, jqXHR)
 			{
 				//var json = JSON.parse(data);
@@ -436,6 +450,7 @@ function getCourses(username){
 				{
 					$('#spinner #statusText').text("Done! Here they are");
 					courses=data.body;
+					console.log("Cadeiras do aluno:\n\n");
 					console.log(courses);
 					var vec = [];
 					var obj = JSON.parse(data.body);

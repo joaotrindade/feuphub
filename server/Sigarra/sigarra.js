@@ -35,10 +35,11 @@ module.exports = (function() {
 		form: {'p_address': 'WEB_PAGE.INICIAL'}
 	}
 	
-	var urlStudentCourses = "https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas_login";
-
+	//						 https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas_login
+	var urlStudentCourses = "https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas";
+	
 	var studentCourses = {
-		url: 'https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas_login',
+		url: 'https://sigarra.up.pt/feup/pt/mob_fest_geral.ucurr_aprovadas',
 		method: 'GET',
 		headers: headers,
 	}
@@ -63,9 +64,33 @@ module.exports = (function() {
 		
     });
 	
+	api.get('/getPct_id', function(req, res) {
+		headers["Cookie"] = req.headers.cookie;
+		
+		// Start the request
+		request(homePage, function (error, response, body) {
+			if (!error && response.statusCode == 200 && response.headers["set-cookie"][0]!== undefined) {
+				http_session = response.headers["set-cookie"][0];
+				headers["Cookie"] = "";
+				headers["Cookie"] = http_session+" "+si_session+" "+si_security;
+				res.send(response);
+			}
+			else{
+				res.send(response);
+			}
+			resetCookies();
+		})
+	});
+	
 	api.get('/getStudentCourses',function(req,res){
-
-		studentCourses.url += "?pv_login=" + req.query.pv_login;
+		
+		if(req.query.pv_login){
+			studentCourses.url += "_login?pv_login=" + req.query.pv_login;
+		}
+		else if(req.query.pv_codigo){
+			studentCourses.url += "?pv_codigo=" + req.query.pv_codigo;
+		}
+		
 		headers["Cookie"] = req.headers.cookie;
 		
 		// Start the request
