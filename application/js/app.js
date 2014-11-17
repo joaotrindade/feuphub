@@ -440,12 +440,13 @@ App.TopicController = Ember.ObjectController.extend({
 			{
 				lala +=1;
 				item.difference = 100;
-				item.set('difference', lala);
+				//item.set('difference', lala);
 			}
 			else if(tipo == "retirou")
 			{
 				lala -=1;
-				item.set('difference', lala);
+				//item.set('difference', lala);
+				item.difference = 101;
 			}
 			else if(tipo == "trocou")
 			{
