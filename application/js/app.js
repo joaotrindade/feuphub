@@ -478,7 +478,7 @@ App.TopicController = Ember.ObjectController.extend({
 			var self = this;
 			var tps = this.topicoRespostas;
 			
-			//this.set('topicoRespostas',null);
+			this.set('topicoRespostas',null);
 			//alert(usr);
 			
 			if(usr != null)
