@@ -485,9 +485,10 @@ App.TopicController = Ember.ObjectController.extend({
 				var token = this.get('controllers.login').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
 				
-				/*
-				this.controllerFor('topic').set('topicoRespostas',tps);
+			
+				this.get('controllers.topic').set('topicoRespostas',tps);
 				
+				/*
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
 				{
 				  if (response.success)
