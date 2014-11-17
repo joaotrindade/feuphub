@@ -516,7 +516,7 @@ App.TopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						self.updateData(id,response.results.tipo);
+						self.updateScore(id,response.results.tipo);
 						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
 				  }
 				  else
