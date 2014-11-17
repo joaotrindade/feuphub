@@ -491,8 +491,23 @@ App.TopicController = Ember.ObjectController.extend({
 				  if (response.success)
 				  {
 						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
-
-						for(i=0;i<tps.length;i++) {
+						
+						tps.forEach(function(item){ 
+							if(response.results.tipo == "inseriu")
+							{
+								item.set("difference", item.difference+1);
+							}
+							else if(response.results.tipo == "retirou")
+							{
+								item.set("difference", item.difference-1);
+							}
+							else if(response.results.tipo == "trocou")
+							{
+								item.set("difference", item.difference+2);
+							}
+							
+						});
+						/*for(i=0;i<tps.length;i++) {
 							if( tps[i].id == id )
 							{
 								if(response.results.tipo == "inseriu")
@@ -512,7 +527,7 @@ App.TopicController = Ember.ObjectController.extend({
 								//self.set('topicoRespostas', tps);
 								break;
 							}
-						}
+						}*/
 				  }
 				  else
 						alert("ALGO DEU MAL NO UPVOTE");
