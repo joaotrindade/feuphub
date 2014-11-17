@@ -430,7 +430,7 @@ App.TopicController = Ember.ObjectController.extend({
 	},
 	
 	updateScore:function(id,tipo){
-		
+		alert("LOL");
 		tps.forEach(function(item){ 
 			
 			alert(item.id + " -> " + item.difference);
