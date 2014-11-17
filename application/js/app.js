@@ -492,7 +492,7 @@ App.TopicController = Ember.ObjectController.extend({
 				  if (response.success)
 				  {
 						alert(tps);
-						this.set('topicoRespostas',tps);
+						self.set('topicoRespostas',tps);
 						//alert("UPVOTE FEITO!, REFRESH PARA VERIFICAR, TODO: ACTUALIZAR SEM REFRESH"); // TODO: ACTUALIZAR CONTAGEM SEM FAZER REFRESH
 						/*var tps = self.topicoRespostas;
 						
