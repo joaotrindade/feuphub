@@ -431,7 +431,7 @@ App.TopicController = Ember.ObjectController.extend({
 	
 	updateScore:function(id,tipo){
 		alert("LOL");
-		tps.forEach(function(item){ 
+		this.get('topicoRespostas').forEach(function(item){ 
 			
 			alert(item.id + " -> " + item.difference);
 			var lala = item.difference;
