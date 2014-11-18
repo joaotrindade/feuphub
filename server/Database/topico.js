@@ -8,14 +8,14 @@ module.exports = (function() {
 	};
 	
 	function getTopicos(courseID,callback){
-		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.CursoKey like '" + courseID + "'", function(err, results)
+		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.CursoKey like '" + courseID + "' ORDER BY difference desc", function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function getTopicoByID(tID,callback){
-		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.id = " + tID + "", function(err, results)
+		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.id = " + tID + " ORDER BY difference desc", function(err, results)
 		{
 			callback(err,results);
 		});
