@@ -59,7 +59,7 @@ module.exports = (function() {
 
 	api.get('/:sigla', function(req, res) {
         var sigla = req.params.sigla;
-		getAll(sigla,function(err,results)
+		getOne(sigla,function(err,results)
 		{
 			if(err)
 				res.send({
