@@ -1059,3 +1059,89 @@ cursor: pointer;
 	padding-top: 5px;
 	font-size: smaller;
 }
+
+/* CREATE TOPIC --------------------------------------------------------------------------------------- */
+
+.midpage_create
+{
+	width: 800px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.midpage_create .create_title
+{
+	margin-top: 20px;
+	width: 800px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.midpage_create .create_title .create_top_title
+{
+	font-family: EXOB;
+	font-size:20px;
+	color:rgb(24,152,231);
+	text-align:center;
+}
+
+.midpage_create .create_title .create_down_title
+{
+	margin-top: 2px;
+	font-family: EXO;
+	font-size:15px;
+	color:rgb(76,85,87);
+	text-align:center;
+}
+
+.midpage_create .create_options .option
+{	
+	margin-top: 20px;
+	min-height: 100px;
+	border-bottom: 1px solid rgb(235,236,236);
+}
+
+.midpage_create .create_options .option .option_title
+{	
+	float: left;
+	width: 170px;
+	height: 20px;
+	margin-top:45px;
+	font-family: EXO;
+	font-size:15px;
+	color:rgb(76,85,87);
+}
+.midpage_create .create_options .option .option_more
+{	
+	display:inline-block;
+	width: 170px;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo
+{	
+	width: 150px;
+	margin-top: 30px;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .question_img
+{	
+	float:left;
+	height: 50px;
+	width: 50px;
+	background: url(../images/Misc/question.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center center;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .option_tipo_text
+{	
+	float: left;
+	font-family: EXO;
+	font-size:15px;
+	color:rgb(76,85,87);
+	margin-top: 15px;
+	margin-left: 10px;
+}

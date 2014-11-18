@@ -8,6 +8,7 @@ App.Router.map(function() {
   this.resource('topic');
   this.resource('login');
   this.resource('cursos');
+  this.resource('createTopic');
   this.route('articles');
   this.route('photos');
   this.route('credentials');
