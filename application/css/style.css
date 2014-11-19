@@ -1068,6 +1068,7 @@ cursor: pointer;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	padding-bottom:151px;
 }
 
 .midpage_create .create_title
@@ -1096,6 +1097,11 @@ cursor: pointer;
 	text-align:center;
 }
 
+.midpage_create .create_options
+{
+	margin-top: 15px;
+}
+
 .midpage_create .create_options .option
 {	
 	margin-top: 20px;
@@ -1108,7 +1114,7 @@ cursor: pointer;
 	float: left;
 	width: 170px;
 	height: 20px;
-	margin-top:45px;
+	margin-top:30px;
 	font-family: EXO;
 	font-size:15px;
 	color:rgb(76,85,87);
@@ -1116,13 +1122,15 @@ cursor: pointer;
 .midpage_create .create_options .option .option_more
 {	
 	display:inline-block;
-	width: 170px;
 }
 
 .midpage_create .create_options .option .option_more .option_tipo
-{	
+{
+	display:inline-block;
 	width: 150px;
-	margin-top: 30px;
+	height: 50px;
+	margin-top: 15px;
+	margin-left: 20px;
 }
 
 .midpage_create .create_options .option .option_more .option_tipo .question_img
@@ -1136,6 +1144,79 @@ cursor: pointer;
 	background-position:center center;
 }
 
+.midpage_create .create_options .option .option_more .option_tipo .news_img
+{	
+	float:left;
+	height: 50px;
+	width: 50px;
+	background: url(../images/Misc/news.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center center;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .poll_img
+{	
+	float:left;
+	height: 50px;
+	width: 50px;
+	background: url(../images/Misc/statistics.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center center;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .question_img_bw
+{	
+	float:left;
+	height: 50px;
+	width: 50px;
+	background: url(../images/Misc/question_bw.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center center;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .question_img_bw:hover
+{
+	background: url(../images/Misc/question.png);
+	cursor:pointer;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .news_img_bw
+{	
+	float:left;
+	height: 50px;
+	width: 50px;
+	background: url(../images/Misc/news_bw.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center center;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .news_img_bw:hover
+{	
+	background: url(../images/Misc/news.png);
+	cursor:pointer;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .poll_img_bw
+{	
+	float:left;
+	height: 50px;
+	width: 50px;
+	background: url(../images/Misc/statistics_bw.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center center;
+}
+
+.midpage_create .create_options .option .option_more .option_tipo .poll_img_bw:hover
+{	
+	background: url(../images/Misc/statistics.png);
+	cursor:pointer;
+}
+
 .midpage_create .create_options .option .option_more .option_tipo .option_tipo_text
 {	
 	float: left;
@@ -1145,3 +1226,31 @@ cursor: pointer;
 	margin-top: 15px;
 	margin-left: 10px;
 }
+
+#createtopic_title
+{
+	display:inline-block;
+	width: 500px;
+	height: 25px;
+	line-height: 25px;
+	margin-top: 25px;
+	resize:none;
+	
+	font-family: EXO;
+	font-size: 13px;
+}
+
+#createtopic_description
+{
+	display:inline-block;
+	width: 500px;
+	max-width: 500px;
+	height: 150px;
+	margin-top: 25px;
+	
+	font-family: EXO;
+	font-size: 13px;
+	
+	margin-bottom: 25px;
+}
+

@@ -841,7 +841,7 @@
 	</div>
   </script>
   
-  <script type="text/x-handlebars" id="createTopic">
+  <script type="text/x-handlebars" id="createtopic">
 	
 	<div class="midpage_create">
 		<div class="create_title">
@@ -862,26 +862,51 @@
 				
 				<div class="option_more">
 					<div class="option_tipo">
+						{{#if isQuestion}}
 						<div class="question_img"></div>
+						{{else}}
+						<div {{action 'changetipo' 1}} class="question_img_bw"></div>
+						{{/if}}
 						<div class="option_tipo_text">Pergunta</div>
+					</div>
+					
+					<div class="option_tipo">
+						{{#if isNews}}
+						<div class="news_img"></div>
+						{{else}}
+						<div {{action 'changetipo' 2}} class="news_img_bw"></div>
+						{{/if}}
+						<div class="option_tipo_text">Notícia</div>
+					</div>
+					
+					<div class="option_tipo">
+						{{#if isPoll}}
+						<div class="poll_img"></div>
+						{{else}}
+						<div {{action 'changetipo' 3}} class="poll_img_bw"></div>
+						{{/if}}
+						<div class="option_tipo_text">Inquérito</div>
 					</div>
 				</div>
 			</div>
 			
 			<div class="option">
 				<div class="option_title">
-					
+					Título
 				</div>
 				
 				<div class="option_more">
+					<textarea maxlength="140" rows="1" id="createtopic_title"></textarea>
 				</div>
 			</div>
 			
 			<div class="option">
 				<div class="option_title">
+					Descrição
 				</div>
 				
 				<div class="option_more">
+					<textarea maxlength="1024" id="createtopic_description"></textarea>
 				</div>
 			</div>
 		</div>

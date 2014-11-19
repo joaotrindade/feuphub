@@ -8,7 +8,7 @@ App.Router.map(function() {
   this.resource('topic');
   this.resource('login');
   this.resource('cursos');
-  this.resource('createTopic');
+  this.resource('createtopic');
   this.route('articles');
   this.route('photos');
   this.route('credentials');
@@ -92,6 +92,12 @@ App.CadeirasRoute = App.AuthenticatedRoute.extend({
 App.TopicRoute = Ember.Route.extend({
   setupController: function(controller, context) {
     controller.getData();
+  }
+});
+
+App.CreatetopicRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.initialCreateTopic();
   }
 });
 
@@ -468,6 +474,48 @@ App.TopicController = Ember.ObjectController.extend({
 				alert("Faça Login para fazer downvote");
         }
     }
+});
+
+App.CreatetopicController = Ember.ObjectController.extend({
+	isQuestion: false,
+	isNews: false,
+	isPoll:false,
+	
+	initialCreateTopic: function(){
+		this.set('isQuestion', true);
+		this.set('isNews', false);		
+		this.set('isPoll', false);
+	},
+	
+	actions: {
+       
+        changetipo: function(tipo) {
+            if(tipo==1)
+			{
+				this.set('isQuestion', true);
+				this.set('isNews', false);		
+				this.set('isPoll', false);
+			}
+			else if(tipo==2)
+			{
+				this.set('isQuestion', false);
+				this.set('isNews', true);		
+				this.set('isPoll', false);
+			}
+			else if(tipo==3)
+			{
+				this.set('isQuestion', false);
+				this.set('isNews', false);		
+				this.set('isPoll', true);
+			}
+        },
+       
+        downvotetopic: function(id) {
+            alert("Fazer Upvote Ao Topico com id= " + id);
+        }
+    }
+	
+	
 });
 
 App.LoginController = Ember.Controller.extend({
