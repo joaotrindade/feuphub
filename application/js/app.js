@@ -359,6 +359,10 @@ App.TopicController = Ember.ObjectController.extend({
 			  if (response.success)
 			  {
 				self.set('topicoRespostas', response.results);
+				for(i=0; i<response.results.length; i++)
+				{
+					alert(response.results[i].texto + " = " + response.results[i].difference);
+				}
 			  }
 			  else
 					alert("Algo deu Errado.");
@@ -434,17 +438,17 @@ App.TopicController = Ember.ObjectController.extend({
 							
 							if(response.results.tipo == "inseriu" && item.id == id)
 							{
-								//temporary +=1;
+								temporary +=1;
 								Ember.set(item, "difference",	temporary); 
 							}
 							else if(response.results.tipo == "retirou" && item.id == id)
 							{
-								//temporary -=1;
+								temporary -=1;
 								Ember.set(item, "difference",	temporary); 
 							}
 							else if(response.results.tipo == "trocou" && item.id == id)
 							{
-								//temporary +=2;
+								temporary +=2;
 								Ember.set(item, "difference",	temporary); 
 							}
 							
