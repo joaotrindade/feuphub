@@ -142,8 +142,7 @@ module.exports = (function() {
 	
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
-		var body = req.body,
-			  type = body.idUser;
+		var body = req.body, type = body.type;
 		if(type=="insert") {
 			tipo  = body.tipo;
 			titulo = body.titulo;

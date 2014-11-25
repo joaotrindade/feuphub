@@ -874,7 +874,7 @@ cursor: pointer;
 	max-width: 490px;
 }
 
-.makeReply .botaosubmeter{
+.botaosubmeter{
 	background: #428BCA;
     color: #fff;
 	
@@ -894,7 +894,7 @@ cursor: pointer;
     transition: all 0.3s ease 0s;
 }
 
-.makeReply .botaosubmeter:hover {
+.botaosubmeter:hover {
   background: #CF4647;
 }
 
