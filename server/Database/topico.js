@@ -7,6 +7,13 @@ module.exports = (function() {
 		connection = conn;
 	};
 	
+	function insertTopico(courseID,tipo,titulo,texto,data,callback){
+		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CursoKey) VALUES (" + tipo + ",'" + titulo + "',0,0,'" + texto + "','" + data + "','" + courseID + "')", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	function getTopicos(courseID,callback){
 		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.CursoKey like '" + courseID + "' ORDER BY difference desc", function(err, results)
 		{
@@ -135,23 +142,48 @@ module.exports = (function() {
 	
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
-		getTopicos(cID,function(err,result) {
-			if(err)
-			{
-				console.log(err);
-				res.send({
-					success: false,
-					results: err
-				});
-			}
-			else {
-				console.log(result);
-				res.send({
-					success: true,
-					results: result
-				});
-			}
-		});
+		var body = req.body,
+			  type = body.idUser;
+		if(type=="insert") {
+			tipo  = body.tipo;
+			titulo = body.titulo;
+			texto = body.texto;
+			data = body.data;
+			insertTopico(cID,tipo,titulo,texto,data,function(err,resilt) {
+				if(err)
+				{
+					console.log(err);
+					res.send({
+						success: false,
+					});
+				}
+				else {
+					console.log(result);
+					res.send({
+						success: true,
+					});
+				}
+			});
+		}
+		else {
+			getTopicos(cID,function(err,result) {
+				if(err)
+				{
+					console.log(err);
+					res.send({
+						success: false,
+						results: err
+					});
+				}
+				else {
+					console.log(result);
+					res.send({
+						success: true,
+						results: result
+					});
+				}
+			});
+		}
 });
 
 	api.post('/id/:topicID', function(req, res) {
