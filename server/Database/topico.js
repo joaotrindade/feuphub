@@ -144,10 +144,10 @@ module.exports = (function() {
 		var cID = req.params.courseID;
 		var body = req.body, type = body.type;
 		if(type=="insert") {
-			tipo  = body.tipo;
-			titulo = body.titulo;
-			texto = body.texto;
-			data = body.data;
+			var tipo  = body.tipo;
+			var titulo = body.titulo;
+			var texto = body.texto;
+			var data = body.data;
 			insertTopico(cID,tipo,titulo,texto,data,function(err,resilt) {
 				if(err)
 				{
