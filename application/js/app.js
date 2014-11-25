@@ -174,7 +174,7 @@ App.CursosController = Ember.ObjectController.extend({
 			self.set('topicscurso', response.results);
 		  }
 		  else
-				alert("POIS, JA SABIA QUE IA DAR MAL");
+				alert("Algo deu Errado.");
 		});
 		
 	},
@@ -342,12 +342,12 @@ App.TopicController = Ember.ObjectController.extend({
 				self.set('topicoRespostas', response.results);
 			  }
 			  else
-					alert("POIS, JA SABIA QUE IA DAR MAL");
+					alert("Algo deu Errado.");
 			});
 			
 		  }
 		  else
-				alert("POIS, JA SABIA QUE IA DAR MAL");
+				alert("Algo deu Errado.");
 		});
 	},
 	
@@ -359,6 +359,7 @@ App.TopicController = Ember.ObjectController.extend({
           if(usr != null)
           {
                         var text = document.getElementById("commentarea").value;
+						var iddoTopico = this.topicoid;
                         alert(text);
                        
                         var token = this.controllerFor('login').get('token');
@@ -379,14 +380,15 @@ App.TopicController = Ember.ObjectController.extend({
  
                         today = yyyy+'-'+mm+'-'+dd;
 						
-                        $.post('/api/database/resposta/', {"token": token, "id_questao" : 1, "texto" : text, "data" : today, "userid" : usr}).then( function(response)
+                        $.post('/api/database/resposta/', {"token": token, "id_questao" : iddoTopico, "texto" : text, "data" : today, "userid" : usr}).then( function(response)
                         {
                           if (response.success)
                           {
-                                alert("JA INSERI");
+                                //alert("JA INSERI");
+								location.reload();
                           }
                           else
-                                alert("POIS, JA SABIA QUE IA DAR MAL");
+                                alert("Algo deu Errado.");
                         });
                
           }
@@ -550,7 +552,7 @@ App.CreatetopicController = Ember.ObjectController.extend({
 						alert("Inserido em MIEEC");
 				  }
 				  else
-						alert("POIS, JA SABIA QUE IA DAR MAL");
+						alert("Algo deu Errado.");
 				});
 			}
 			else
