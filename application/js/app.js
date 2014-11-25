@@ -159,7 +159,26 @@ App.CursosController = Ember.ObjectController.extend({
 	isMiem:false,
 	isMiemm:false,
 	isMieq:false,
+	
+	getCursoTopics: function(){
+		var self = this;
+		this.set('topicscurso', null); 
+		this.set('codigo', this.get('codigo')); 
 		
+		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
+		
+		$.post(apigo).then( function(response)
+		{
+		  if (response.success)
+		  {
+			self.set('topicscurso', response.results);
+		  }
+		  else
+				alert("POIS, JA SABIA QUE IA DAR MAL");
+		});
+		
+	},
+	
 	checkLogo: function(){
 		this.set('isMieic', false);
 		this.set('isMieec', false);
@@ -199,25 +218,6 @@ App.CursosController = Ember.ObjectController.extend({
 		{
 			this.set('isMiemm', true);
 		}
-	},
-		
-	getCursoTopics: function(){
-		var self = this;
-		this.set('topicscurso', null); 
-		this.set('codigo', this.get('codigo')); 
-		
-		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
-		
-		$.post(apigo).then( function(response)
-		{
-		  if (response.success)
-		  {
-			self.set('topicscurso', response.results);
-		  }
-		  else
-				alert("POIS, JA SABIA QUE IA DAR MAL");
-		});
-		
 	}.property('codigo'),
 	
 	actions: {
