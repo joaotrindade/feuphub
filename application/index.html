@@ -10,10 +10,10 @@
 
   <script type="text/x-handlebars">
 		<div class="wrapper">
-		
+			{{#if isVisibleHeader}}
 			<div class='header'>
 			
-				{{#link-to 'index'}} 
+				{{#link-to 'home'}} 
 					<div class='logo'>
 					</div>
 				{{/link-to}}
@@ -26,7 +26,7 @@
 						<div class='loginbar'>
 						{{#if loggedIn}}
 						{{else}}
-						{{#link-to 'login' class='linkto-none-login'}}Autenticar-se{{/link-to}}.
+						{{#link-to 'index' class='linkto-none-login'}}Autenticar-se{{/link-to}}.
 						{{/if}}
 						</div>
 						
@@ -39,6 +39,7 @@
 					<div class='clear'>
 					</div>
 			</div>
+			{{/if}}
 			
 			<div>
 				{{outlet}}
@@ -74,8 +75,39 @@
 		</div>
 		
   </script>
-
+  
+  <!-- PARTE DE LOGIN QUE ESTA NO SERVIDOR -->
+  
   <script type="text/x-handlebars" id="index">
+    <div class="midpage" style="background-image:url(images/Background/feup.jpg);background-size:cover;background-repeat:no-repeat;">
+			<div class="loginPopUp">
+				<div class="loginMarginTop">
+				</div>
+				<div class="feuphub">
+				</div>
+				<div class="loginForm">
+					<form class="form-inline" {{action login on="submit"}}>
+						{{input value=username type="text" placeholder="Utilizador" class='utilizador'}}
+						{{input value=password type="password" placeholder="Senha" class='senha'}}
+						<div class="iniciarSessaoBotao">{{input id="bttn" type="submit" value="Iniciar Sessão" class='botaoLogin'}}</div>
+					</form>
+					{{#if errorMessage}}
+						<div class="alert alert-error">{{errorMessage}}</div>
+					{{/if}}
+					<div id="spinner">
+						<p id="statusText"></p>
+						<img src="resources/ajax-loader.gif" alt="Loading..."/>
+					</div>
+				</div>
+				<div class="visitanteTexto">
+					<div class="visitantePergunta">Ainda não pertence à FEUP?</div>{{#link-to 'home' class='linkto-none'}}<div class="visitanteResposta">Entre como visitante!</div>{{/link-to}}
+				</div>
+			</div>
+		</div>
+	{{calculaHeight}}
+  </script> 
+
+  <script type="text/x-handlebars" id="home">
 		
 			<div class="midpage">
 			
@@ -914,34 +946,7 @@
 	</div>
 	
   </script>
-  
-  <!-- PARTE DE LOGIN QUE ESTA NO SERVIDOR -->
-  
-  <script type="text/x-handlebars" data-template-name="login">
-    {{#if loggedIn}}
-      <p>You are already logged in!</p>
-    {{else}}
-      <form class="form-inline" {{action login on="submit"}}>
-        <h2>Log In</h2>
-        {{input value=username type="text" placeholder="Username"}}
-        {{input value=password type="password" placeholder="Password"}}
-        {{input id="bttn" class="btn" type="submit" value="Log In"}}
-      </form>
-      {{#if errorMessage}}
-        <div class="alert alert-error">{{errorMessage}}</div>
-      {{/if}}
-    {{/if}}
-	<div id="spinner">
-		<p id="statusText"></p>
-		<img src="resources/ajax-loader.gif" alt="Loading..."/>
-	</div>
-		<br><br>
-	
-	<div id = "disciplina">
-	<ul id="disciplinas">
-	</ul>
-	</div>
-  </script> 
+ 
 
   <script type="text/x-handlebars" id="credentials">
   <iframe id="aaiLogin" ="100%" width="100%" height="100%" frameborder="0" src="https://sigarra.up.pt/feup/pt/vld_validacao.federate_login?p_redirect=web_page.Inicial" scrolling="no"/>

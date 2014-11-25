@@ -1,12 +1,14 @@
 Ember.FEATURES["query-params"]=true;
 
-App = Ember.Application.create();
+App = Ember.Application.create({
+  currentPath: '',
+});
 
 App.Router.map(function() {
   this.resource('mieic');
   this.resource('anos');
   this.resource('topic');
-  this.resource('login');
+  this.resource('home');
   this.resource('cursos');
   this.resource('createtopic');
   this.route('articles');
@@ -18,17 +20,34 @@ App.Router.map(function() {
 var usrname = "";
 
 App.ApplicationController = Ember.Controller.extend({
-  page: "Trek"
+  page: null,
+  isVisibleHeader: true,
+	
+	updateCurrentPath: function() {
+		App.set('currentPath', this.get('currentPath'));
+		if (App.get('currentPath') == 'index')
+		{
+			this.set('isVisibleHeader',false);
+		}
+	}.observes('currentPath'),
 });
 
 // ROUTES -----------------------------------------------------------------------------------
 
 //LOGIN
 
-App.LoginRoute = Ember.Route.extend({
+App.IndexRoute = Ember.Route.extend({
   setupController: function(controller, context) {
     controller.reset();
-  }
+  },
+  actions: 
+	{
+		willTransition: function(transition)
+		{
+			var indexController = this.controllerFor('index');
+			indexController.set('controllers.application.isVisibleHeader', true);
+		}
+	}
 });
 
 App.AuthenticatedRoute = Ember.Route.extend({
@@ -145,7 +164,7 @@ App.MieicController = Ember.ObjectController.extend({
 });
 
 App.CursosController = Ember.ObjectController.extend({
-	needs:['login'],
+	needs:['index'],
 	queryParams: ['codigo'],
 	codigo:null,
 	topicscurso:null,
@@ -223,12 +242,12 @@ App.CursosController = Ember.ObjectController.extend({
 	actions: {
        
         upvotetopic: function(id) {
-            var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+            var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
 			if(usr != null)
 			{
-				var token = this.get('controllers.login').get('token');
+				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/up/" + id;
 				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
@@ -266,12 +285,12 @@ App.CursosController = Ember.ObjectController.extend({
         },
        
         downvotetopic: function(id) {
-            var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+            var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 
 			if(usr != null)
 			{
-				var token = this.get('controllers.login').get('token');
+				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/down/" + id;
 				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
@@ -311,7 +330,7 @@ App.CursosController = Ember.ObjectController.extend({
 });
  
 App.TopicController = Ember.ObjectController.extend({
-	needs: ['login'],
+	needs: ['index'],
 	queryParams: ['topicoid'],
 	topicoid:null,
 	topicoDetails:null,
@@ -397,12 +416,12 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         upvotecomment: function(id) {
-			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 		
 			if(usr != null)
 			{
-				var token = this.get('controllers.login').get('token');
+				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
 
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
@@ -441,12 +460,12 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         downvotecomment: function(id) {
-			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
 			if(usr != null)
 			{
-				var token = this.get('controllers.login').get('token');
+				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/resposta/down/" + id;
 				
 				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
@@ -486,7 +505,7 @@ App.TopicController = Ember.ObjectController.extend({
 });
 
 App.CreatetopicController = Ember.ObjectController.extend({
-	needs: ['login'],
+	needs: ['index'],
 	isQuestion: false,
 	isNews: false,
 	isPoll:false,
@@ -524,14 +543,14 @@ App.CreatetopicController = Ember.ObjectController.extend({
             
 			var apigo = "/api/database/topico/MIEEC";
 			var self = this;
-			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 
 			if(usr != null)
 			{
 						var titulo = document.getElementById("createtopic_title").value;
 						var texto = document.getElementById("createtopic_description").value;
 
-						var token = this.get('controllers.login').get('token');
+						var token = this.get('controllers.index').get('token');
 						
 						var tipo = null;
 						
@@ -567,7 +586,20 @@ App.CreatetopicController = Ember.ObjectController.extend({
 	
 });
 
-App.LoginController = Ember.Controller.extend({
+App.IndexController = Ember.Controller.extend({
+	needs: ['application'],
+	
+	calculaHeight: function(){
+		var page = this;
+		$(document).ready(function(){
+			//calcula height da pagina
+			var body = document.body;
+			html = document.documentElement;
+			var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+			var altura = height - 151;
+			$(".midpage").css('height', altura);
+		});
+	}.property(),
 
   reset: function() {
     this.setProperties({
@@ -661,7 +693,10 @@ App.LoginController = Ember.Controller.extend({
 				}
 			});
 		}, 1000);
-  }
+  },
+  
+  
+  
 });
 
 
