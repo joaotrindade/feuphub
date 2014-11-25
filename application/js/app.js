@@ -324,7 +324,7 @@ App.TopicController = Ember.ObjectController.extend({
 		this.set('topicoRespostas', null);
 		
 		this.set('topicoid', this.get('topicoid')); 
-		alert(this.topicoid);
+		//alert(this.topicoid);
 		
 		var apigo = "/api/database/topico/id/" + this.topicoid;
 		var apigo2 = "/api/database/resposta/" + this.topicoid;
@@ -360,10 +360,10 @@ App.TopicController = Ember.ObjectController.extend({
           {
                         var text = document.getElementById("commentarea").value;
 						var iddoTopico = this.topicoid;
-                        alert(text);
+                        //alert(text);
                        
                         var token = this.controllerFor('login').get('token');
-						alert(token);
+						//alert(token);
                        
                         var today = new Date();
                         var dd = today.getDate();
@@ -384,7 +384,7 @@ App.TopicController = Ember.ObjectController.extend({
                         {
                           if (response.success)
                           {
-                                //alert("JA INSERI");
+                                alert("JA INSERI");
 								location.reload();
                           }
                           else
@@ -415,17 +415,17 @@ App.TopicController = Ember.ObjectController.extend({
 							
 							if(response.results.tipo == "inseriu" && item.id == id)
 							{
-								temporary +=1;
+								//temporary +=1;
 								Ember.set(item, "difference",	temporary); 
 							}
 							else if(response.results.tipo == "retirou" && item.id == id)
 							{
-								temporary -=1;
+								//temporary -=1;
 								Ember.set(item, "difference",	temporary); 
 							}
 							else if(response.results.tipo == "trocou" && item.id == id)
 							{
-								temporary +=2;
+								//temporary +=2;
 								Ember.set(item, "difference",	temporary); 
 							}
 							
@@ -486,6 +486,7 @@ App.TopicController = Ember.ObjectController.extend({
 });
 
 App.CreatetopicController = Ember.ObjectController.extend({
+	needs: ['login'],
 	isQuestion: false,
 	isNews: false,
 	isPoll:false,
@@ -522,15 +523,15 @@ App.CreatetopicController = Ember.ObjectController.extend({
         subtopic: function() {
             
 			var apigo = "/api/database/topico/MIEEC";
-			
-			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+			var self = this;
+			var usr = this.get('controllers.login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 
 			if(usr != null)
 			{
 						var titulo = document.getElementById("createtopic_title").value;
 						var texto = document.getElementById("createtopic_description").value;
 
-						var token = this.controllerFor('login').get('token');
+						var token = this.get('controllers.login').get('token');
 						
 						var tipo = null;
 						
@@ -549,7 +550,8 @@ App.CreatetopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						alert("Inserido em MIEEC");
+						//alert("Inserido em MIEEC");
+						self.transitionToRoute('cursos',{queryParams: {codigo: 'mieec'}});
 				  }
 				  else
 						alert("Algo deu Errado.");
