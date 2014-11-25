@@ -7,8 +7,8 @@ module.exports = (function() {
 		connection = conn;
 	};
 	
-	function insertTopico(courseID,tipo,titulo,texto,data,callback){
-		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CursoKey) VALUES (" + tipo + ",'" + titulo + "',0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + courseID + "')", function(err, results)
+	function insertTopico(courseID,tipo,titulo,texto,data,userid,callback){
+		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CursoKey,UtilizadorKey) VALUES (" + tipo + ",'" + titulo + "',0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + courseID + "'," + userid + ")", function(err, results)
 		{
 			callback(err,results);
 		});
@@ -144,25 +144,28 @@ module.exports = (function() {
 		var cID = req.params.courseID;
 		var body = req.body, type = body.type;
 		if(type=="insert") {
-			var tipo  = body.tipo;
-			var titulo = body.titulo;
-			var texto = body.texto;
-			var data = body.data;
-			insertTopico(cID,tipo,titulo,texto,data,function(err,result) {
-				if(err)
-				{
-					console.log(err);
-					res.send({
-						success: false,
-					});
-				}
-				else {
-					console.log(result);
-					res.send({
-						success: true,
-					});
-				}
-			});
+			if (auth.validTokenProvided(req, res)) {
+				var tipo  = body.tipo;
+				var titulo = body.titulo;
+				var texto = body.texto;
+				var data = body.data;
+				var userid = body.userid;
+				insertTopico(cID,tipo,titulo,texto,data,userid,function(err,result) {
+					if(err)
+					{
+						console.log(err);
+						res.send({
+							success: false,
+						});
+					}
+					else {
+						console.log(result);
+						res.send({
+							success: true,
+						});
+					}
+				});
+			}
 		}
 		else {
 			getTopicos(cID,function(err,result) {

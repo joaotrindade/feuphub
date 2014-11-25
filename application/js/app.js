@@ -510,8 +510,46 @@ App.CreatetopicController = Ember.ObjectController.extend({
 			}
         },
        
-        downvotetopic: function(id) {
-            alert("Fazer Upvote Ao Topico com id= " + id);
+        subtopic: function() {
+            
+			var apigo = "/api/database/topico/MIEEC";
+			
+			var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+
+			if(usr != null)
+			{
+						var titulo = document.getElementById("createtopic_title").value;
+						var texto = document.getElementById("createtopic_description").value;
+
+						var token = this.controllerFor('login').get('token');
+						
+						var tipo = null;
+						
+						if(this.isQuestion)
+							tipo = 1;
+						else if(this.isNews)
+							tipo = 2;
+						else if(this.isPoll)
+							tipo = 3;
+							
+						alert(titulo);
+						alert(texto);
+						alert(tipo);
+							
+				$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr}).then( function(response)
+				{
+				  if (response.success)
+				  {
+						alert("Inserido em MIEEC");
+				  }
+				  else
+						alert("POIS, JA SABIA QUE IA DAR MAL");
+				});
+			}
+			else
+			{
+				alert("LOGIN PARA INSERIR TOPICO");
+			}
         }
     }
 	
