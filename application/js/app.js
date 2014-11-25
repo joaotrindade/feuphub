@@ -89,6 +89,13 @@ App.CadeirasRoute = App.AuthenticatedRoute.extend({
   }
 });
 
+App.CursosRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.getCursoTopics();
+  }
+});
+
+
 App.TopicRoute = Ember.Route.extend({
   setupController: function(controller, context) {
     controller.getData();
@@ -192,7 +199,7 @@ App.CursosController = Ember.ObjectController.extend({
 		{
 			this.set('isMiemm', true);
 		}
-	}.property('codigo'),
+	},
 		
 	getCursoTopics: function(){
 		var self = this;
