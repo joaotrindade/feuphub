@@ -8,7 +8,7 @@ module.exports = (function() {
 	};
 	
 	function insertTopico(courseID,tipo,titulo,texto,data,callback){
-		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CursoKey) VALUES (" + tipo + ",'" + titulo + "',0,0,'" + texto + "','" + data + "','" + courseID + "')", function(err, results)
+		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CursoKey) VALUES (" + tipo + ",'" + titulo + "',0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + courseID + "')", function(err, results)
 		{
 			callback(err,results);
 		});
