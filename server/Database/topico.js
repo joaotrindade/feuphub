@@ -143,6 +143,7 @@ module.exports = (function() {
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
 		var body = req.body, type = body.type;
+		console.log(type);
 		if(type=="insert") {
 			if (auth.validTokenProvided(req, res)) {
 				var tipo  = body.tipo;
