@@ -148,7 +148,7 @@ module.exports = (function() {
 			var titulo = body.titulo;
 			var texto = body.texto;
 			var data = body.data;
-			insertTopico(cID,tipo,titulo,texto,data,function(err,resilt) {
+			insertTopico(cID,tipo,titulo,texto,data,function(err,result) {
 				if(err)
 				{
 					console.log(err);
