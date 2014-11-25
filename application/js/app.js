@@ -536,7 +536,7 @@ App.CreatetopicController = Ember.ObjectController.extend({
 						alert(texto);
 						alert(tipo);
 							
-				$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr}).then( function(response)
+				$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr, "type": "insert"}).then( function(response)
 				{
 				  if (response.success)
 				  {
