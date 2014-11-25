@@ -191,6 +191,10 @@ App.CursosController = Ember.ObjectController.extend({
 		  if (response.success)
 		  {
 			self.set('topicscurso', response.results);
+			for(i=0; i<response.results.length; i++)
+			{
+				alert(response.results[i].titulo + " = " + response.results[i].difference);
+			}
 		  }
 		  else
 				alert("Algo deu Errado.");
@@ -359,10 +363,6 @@ App.TopicController = Ember.ObjectController.extend({
 			  if (response.success)
 			  {
 				self.set('topicoRespostas', response.results);
-				for(i=0; i<response.results.length; i++)
-				{
-					alert(response.results[i].texto + " = " + response.results[i].difference);
-				}
 			  }
 			  else
 					alert("Algo deu Errado.");
