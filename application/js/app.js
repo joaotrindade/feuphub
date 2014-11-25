@@ -53,7 +53,7 @@ App.IndexRoute = Ember.Route.extend({
 App.AuthenticatedRoute = Ember.Route.extend({
 
   beforeModel: function(transition) {
-    if (!this.controllerFor('login').get('token')) {
+    if (!this.controllerFor('index').get('token')) {
       this.redirectToLogin(transition);
     }
   },
@@ -61,23 +61,23 @@ App.AuthenticatedRoute = Ember.Route.extend({
   redirectToLogin: function(transition) {
     alert('You must log in!');
 
-    var loginController = this.controllerFor('login');
+    var loginController = this.controllerFor('index');
     loginController.set('attemptedTransition', transition);
     this.transitionTo('login');
   },
 
   getJSONWithToken: function(url) {
-    var token = this.controllerFor('login').get('token');
+    var token = this.controllerFor('index').get('token');
     return $.getJSON(url, { token: token });
   },
   
   postJSONWithToken: function() {
-    var token = this.controllerFor('login').get('token');
+    var token = this.controllerFor('index').get('token');
 	return token;
   },
   
   getUsername: function() {
-    var usr = this.controllerFor('login').get('usr');
+    var usr = this.controllerFor('index').get('usr');
 	return usr;
   },
 
@@ -373,7 +373,7 @@ App.TopicController = Ember.ObjectController.extend({
     actions: {
         subcomment: function() {
         
-          var usr = this.controllerFor('login').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+          var usr = this.controllerFor('index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
           //alert(usr);
           if(usr != null)
           {
@@ -381,7 +381,7 @@ App.TopicController = Ember.ObjectController.extend({
 						var iddoTopico = this.topicoid;
                         //alert(text);
                        
-                        var token = this.controllerFor('login').get('token');
+                        var token = this.controllerFor('index').get('token');
 						//alert(token);
                        
                         var today = new Date();
