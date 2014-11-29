@@ -499,6 +499,60 @@ cursor: pointer;
   background: rgba(42, 45, 51, 1);
 }
 
+.right_bar .create_topic_feedback
+{
+	height: 65px;
+	width: 260px;
+	margin-left: 12px;
+	/*border-bottom:	1px solid white;*/
+	margin-bottom: 20px;
+}
+
+.right_bar .create_topic_feedback .create_new_feedback
+{
+	float:left;
+	height: 33px;
+	width: 129px;
+	background-color:rgb(53,56,62);
+	
+	font-family: EXOL;
+	font-size: 13px;
+	color:white;
+	text-align: center;
+	
+	padding-top:12px;
+	
+	margin-left: 1px;
+	transition: all 0.3s ease 0s;
+}
+
+.right_bar .create_topic_feedback .create_new_topic
+{
+	float:left;
+	height: 33px;
+	width: 130px;
+	background-color:rgb(53,56,62);
+	
+	font-family: EXOL;
+	font-size: 13px;
+	color:white;
+	text-align: center;
+	
+	padding-top:12px;
+	transition: all 0.3s ease 0s;
+}
+
+.right_bar .create_topic_feedback .create_new_topic:hover, .right_bar .create_topic_feedback .create_new_feedback:hover
+{
+	cursor: pointer;
+	background-color: #1898E7;
+	
+	-moz-user-select: none; 
+	-khtml-user-select: none; 
+	-webkit-user-select: none; 
+	-o-user-select: none;
+}
+
 .right_bar .bestprof
 {
 	width: 260px;

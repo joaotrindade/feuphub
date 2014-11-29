@@ -510,14 +510,19 @@ App.TopicController = Ember.ObjectController.extend({
 
 App.CreatetopicController = Ember.ObjectController.extend({
 	needs: ['index'],
+	queryParams: ['cursoid','cadeiraid','feupid'],
 	isQuestion: false,
 	isNews: false,
 	isPoll:false,
+	cursoid: null,
+	cadeiraid: null,
+	feupid: null,
 	
 	initialCreateTopic: function(){
 		this.set('isQuestion', true);
 		this.set('isNews', false);		
 		this.set('isPoll', false);
+
 	},
 	
 	actions: {
@@ -545,7 +550,7 @@ App.CreatetopicController = Ember.ObjectController.extend({
        
         subtopic: function() {
             
-			var apigo = "/api/database/topico/MIEEC";
+			var apigo = "/api/database/topico/" + this.cursoid.toUpperCase();
 			var self = this;
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 
