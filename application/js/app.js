@@ -11,6 +11,7 @@ App.Router.map(function() {
   this.resource('home');
   this.resource('cursos');
   this.resource('createtopic');
+  this.resource('givefeedback');
   this.route('articles');
   this.route('photos');
   this.route('credentials');
@@ -124,6 +125,12 @@ App.TopicRoute = Ember.Route.extend({
 App.CreatetopicRoute = Ember.Route.extend({
   setupController: function(controller, context) {
     controller.initialCreateTopic();
+  }
+});
+
+App.GivefeedbackRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.initialGiveFeedback();
   }
 });
 
@@ -591,6 +598,53 @@ App.CreatetopicController = Ember.ObjectController.extend({
 	
 });
 
+App.GivefeedbackController = Ember.ObjectController.extend({
+	needs: ['index'],
+	queryParams: ['cursoid','cadeiraid','feupid'],
+	cursoid: null,
+	cadeiraid: null,
+	feupid: null,
+	
+	initialGiveFeedback: function(){
+
+	},
+	
+	actions: {
+       
+        subfeedback: function() {
+            
+			var apigo = "/api/database/topico/" + this.cursoid.toUpperCase(); //TODO: ALTERAR PARA SER POSSIVEL CRIAR NAS CADEIRAS E NO FEUPMAINPAGE
+			var self = this;
+			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+
+			if(usr != null)
+			{
+				var titulo = document.getElementById("givefeedback_title").value;
+				var texto = document.getElementById("givefeedback_description").value;
+
+				var token = this.get('controllers.index').get('token');
+							
+				/*$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr, "type": "insert"}).then( function(response)
+				{
+				  if (response.success)
+				  {
+						//alert("Inserido em MIEEC");
+						self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
+				  }
+				  else
+						alert("Algo deu Errado.");
+				});*/
+			}
+			else
+			{
+				alert("LOGIN PARA INSERIR TOPICO");
+			}
+        }
+    }
+	
+	
+});
+
 App.IndexController = Ember.Controller.extend({ 
 	// TODO: SE FIZERMOS LOGIN ERRADO, ELE BATE MAL SE TENTARMOS LOGAR DE NOVO.
 	needs: ['application'],
@@ -690,16 +744,6 @@ App.IndexController = Ember.Controller.extend({
 										var attemptedTransition = self.get('attemptedTransition');
 										
 										self.transitionToRoute('home');
-										/*if (attemptedTransition) 
-										{
-										  attemptedTransition.retry();
-										  self.set('attemptedTransition', null);
-										} 
-										else 
-										{
-										  // Redirect to 'articles' by default.
-										  self.transitionToRoute('index');
-										}*/
 									}
 								});
 							});

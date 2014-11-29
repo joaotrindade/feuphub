@@ -1308,6 +1308,68 @@ cursor: pointer;
 	margin-bottom: 25px;
 }
 
+.createtopic_botaosubmeter
+{
+	margin-top: 10px;
+	width:800px;
+}
+
+.createtopic_botaosubmeter .botaosubmeter{
+	background: #428BCA;
+    color: #fff;
+	
+    font-family: EXO;
+    font-size: 13px;
+	
+    height: 30px;
+    width: 150px;
+	margin-left: 325px;
+	
+    line-height: 30px;
+	
+	margin-top: 5px;
+    /*margin: 25px 25px;*/
+	
+    text-align: center;
+    border: 0;
+    transition: all 0.3s ease 0s;
+}
+
+.createtopic_botaosubmeter .botaosubmeter:hover {
+  background: #CF4647;
+}
+
+/* ------------------------------------------------------------------------------------------------------ */
+
+/* FEEDBACK --------------------------------------------------------------------------------------------- */
+
+#givefeedback_title
+{
+	display:inline-block;
+	width: 500px;
+	height: 25px;
+	line-height: 25px;
+	margin-top: 25px;
+	resize:none;
+	
+	font-family: EXO;
+	font-size: 13px;
+}
+
+#givefeedback_description
+{
+	display:inline-block;
+	width: 500px;
+	max-width: 500px;
+	height: 150px;
+	margin-top: 25px;
+	
+	font-family: EXO;
+	font-size: 13px;
+	
+	margin-bottom: 25px;
+}
+
 /* ------------------------------------------------------------------------------------------------------ */
 
 /* LOGIN ------------------------------------------------------------------------------------------------ */

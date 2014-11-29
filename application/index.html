@@ -571,7 +571,9 @@
 				<div class='create_new_topic'>Nova Questão</div>
 				{{/link-to}}
 				
+				{{#link-to 'givefeedback' (query-params cursoid=codigo cadeiraid="" feupid="") class='linkto-none'}} 
 				<div class='create_new_feedback'>Dar Feedback</div>
+				{{/link-to}}
 			</div>
 			
 			<div class="bestprof">
@@ -950,7 +952,47 @@
 				</div>
 			</div>
 			
-			<div><button {{action 'subtopic'}} class="botaosubmeter">Submeter</button></div>
+			<div class="createtopic_botaosubmeter"><button {{action 'subtopic'}} class="botaosubmeter">Submeter</button></div>
+		</div>
+	</div>
+	
+  </script>
+  
+  <script type="text/x-handlebars" id="givefeedback">
+	
+	<div class="midpage_create">
+		<div class="create_title">
+			<div class="create_top_title">
+				Obrigado por ajudares a comunidade dando Feedback.
+			</div>
+			
+			<div class="create_down_title">
+				Tenta ser querente, sê construtivo e não deixes que incidentes singulares afetem o teu parecer.
+			</div>
+		</div>
+		
+		<div class="create_options">
+			<div class="option">
+				<div class="option_title">
+					Título
+				</div>
+				
+				<div class="option_more">
+					<textarea maxlength="140" rows="1" id="givefeedback_title"></textarea>
+				</div>
+			</div>
+			
+			<div class="option">
+				<div class="option_title">
+					Descrição
+				</div>
+				
+				<div class="option_more">
+					<textarea maxlength="1024" id="givefeedback_description"></textarea>
+				</div>
+			</div>
+			
+			<div class="createtopic_botaosubmeter"><button {{action 'subfeedback'}} class="botaosubmeter">Submeter</button></div>
 		</div>
 	</div>
 	
