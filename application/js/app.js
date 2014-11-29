@@ -191,10 +191,6 @@ App.CursosController = Ember.ObjectController.extend({
 		  if (response.success)
 		  {
 			self.set('topicscurso', response.results);
-			for(i=0; i<response.results.length; i++)
-			{
-				alert(response.results[i].titulo + " = " + response.results[i].difference);
-			}
 		  }
 		  else
 				alert("Algo deu Errado.");
@@ -550,7 +546,7 @@ App.CreatetopicController = Ember.ObjectController.extend({
        
         subtopic: function() {
             
-			var apigo = "/api/database/topico/" + this.cursoid.toUpperCase();
+			var apigo = "/api/database/topico/" + this.cursoid.toUpperCase(); //TODO: ALTERAR PARA SER POSSIVEL CRIAR NAS CADEIRAS E NO FEUPMAINPAGE
 			var self = this;
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 
@@ -570,16 +566,16 @@ App.CreatetopicController = Ember.ObjectController.extend({
 						else if(this.isPoll)
 							tipo = 3;
 							
-						alert(titulo);
+						/*alert(titulo);
 						alert(texto);
-						alert(tipo);
+						alert(tipo);*/
 							
 				$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr, "type": "insert"}).then( function(response)
 				{
 				  if (response.success)
 				  {
 						//alert("Inserido em MIEEC");
-						self.transitionToRoute('cursos',{queryParams: {codigo: 'mieec'}});
+						self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
 				  }
 				  else
 						alert("Algo deu Errado.");
@@ -595,7 +591,8 @@ App.CreatetopicController = Ember.ObjectController.extend({
 	
 });
 
-App.IndexController = Ember.Controller.extend({
+App.IndexController = Ember.Controller.extend({ 
+	// TODO: SE FIZERMOS LOGIN ERRADO, ELE BATE MAL SE TENTARMOS LOGAR DE NOVO.
 	needs: ['application'],
 	
 	calculaHeight: function(){
@@ -639,69 +636,82 @@ App.IndexController = Ember.Controller.extend({
      event.preventDefault(event);  
 	});	
 		
-		$('#spinner').fadeIn(100);
-		$('#spinner #statusText').text("Validating your login with SIFEUP");
-		
-		var username = this.get('username');
-		var password = this.get('password');
-		var userId;
-		var datan;
-		setTimeout(function(){
+	$('#spinner').fadeIn(100);
+	$('#spinner #statusText').text("Validating your login with SIFEUP");
+	
+	var username = this.get('username');
+	var password = this.get('password');
+	var userId;
+	var datan;
+	setTimeout(function(){
 
-			$.ajax({
-				type: "POST",
-				url: "/api/sigarra/login",
-				data: {'username':username,'password':password},
-				async: false,
-				success: function(data, textStatus, jqXHR)
+		$.ajax({
+			type: "POST",
+			url: "/api/sigarra/login",
+			data: {'username':username,'password':password},
+			async: false,
+			success: function(data, textStatus, jqXHR)
+			{
+				if(data.headers["set-cookie"].length >1)
 				{
-					if(data.headers["set-cookie"].length >1)
+					//set sigarra cookies
+					document.cookie=data.headers["set-cookie"][0];
+					document.cookie=data.headers["set-cookie"][1];
+					$('#spinner #statusText').text("Login successful!");
+					
+					$.get('/api/sigarra/getPct_id').then(function(response)
 					{
-						//set sigarra cookies
-						document.cookie=data.headers["set-cookie"][0];
-						document.cookie=data.headers["set-cookie"][1];
-						$('#spinner #statusText').text("Login successful!");
-						
-						$.get('/api/sigarra/getPct_id').then(function(response){
-							self.set('errorMessage', response.message);
-							if(response.statusCode = 200){
-								userId = parserLogin(response.body);
-								self.set('usr',userId);
-							}
-						}).then(function(){
+					
+						self.set('errorMessage', response.message);
+						if(response.statusCode = 200){
+							userId = parserLogin(response.body);
+							self.set('usr',userId);
+						}
+					}).then(function()
+						{
 							self.set('loginSuccess', "able");
 							console.log("User identifier: "+ userId+"\n");
 							datan = self.getProperties('username', 'password','loginSuccess');
 							setTimeout(function(){ getCourses(username);},1000);
-						}).then(function(){
-							$.post('/api/auth/authenticate', datan).then(function(response) {
-							  self.set('errorMessage', response.message);
-							  if (response.success) {
-								//alert('Login succeeded!');
-								//alert(response.token);
-								self.set('token', response.token);
-								//self.set('usr',self.get('username'));
-								usrname = self.get('username');
-								//alert(self.get('token'));
-								var attemptedTransition = self.get('attemptedTransition');
-								if (attemptedTransition) {
-								  attemptedTransition.retry();
-								  self.set('attemptedTransition', null);
-								} else {
-								  // Redirect to 'articles' by default.
-								  self.transitionToRoute('index');
-								}
-							  }
+							
+						}).then(function()
+							{
+								$.post('/api/auth/authenticate', datan).then(function(response) 
+								{
+									self.set('errorMessage', response.message);
+									if (response.success) 
+									{
+										//alert('Login succeeded!');
+
+										self.set('token', response.token);
+										//self.set('usr',self.get('username'));
+										usrname = self.get('username');
+										//alert(self.get('token'));
+										var attemptedTransition = self.get('attemptedTransition');
+										
+										self.transitionToRoute('home');
+										/*if (attemptedTransition) 
+										{
+										  attemptedTransition.retry();
+										  self.set('attemptedTransition', null);
+										} 
+										else 
+										{
+										  // Redirect to 'articles' by default.
+										  self.transitionToRoute('index');
+										}*/
+									}
+								});
 							});
-						});
-					}
-					else{
-						$('#spinner #statusText').text("incorrect sifeup login credentials");
-						setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
-					}
 				}
-			});
-		}, 1000);
+				else
+				{
+					$('#spinner #statusText').text("incorrect sifeup login credentials");
+					setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
+				}
+			}
+		});
+	}, 1000);
   },
   
   
