@@ -27,7 +27,7 @@ function run(){
 		return;
 	};
 	
-	parseSigarra().then(saveInformation).then(updateDB).catch(console.log).done();
+	parseSigarra().then(saveInformation).done();//then(updateDB).catch(console.log).done();
 }
 
 function parseSigarra()
@@ -44,16 +44,19 @@ function parseSigarra()
 
 function saveInformation(results){
 	var deferred = Q.defer();
-	
 	try{
-			fs.unlink('data.json');
-		}catch(err){}
-		
+		fs.unlink('data.json');
+	}catch(err){}
+	finally {
 		var json_file = fs.createWriteStream('data.json', {flags : 'w'});
-		
-		json_file.write(JSON.stringify(results,undefined, 2));
-		deferred.resolve();
 	
+		json_file.write(JSON.stringify(results,undefined, 2));
+		setTimeout(function () {
+			deferred.resolve();
+		}, 5000);
+		
+	}
+		
 	return deferred.promise;
 }
 
@@ -233,11 +236,11 @@ function parseCourseUnit(courseObj,courseAcronym)
 				var codigo = $('#conteudoinner > .formulario >tr > td:contains("C") + td')[0].children[0].data;
 				
 				var active = $('#conteudoinner > .formulario > tr > td:contains("Ativa?") +td')[0].children[0].data;
-				var ativo=false;
+				var ativo="false";
 				if(active=="Sim")
-					ativo = true;
+					ativo = "true";
 				var aux = $('#conteudoinner > h2').text();
-				var semestre = aux.substring(aux.length-1,aux.length-2);
+				var semestre = aux.substring(24,25);
 				var courseUnitAcroynm = $('h3:contains("Ciclos de Estudo/Cursos") + .dados > tr > .k.t > a');
 				var courseUnitYears = $('h3:contains("Ciclos de Estudo/Cursos") + .dados  > tr >td:nth-child(4)');				
 				var found = false;
@@ -265,14 +268,15 @@ function parseCourseUnit(courseObj,courseAcronym)
 						Q.all(teacherPromises).then(function (results) {							
 							if(courseObj.opcional){
 								var cadeira = new Cadeira(nome, sigla, codigo, ano, semestre, ativo);
-								cadeira.opcional = true;
+								cadeira.opcional = "true";
+								cadeira.ramo = {id: 1,nome: "normal"};
 								cadeira.profs = results;
 								deferred.resolve(cadeira);
 							}else{
 								var courseId = courseObj.url.split("id=")[1];
 								getBranch(courseId).then(function (result){
 									var cadeira = new Cadeira(nome, sigla, codigo, ano, semestre, ativo);
-									cadeira.opcional = false
+									cadeira.opcional = "false";
 									cadeira.ramo = result;
 									cadeira.profs = results;
 									deferred.resolve(cadeira);
@@ -332,18 +336,11 @@ function parseTeacher(teacherUrl){
 		}else if (response.statusCode == 200) {			
 			var html = iconv.decode(new Buffer(body), "iso-8859-15");
 			$ = cheerio.load(html);
-			var fotoUrl = $('.informacao-pessoal-dados-foto > img').attr('src');
 			var nome = $('.informacao-pessoal-dados-dados > .tabela > tr:nth-child(1) > td:nth-child(2) > b').text();
-			var codigo = $('.informacao-pessoal-dados-dados > .tabela > tr:nth-child(3) > td:nth-child(2)').text();
-
-			var aux = fotoUrl.substring(0, 9);
-
-			var res = fotoUrl;
-			if(aux== "/feup/pt/")
-				res=fotoUrl.substring(9,fotoUrl.length);
+			var codigo = $('.informacao-pessoal-dados-dados > .tabela > tr:nth-child(3) > td:nth-child(2)').text();			
+			var foto = "https://sigarra.up.pt/feup/pt/FOTOGRAFIAS_SERVICE.foto?pct_cod="+codigo;
 			
-			var str = "https://sigarra.up.pt/feup/pt/" + res;
-			var prof = new Professor(nome, codigo, str);
+			var prof = new Professor(nome, codigo, foto);
 			deferred.resolve(prof);
 			
 		}
@@ -374,10 +371,10 @@ function getBranch(courseCode)
 		}else if (response.statusCode == 200) {
 		    var info = JSON.parse(body);
 			if(info.length==0){
-				deferred.resolve("comum");
+				deferred.resolve({id: 1,nome: "normal"});
 			}
 			else if(info.length==1){
-				deferred.resolve(info[0].ramo_nome);
+				deferred.resolve({id: info[0].ramo_id,nome: info[0].ramo_nome});
 			}else{
 				var found = false;
 				var i = 0;
@@ -390,9 +387,9 @@ function getBranch(courseCode)
 					}
 				}
 				if(found)
-					deferred.resolve(info[i].ramo_nome);
+					deferred.resolve({id: info[i].ramo_id,nome: info[i].ramo_nome});
 				else
-					deferred.resolve("comum");
+					deferred.resolve({id: 1,nome: "normal"});
 			}
 		}
 	});
