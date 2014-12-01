@@ -547,7 +547,8 @@ App.TopicController = Ember.ObjectController.extend({
 				alert("Faça Login para fazer downvote");
         },
 		
-		deletetopic: function(id) {
+		deletetopic: function(id) 
+		{
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
