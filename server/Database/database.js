@@ -17,6 +17,8 @@ module.exports = (function() {
 	resposta.start(connection);
 	var topico = require("./topico");
 	topico.start(connection);
+	var feedback = require("./feedback");
+	feedback.start(connection);
 	
 	api.get('/', function(req, res) {
         res.send("Hello, this is the database!\n")
@@ -26,6 +28,7 @@ module.exports = (function() {
 	api.use('/cadeira', cadeira.api);
 	api.use('/resposta',resposta.api);
 	api.use('/topico',topico.api);
+	api.use('/feedback',feedback.api);
     return api;
 
 	
