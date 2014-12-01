@@ -545,6 +545,30 @@ App.TopicController = Ember.ObjectController.extend({
 			}
 			else
 				alert("Faça Login para fazer downvote");
+        },
+		
+		deletetopic: function(id) {
+			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+			var self = this;
+			
+			if(usr != null && isMine == true)
+			{
+				var token = this.get('controllers.index').get('token');
+				var apigo = "/api/database/topico/id/" + id;
+				
+				$.post(apigo, {"token":token, "idUser":usr, "type": "delete"}).then( function(response)
+				{
+				  if (response.success)
+				  {
+						alert("Topico Eliminado");
+						self.transitionToRoute('cursos',{queryParams: {codigo: self.topicoDetails.curso}});
+				  }
+				  else
+						alert("ALGO DEU MAL A APAGAR O TOPICO");
+				});
+			}
+			else
+				alert("Faça Login para apagar topico");
         }
     }
 });

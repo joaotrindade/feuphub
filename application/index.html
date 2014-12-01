@@ -808,7 +808,7 @@
 		<div class="content">
 			<div class="question">
 				{{#if isMine}}
-					O TOPICO É MEU!
+					<div {{action 'deletetopic' topicoDetails.id}} class='delete_topic'>Apagar Tópico</div>
 				{{/if}}
 				<div class="title">
 					{{topicoDetails.titulo}}
