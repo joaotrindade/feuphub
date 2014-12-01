@@ -15,16 +15,19 @@ module.exports = (function() {
 	};
 	
 	function deleteTopic(tID,callback){
-		connection.query("DELETE FROM Resposta WHERE TopicoKey=" + tID, function(err, results)
+		connection.query("DELETE FROM Utilizador_Resposta inner join Resposta on Utilizador_Resposta.RespostaKey =  Resposta.id WHERE TopicoKey=" + tID, function(err, results)
 		{
-			connection.query("DELETE FROM Utilizador_Topico WHERE TopicoKey=" + tID, function(err, results)
+			connection.query("DELETE FROM Resposta WHERE TopicoKey=" + tID, function(err, results)
 			{
-				connection.query("DELETE FROM Topico WHERE id=" + tID, function(err, results)
+				connection.query("DELETE FROM Utilizador_Topico WHERE TopicoKey=" + tID, function(err, results)
 				{
-					callback(err,results);
+					connection.query("DELETE FROM Topico WHERE id=" + tID, function(err, results)
+					{
+						callback(err,results);
+					});
 				});
 			});
-		});
+		}
 	};
 	
 	function getTopicos(courseID,callback){
