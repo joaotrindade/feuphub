@@ -199,6 +199,7 @@ module.exports = (function() {
 	api.post('/id/:topicID', function(req, res) {
 		var tID = req.params.topicID;
 		var body = req.body, type = body.type;
+		console.log(type);
 		if(type=="delete") 
 		{
 			if (auth.validTokenProvided(req, res)) {
