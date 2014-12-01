@@ -14,6 +14,13 @@ module.exports = (function() {
 		});
 	};
 	
+	function deleteTopic(tID,callback){
+		connection.query("DELETE FROM Topico WHERE id=" + tID), function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	function getTopicos(courseID,callback){
 		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.CursoKey like '" + courseID + "' ORDER BY difference desc", function(err, results)
 		{
@@ -191,23 +198,47 @@ module.exports = (function() {
 
 	api.post('/id/:topicID', function(req, res) {
 		var tID = req.params.topicID;
-		getTopicoByID(tID,function(err,result) {
-			if(err)
-			{
-				console.log(err);
-				res.send({
-					success: false,
-					results: err
-				});
-			}
-			else {
-				console.log(result);
-				res.send({
-					success: true,
-					results: result
-				});
-			}
-		});
+		var body = req.body, type = body.type;
+		if(type=="delete") 
+		{
+			deleteTopic(tID,function(err,result) {
+				if(err)
+				{
+					console.log(err);
+					res.send({
+						success: false,
+						results: err
+					});
+				}
+				else {
+					console.log(result);
+					res.send({
+						success: true,
+						results: result
+					});
+				}
+			});
+		}
+		else
+		{
+			getTopicoByID(tID,function(err,result) {
+				if(err)
+				{
+					console.log(err);
+					res.send({
+						success: false,
+						results: err
+					});
+				}
+				else {
+					console.log(result);
+					res.send({
+						success: true,
+						results: result
+					});
+				}
+			});
+		}
 });
 
 	api.post('/:typeID/:topicID', function(req, res) {
