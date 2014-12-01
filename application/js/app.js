@@ -448,7 +448,6 @@ App.TopicController = Ember.ObjectController.extend({
                         {
                           if (response.success)
                           {
-                                alert("JA INSERI");
 								location.reload();
                           }
                           else
