@@ -655,8 +655,6 @@ cursor: pointer;
 	color:white;
 	margin-left: 15px;
 	text-align: left;
-	max-height: 150px;
-	overflow: hidden;
 }
 
 .right_bar .feedback .user

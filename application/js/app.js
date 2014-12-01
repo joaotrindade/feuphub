@@ -210,10 +210,15 @@ App.CursosController = Ember.ObjectController.extend({
 		var token = this.get('controllers.index').get('token');
 		var apigo2 = "/api/database/feedback/" + this.codigo.toUpperCase();
 		
-		$.post(apigo2, {"token": token, "type" : "curso", "type2": "get5"}).then( function(response2) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+		$.post(apigo2, {"token": token, "type" : "curso", "type2": "get"}).then( function(response2)
 		{
 		  if (response2.success)
 		  {	
+				alert(response2.results.length);
+				for(y=0;y<response2.results.length;y++) 
+				{
+					alert(y + " -> " + response2.results[y].texto + " -> " + response2.results[y].nome);
+				}
 				self.set('feedbackscurso', response2.results);
 		  }
 		  else
@@ -359,12 +364,16 @@ App.TopicController = Ember.ObjectController.extend({
 	topicoid:null,
 	topicoDetails:null,
 	topicoRespostas:null,
+	isMine:null,
 	
 	getData: function(){
 		var self = this;
-		 
+		
+		var usr = this.controllerFor('index').get('usr');
+		
 		this.set('topicoDetails', null);
 		this.set('topicoRespostas', null);
+		this.set('isMine',null);
 		
 		this.set('topicoid', this.get('topicoid')); 
 		//alert(this.topicoid);
@@ -377,6 +386,15 @@ App.TopicController = Ember.ObjectController.extend({
 		  if (response.success)
 		  {
 			self.set('topicoDetails', response.results[0]);
+			
+			if(response.results[0].numero == usr)
+			{
+				self.set('isMine',true);
+			}
+			else
+			{
+				self.set('isMine',false);
+			}
 			
 			$.post(apigo2).then( function(response)
 			{
