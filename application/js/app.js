@@ -709,7 +709,7 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 	feedbacks:null,
 	
 	getFeedbacks: function(){
-		
+		var self = this;
 		this.set('nameof',null);
 		
 		var apigo = "/api/database/feedback/";
