@@ -562,7 +562,7 @@ App.TopicController = Ember.ObjectController.extend({
 				  if (response.success)
 				  {
 						alert("Topico Eliminado");
-						self.transitionToRoute('cursos',{queryParams: {codigo: self.topicoDetails.curso}});
+						self.transitionToRoute('cursos',{queryParams: {codigo: self.topicoDetails.CursoKey}});
 				  }
 				  else
 						alert("ALGO DEU MAL A APAGAR O TOPICO");
