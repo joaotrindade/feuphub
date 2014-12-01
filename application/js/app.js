@@ -212,7 +212,11 @@ App.CursosController = Ember.ObjectController.extend({
 		$.post(apigo, {"token": token, "type" : "curso", "type2": "get"}).then( function(response)
 		{
 		  if (response.success)
-		  {
+		  {	
+				alert(response.length);
+				for(y=0;y<response.length;y++) {
+					alert(y + " -> " response[y].texto + " -> " response[y].nome);
+				}
 				self.set('feedbackscurso', response.results);
 		  }
 		  else
