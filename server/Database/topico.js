@@ -19,7 +19,7 @@ module.exports = (function() {
 		{
 			for(var x=0;x<resultssel.length;x++)
 			{
-				connection.query("DELETE FROM Utilizador_Resposta inner WHERE RespostaKey=" + resultssel[x].RespostaKey, function(err, results)
+				connection.query("DELETE FROM Utilizador_Resposta WHERE RespostaKey=" + resultssel[x].RespostaKey, function(err, results)
 				{
 					
 				});
