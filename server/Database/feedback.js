@@ -31,30 +31,31 @@ module.exports = (function() {
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
 		var body = req.body, type = body.type, type2 = body.type2;
-		if (auth.validTokenProvided(req, res)) {
 			if(type=="curso") 
 			{
 				if(type2=="insert")
 				{
-					var texto = req.body.texto;
-					var userid = req.body.userid;
-					insertFeedbacksByCourse(cID,texto,userid,function(err,result) {
-						if(err)
-						{
-							console.log(err);
-							res.send({
-								success: false,
-								results: err
-							});
-						}
-						else {
-							console.log(result);
-							res.send({
-								success: true,
-								results: result
-							});
-						}
-					});
+					if (auth.validTokenProvided(req, res)) {
+						var texto = req.body.texto;
+						var userid = req.body.userid;
+						insertFeedbacksByCourse(cID,texto,userid,function(err,result) {
+							if(err)
+							{
+								console.log(err);
+								res.send({
+									success: false,
+									results: err
+								});
+							}
+							else {
+								console.log(result);
+								res.send({
+									success: true,
+									results: result
+								});
+							}
+						});
+					}
 				}
 				else if(type2=="get5")
 				{
@@ -100,7 +101,6 @@ module.exports = (function() {
 			else 
 			{
 			}
-		}
 });
    
     return {api: api, start: start};
