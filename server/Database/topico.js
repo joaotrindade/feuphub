@@ -201,23 +201,25 @@ module.exports = (function() {
 		var body = req.body, type = body.type;
 		if(type=="delete") 
 		{
-			deleteTopic(tID,function(err,result) {
-				if(err)
-				{
-					console.log(err);
-					res.send({
-						success: false,
-						results: err
-					});
-				}
-				else {
-					console.log(result);
-					res.send({
-						success: true,
-						results: result
-					});
-				}
-			});
+			if (auth.validTokenProvided(req, res)) {
+				deleteTopic(tID,function(err,result) {
+					if(err)
+					{
+						console.log(err);
+						res.send({
+							success: false,
+							results: err
+						});
+					}
+					else {
+						console.log(result);
+						res.send({
+							success: true,
+							results: result
+						});
+					}
+				});
+			}
 		}
 		else
 		{
