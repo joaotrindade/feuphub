@@ -209,7 +209,7 @@ App.CursosController = Ember.ObjectController.extend({
 		var token = this.get('controllers.index').get('token');
 		var apigo2 = "/api/database/feedback/" + this.codigo.toUpperCase();
 		
-		$.post(apigo, {"token": token, "type" : "curso", "type2": "get"}).then( function(response2)
+		$.post(apigo2, {"token": token, "type" : "curso", "type2": "get"}).then( function(response2)
 		{
 		  if (response2.success)
 		  {	
