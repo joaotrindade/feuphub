@@ -27,7 +27,7 @@ function run(){
 		return;
 	};
 	
-	parseSigarra().then(saveInformation).done();//then(updateDB).catch(console.log).done();
+	parseSigarra().then(saveInformation).then(updateDB).catch(console.log).done();
 }
 
 function parseSigarra()
