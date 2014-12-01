@@ -17,7 +17,7 @@ module.exports = (function() {
 	function deleteTopic(tID,callback){
 		connection.query("SELECT RespostaKey FROM Utilizador_Resposta INNER JOIN Resposta on Utilizador_Resposta.RespostaKey=Resposta.id WHERE TopicoKey=" + tID, function(err, resultssel)
 		{
-			for(x=0;x<resultssel.length;x++)
+			for(var x=0;x<resultssel.length;x++)
 			{
 				connection.query("DELETE FROM Utilizador_Resposta inner WHERE RespostaKey=" + resultssel[x], function(err, results)
 				{
