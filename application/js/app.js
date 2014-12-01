@@ -214,8 +214,9 @@ App.CursosController = Ember.ObjectController.extend({
 		  if (response.success)
 		  {	
 				alert(response.length);
-				for(y=0;y<response.length;y++) {
-					alert(y + " -> " response[y].texto + " -> " response[y].nome);
+				for(y=0;y<response.length;y++) 
+				{
+					alert(y + " -> " + response[y].texto + " -> " + response[y].nome);
 				}
 				self.set('feedbackscurso', response.results);
 		  }
