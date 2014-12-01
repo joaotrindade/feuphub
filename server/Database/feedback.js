@@ -8,7 +8,7 @@ module.exports = (function() {
 	};
 	
 	function insertFeedbacksByCourse(courseID,texto,userid,callback){
-		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CursoKey,CadeiraKey,UtilizadorKey) VALUES (0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + courseID + "',NULL," + userid + ")", function(err, results)
+		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,tag_nome,CursoKey,CadeiraKey,UtilizadorKey) VALUES (0,0,'" + texto + "',CURRENT_TIMESTAMP(),'','" + courseID + "',NULL," + userid + ")", function(err, results)
 		{
 			callback(err,results);
 		});
