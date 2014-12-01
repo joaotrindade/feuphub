@@ -21,6 +21,13 @@ module.exports = (function() {
 		});
 	};
 	
+	function getFeedbacksByCourseLimit5(courseID,callback){
+		connection.query("SELECT id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero WHERE Feedback.CursoKey like '" + courseID + "' ORDER BY difference desc LIMIT 5", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
 		var body = req.body, type = body.type, type2 = body.type2;
@@ -32,6 +39,26 @@ module.exports = (function() {
 					var texto = req.body.texto;
 					var userid = req.body.userid;
 					insertFeedbacksByCourse(cID,texto,userid,function(err,result) {
+						if(err)
+						{
+							console.log(err);
+							res.send({
+								success: false,
+								results: err
+							});
+						}
+						else {
+							console.log(result);
+							res.send({
+								success: true,
+								results: result
+							});
+						}
+					});
+				}
+				else if(type2=="get5")
+				{
+					getFeedbacksByCourseLimit5(cID,function(err,result) {
 						if(err)
 						{
 							console.log(err);
