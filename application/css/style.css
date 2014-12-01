@@ -648,6 +648,21 @@ cursor: pointer;
 	padding-bottom:10px;
 }
 
+.right_bar .feedback .getmorefeedbacks
+{
+	margin-top: 20px;
+	font-family: EXOL;
+	font-size: 13px;
+	color:white;
+	text-align: center;
+	transition: all 0.3s ease 0s;
+}
+
+.right_bar .feedback .getmorefeedbacks:hover
+{
+	color:#1898E7;
+}
+
 .right_bar .feedback .feed
 {
 	font-family: EXOL;
@@ -1485,4 +1500,6 @@ cursor: pointer;
 	-moz-box-shadow: inset 1px 1px 30px 0px rgba(46, 46, 46, 0.3);
 	box-shadow: inset 1px 1px 30px 0px rgba(46, 46, 46, 0.3);
 }
+
+
 

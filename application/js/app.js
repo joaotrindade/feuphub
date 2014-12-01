@@ -12,6 +12,7 @@ App.Router.map(function() {
   this.resource('cursos');
   this.resource('createtopic');
   this.resource('givefeedback');
+  this.resource('viewfeedbacks');
   this.route('articles');
   this.route('photos');
   this.route('credentials');
@@ -131,6 +132,12 @@ App.CreatetopicRoute = Ember.Route.extend({
 App.GivefeedbackRoute = Ember.Route.extend({
   setupController: function(controller, context) {
     controller.initialGiveFeedback();
+  }
+});
+
+App.ViewfeedbacksRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.getFeedbacks();
   }
 });
 
@@ -686,6 +693,60 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 			{
 				alert("LOGIN PARA DAR FEEDBACK");
 			}
+        }
+    }
+	
+	
+});
+
+App.ViewfeedbacksController = Ember.ObjectController.extend({
+	needs: ['index'],
+	queryParams: ['cursoid','cadeiraid','feupid'],
+	cursoid: null,
+	cadeiraid: null,
+	feupid: null,
+	nameof: null,
+	feedbacks:null,
+	
+	getFeedbacks: function(){
+		
+		this.set('nameof',null);
+		
+		var apigo = "/api/database/feedback/";
+		var type = null;
+		
+		if(this.cursoid != "")
+		{
+			this.set('nameof',this.cursoid.toUpperCase());
+			apigo = apigo + this.cursoid.toUpperCase();
+			type="curso";
+		}
+		else if(this.cadeiraid != "")
+		{
+			this.set('nameof',this.cadeiraid.toUpperCase());
+			type="cadeira";
+			//apigo = apigo + TODO
+		}
+			
+		//GET FEEDBACKS
+		var token = this.get('controllers.index').get('token');
+		
+		$.post(apigo, {"token": token, "type" : type, "type2": "get"}).then( function(response) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+		{
+		  if (response.success)
+		  {	
+				self.set('feedbacks', response.results);
+		  }
+		  else
+				alert("Algo deu Errado.");
+		});
+
+	},
+	
+	actions: {
+       
+        subfeedback: function() {
+		
         }
     }
 	

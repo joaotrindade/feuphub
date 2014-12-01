@@ -610,7 +610,10 @@
 					</div>
 				</div>
 				{{/each}}
-
+				
+				{{#link-to 'viewfeedbacks' (query-params cursoid=codigo cadeiraid="" feupid="") class='linkto-none'}}
+				<div class='getmorefeedbacks'>+Feedbacks</div>
+				{{/link-to}}
 			</div>
 			
 		</div>
@@ -982,6 +985,52 @@
 	</div>
 	
   </script>
+  
+  <script type="text/x-handlebars" id="viewfeedbacks">
+	
+	<div class="midpage_create">
+		
+		<div class="create_title" style="margin-bottom:15px;">
+			<div class="create_top_title">
+				{{nameof}} Feedback
+			</div>
+			
+			<div class="create_down_title">
+				Estas são as prespectivas de alunos que já tiverem contacto com {{nameof}}.
+			</div>
+		</div>
+		
+		<div class="replys" style="border-bottom: 0px solid rgb(220,220,220);">
+			
+			{{#each item in feedbacks}}
+			<div class="reply" style="margin-bottom:8px; border-bottom: 1px solid rgb(220,220,220);">
+				<div class="description">
+				
+					<div class="top_description">
+						<div class="upvote_desc"></div>
+						<div class="score_desc">{{item.difference}}</div>
+						<div class="downvote_desc"></div>
+					</div>
+					
+					<div class="mid_description">
+						<div class="username_desc">{{item.nome}}</div>
+						<div class="data_desc">{{item.data}}</div>
+						<div class="clear"></div>
+						{{item.texto}}
+					</div>
+					
+				</div>
+				
+			</div>
+			{{/each}}
+			
+		</div>
+		
+	</div>
+	
+  </script>
+  
+  <div class="gv-item category-technology gv-size-medium isotope-item gv-item-shadow gv-item-triangle" id="gv-site-2" style="background-color: rgb(238, 75, 75); position: absolute; left: 288px; top: 0px; border-color: rgb(238, 75, 75);">
  
 
   <script type="text/x-handlebars" id="credentials">
