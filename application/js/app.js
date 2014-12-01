@@ -193,6 +193,7 @@ App.CursosController = Ember.ObjectController.extend({
 		this.set('feedbackscurso', null);		
 		this.set('codigo', this.get('codigo')); 
 		
+		//GET TOPICOS DE UM CURSO
 		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
 		
 		$.post(apigo).then( function(response)
@@ -205,7 +206,7 @@ App.CursosController = Ember.ObjectController.extend({
 				alert("Algo deu Errado.");
 		});
 		
-		//GET FEEDBACK
+		//GET FEEDBACK DE UM CURSO
 		var token = this.get('controllers.index').get('token');
 		var apigo2 = "/api/database/feedback/" + this.codigo.toUpperCase();
 		
