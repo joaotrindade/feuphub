@@ -135,7 +135,7 @@
 					
 					<div class="feedback">
 						Feedback
-						<div class="feedbackPAR">
+						<div class="feedback_user">
 							<div class="feed">
 								- Não gostei, muito teorico.
 							</div>
@@ -145,7 +145,7 @@
 							</div>
 						</div>
 						
-						<div class="feedbackIMPAR">
+						<div class="feedback_user">
 							<div class="feed">
 								- E este tipo de letra? Será que fica bem?
 							</div>
@@ -155,7 +155,7 @@
 							</div>
 						</div>
 						
-						<div class="feedbackPAR">
+						<div class="feedback_user">
 							<div class="feed">
 								- Boas aulas Práticas.
 							</div>
@@ -412,7 +412,7 @@
 					
 					<div class="feedback">
 						Feedback
-						<div class="feedbackPAR">
+						<div class="feedback_user">
 							<div class="feed">
 								- Não gostei, muito teorico.
 							</div>
@@ -422,7 +422,7 @@
 							</div>
 						</div>
 						
-						<div class="feedbackIMPAR">
+						<div class="feedback_user">
 							<div class="feed">
 								- E este tipo de letra? Será que fica bem?
 							</div>
@@ -432,7 +432,7 @@
 							</div>
 						</div>
 						
-						<div class="feedbackPAR">
+						<div class="feedback_user">
 							<div class="feed">
 								- Boas aulas Práticas.
 							</div>
@@ -598,36 +598,19 @@
 			
 			<div class="feedback">
 				Feedback
-				<div class="feedbackPAR">
+				
+				{{#each item in topicscurso}}
+				<div class="feedback_user">
 					<div class="feed">
-						- Não gostei, muito teorico.
+						{{feedbackscurso.texto}}
 					</div>
 					
 					<div class="user">
-						Rui Neves
+						{{feedbackscurso.nome}}
 					</div>
 				</div>
-				
-				<div class="feedbackIMPAR">
-					<div class="feed">
-						- E este tipo de letra? Será que fica bem?
-					</div>
-					
-					<div class="user">
-						Rui Neves
-					</div>
-				</div>
-				
-				<div class="feedbackPAR">
-					<div class="feed">
-						- Boas aulas Práticas.
-					</div>
-					
-					<div class="user">
-						Rui Neves
-					</div>
-				</div>
-				
+				{{/each}}
+
 			</div>
 			
 		</div>
@@ -785,7 +768,7 @@
 			
 			<div class="feedback">
 				Feedback
-				<div class="feedbackPAR">
+				<div class="feedback_user">
 					<div class="feed">
 						- Não gostei, muito teorico.
 					</div>
@@ -795,7 +778,7 @@
 					</div>
 				</div>
 				
-				<div class="feedbackIMPAR">
+				<div class="feedback_user">
 					<div class="feed">
 						- E este tipo de letra? Será que fica bem?
 					</div>
@@ -805,7 +788,7 @@
 					</div>
 				</div>
 				
-				<div class="feedbackPAR">
+				<div class="feedback_user">
 					<div class="feed">
 						- Boas aulas Práticas.
 					</div>

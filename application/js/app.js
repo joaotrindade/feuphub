@@ -175,6 +175,7 @@ App.CursosController = Ember.ObjectController.extend({
 	queryParams: ['codigo'],
 	codigo:null,
 	topicscurso:null,
+	feedbackscurso:null,
 	
 	isMieic:false,
 	isMieec:false,
@@ -188,7 +189,8 @@ App.CursosController = Ember.ObjectController.extend({
 	
 	getCursoTopics: function(){
 		var self = this;
-		this.set('topicscurso', null); 
+		this.set('topicscurso', null);
+		this.set('feedbackscurso', null);		
 		this.set('codigo', this.get('codigo')); 
 		
 		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
@@ -198,6 +200,20 @@ App.CursosController = Ember.ObjectController.extend({
 		  if (response.success)
 		  {
 			self.set('topicscurso', response.results);
+		  }
+		  else
+				alert("Algo deu Errado.");
+		});
+		
+		//GET FEEDBACK
+		var token = this.get('controllers.index').get('token');
+		var apigo2 = "/api/database/feedback/" + this.codigo.toUpperCase();
+		
+		$.post(apigo, {"token": token, "type" : "curso", "type2": "get"}).then( function(response)
+		{
+		  if (response.success)
+		  {
+				self.set('feedbackscurso', response.results);
 		  }
 		  else
 				alert("Algo deu Errado.");
@@ -375,6 +391,7 @@ App.TopicController = Ember.ObjectController.extend({
 		  else
 				alert("Algo deu Errado.");
 		});
+		
 	},
 	
     actions: {
@@ -612,8 +629,18 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 	actions: {
        
         subfeedback: function() {
-            
-			var apigo = "/api/database/topico/" + this.cursoid.toUpperCase(); //TODO: ALTERAR PARA SER POSSIVEL CRIAR NAS CADEIRAS E NO FEUPMAINPAGE
+		
+			var apigo = "/api/database/feedback/";
+			
+			if(this.cursoid != "")
+			{
+				apigo = apigo + this.cursoid.toUpperCase();
+			}
+			else if(this.cadeiraid != "")
+			{
+				//apigo = apigo + TODO
+			}
+			
 			var self = this;
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 
@@ -624,20 +651,26 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 
 				var token = this.get('controllers.index').get('token');
 							
-				/*$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr, "type": "insert"}).then( function(response)
+				$.post(apigo, {"token": token, "texto" : texto, "type" : "curso", "userid" : usr, "type2": "insert"}).then( function(response)
 				{
 				  if (response.success)
 				  {
-						//alert("Inserido em MIEEC");
-						self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
+						if(self.cursoid != "")
+						{
+							self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
+						}
+						else if(self.cadeiraid != "")
+						{
+							//self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}}); TODO PARA CADEIRA
+						}
 				  }
 				  else
 						alert("Algo deu Errado.");
-				});*/
+				});
 			}
 			else
 			{
-				alert("LOGIN PARA INSERIR TOPICO");
+				alert("LOGIN PARA DAR FEEDBACK");
 			}
         }
     }

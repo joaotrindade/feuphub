@@ -635,14 +635,14 @@ cursor: pointer;
 	text-align: center;
 }
 
-.right_bar .feedback .feedbackPAR
+.right_bar .feedback .feedback_user:nth-child(odd)
 {
 	padding-top:10px;
 	padding-bottom:10px;
 	background-color: rgb(53,56,62);
 }
 
-.right_bar .feedback .feedbackIMPAR
+.right_bar .feedback .feedback_user:nth-child(even)
 {
 	padding-top:10px;
 	padding-bottom:10px;
