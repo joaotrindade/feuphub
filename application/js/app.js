@@ -371,7 +371,7 @@ App.TopicController = Ember.ObjectController.extend({
 	getData: function(){
 		var self = this;
 		
-		var usr = this.controllerFor('index').get('usr');
+		var usr = this.get('controllers.index').get('usr');
 		
 		this.set('topicoDetails', null);
 		this.set('topicoRespostas', null);
@@ -551,7 +551,7 @@ App.TopicController = Ember.ObjectController.extend({
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			if(usr != null && isMine == true)
+			if(usr != null && this.isMine == true)
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/id/" + id;
