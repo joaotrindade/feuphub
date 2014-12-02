@@ -21,6 +21,8 @@ module.exports = (function() {
 	feedback.start(connection);
 	var search = require("./search");
 	search.start(connection);
+	var utilizador = require("./utilizador");
+	utilizador.start(connection);
 	
 	api.get('/', function(req, res) {
         res.send("Hello, this is the database!\n")
@@ -31,6 +33,7 @@ module.exports = (function() {
 	api.use('/resposta',resposta.api);
 	api.use('/topico',topico.api);
 	api.use('/feedback',feedback.api);
+	api.use('/utilizador',utilizador.api);
     return api;
 
 	
