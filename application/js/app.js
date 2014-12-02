@@ -17,6 +17,7 @@ App.Router.map(function() {
   this.route('photos');
   this.route('credentials');
   this.route('cadeiras');
+  this.resource('account');
 });
 
 var usrname = "";
@@ -141,9 +142,91 @@ App.ViewfeedbacksRoute = Ember.Route.extend({
   }
 });
 
+App.AccountRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.getAccount();
+  }
+});
+
 /*------------------------------------------------------------------------------------------*/
 
 // CONTROLLERS ------------------------------------------------------------------------------
+
+App.AccountController = Ember.ObjectController.extend({
+	needs:['index'],
+	nickname:null,
+	email:null,
+	feedbacksuser:null,
+	utilizadorId:null,
+	
+	getAccount: function(){
+		var self = this;
+		var usr = this.get('controllers.index').get('usr');
+		var token = this.get('controllers.index').get('token');
+		var apigo = 'api/database/utilizador/';
+		var apigo2 = "/api/database/feedback/" + usr;
+		
+		this.set('feedbacksuser',null);
+		this.set('email',null);
+		this.set('nickname',null);
+		this.set('utilizadorId',usr);
+		
+		$.post(apigo, {"token":token, "numero":usr}).then( function(response)
+		{
+			if (response.success)
+			{
+				self.set('nickname', response.results[0].nickname);
+				self.set('email', response.results[0].email);
+			}
+			else
+				alert("Algo deu Errado.");
+		});
+		
+		$.post(apigo2, {"token": token}).then( function(response2) // PEDIR UMA API QUE RETORNE APENAS 5 FEEDBACKS
+		{
+		  if (response2.success)
+		  {	
+				self.set('feedbacksuser', response2.results);
+		  }
+		  else
+				alert("Algo deu Errado.");
+		});
+		
+		//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER OS TOPICOS CRIADOS POR ELE
+		
+		//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER OS TOPICOS COMENTADOS POR ELE
+		
+		//TODO $POST - PEDIR AO NEVES PARA FAZER API PARA FAZER UPDATE AOS CAMPOS
+	},
+	
+	actions: {  
+        actionEdit: function(id) {
+            if(id == "edit_username")
+			{
+				$("#edit_username").hide();
+				$("#new_user").show("slow");
+				
+			} else if(id == "edit_email")
+			{
+				$("#edit_email").hide();
+				$("#new_email").show("slow");
+			}
+        },
+		actionCloseEdit: function(id) 
+		{
+			if(id == "edit_username")
+			{
+				$("#edit_username").show();
+				$("#new_user").hide("slow");
+				
+			} else if(id == "edit_email")
+			{
+				$("#edit_email").show();
+				$("#new_email").hide("slow");
+			}
+		}
+    }
+});
 
 App.MieicController = Ember.ObjectController.extend({
 	queryParams: ['ano'],
@@ -725,12 +808,14 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 
 App.ViewfeedbacksController = Ember.ObjectController.extend({
 	needs: ['index'],
-	queryParams: ['cursoid','cadeiraid','feupid'],
+	queryParams: ['cursoid','cadeiraid','feupid','userid'],
 	cursoid: null,
 	cadeiraid: null,
 	feupid: null,
+	userid:null,
 	nameof: null,
 	feedbacks:null,
+	isUser:null,
 	
 	getFeedbacks: function(){
 		var self = this;
@@ -738,6 +823,8 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 		
 		var apigo = "/api/database/feedback/";
 		var type = null;
+		
+		this.set('isUser',null);
 		
 		if(this.cursoid != "")
 		{
@@ -750,6 +837,12 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 			this.set('nameof',this.cadeiraid.toUpperCase());
 			type="cadeira";
 			//apigo = apigo + TODO
+		}
+		else if(this.userid != "")
+		{
+			this.set('isUser',true);
+			//TODO pedir neves para acrescentar verificação de usr no get de todos os feedbacks
+			type="user";
 		}
 			
 		//GET FEEDBACKS
@@ -871,10 +964,8 @@ App.IndexController = Ember.Controller.extend({
 
 										self.set('token', response.token);
 										//self.set('usr',self.get('username'));
-										usrname = self.get('username');
 										//alert(self.get('token'));
 										var attemptedTransition = self.get('attemptedTransition');
-										
 										self.transitionToRoute('home');
 									}
 								});
