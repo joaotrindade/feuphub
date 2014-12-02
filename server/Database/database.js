@@ -5,7 +5,7 @@ module.exports = (function() {
 		host     : '127.0.0.1',
 		user     : 'feuphub',
 		password : 'chituc2014',
-		database : 'feuphubalt'
+		database : 'feuphubmain'
 	});
 	
 	var api = express.Router();
