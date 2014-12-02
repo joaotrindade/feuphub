@@ -33,6 +33,7 @@ module.exports = (function() {
 	api.use('/resposta',resposta.api);
 	api.use('/topico',topico.api);
 	api.use('/feedback',feedback.api);
+	api.use('/search',search.api);
 	api.use('/utilizador',utilizador.api);
     return api;
 
