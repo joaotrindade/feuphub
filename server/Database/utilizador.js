@@ -8,7 +8,7 @@ module.exports = (function() {
 	};
 	
 	function getUser(numero,callback){
-		connection.query("SELECT * FROM Visitante INNER JOIN Utilizdor ON Visitante.id = Utilizador.VisitanteKey WHERE Utilizador.numero=" + numero, function(err, results)
+		connection.query("SELECT * FROM Visitante INNER JOIN Utilizador ON Visitante.id = Utilizador.VisitanteKey WHERE Utilizador.numero=" + numero, function(err, results)
 		{
 			callback(err,results);
 		});
