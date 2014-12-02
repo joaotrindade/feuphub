@@ -1,9 +1,6 @@
 module.exports = (function() {
     'use strict';
-    var api = express.Router();
-	var sigarraParse = require("./sigarraParse");
-	api.use('/parse', sigarraParse);
-	
+    var api = express.Router();	
 	/////////////// SIGARRA SESSION VARIABLES ///////////////
 	var http_session='';
 	var si_session='';

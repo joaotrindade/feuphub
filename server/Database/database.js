@@ -19,6 +19,8 @@ module.exports = (function() {
 	topico.start(connection);
 	var feedback = require("./feedback");
 	feedback.start(connection);
+	var search = require("./search");
+	search.start(connection);
 	
 	api.get('/', function(req, res) {
         res.send("Hello, this is the database!\n")
