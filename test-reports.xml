@@ -1,4 +1,0 @@
-<testsuite name="Mocha Tests" tests="2" failures="0" errors="0" skipped="0" timestamp="Sat, 15 Nov 2014 22:23:07 GMT" time="0.032">
-<testcase classname="Simple tests (always pass) Array #indexOf()" name="should return -1 when the value is not present" time="0"/>
-<testcase classname="API Database" name="root answer with Hello" time="0.016"/>
-</testsuite>
