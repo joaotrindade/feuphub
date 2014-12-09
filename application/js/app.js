@@ -25,12 +25,27 @@ var usrname = "";
 App.ApplicationController = Ember.Controller.extend({
   page: null,
   isVisibleHeader: true,
+  loggedIn:null,
+  numero:null,
 	
 	updateCurrentPath: function() {
 		App.set('currentPath', this.get('currentPath'));
 		if (App.get('currentPath') == 'index')
 		{
 			this.set('isVisibleHeader',false);
+		}
+	}.observes('currentPath'),
+	
+	checkIsLoggedIn:function(){
+		var variavel = this.controllerFor('index').get('usr');
+		this.set('numero',variavel);
+		if(variavel!="")
+		{
+			this.set('loggedIn',true);
+		}
+		else
+		{
+			this.set('loggedIn',false);
 		}
 	}.observes('currentPath'),
 });
@@ -905,8 +920,7 @@ App.IndexController = Ember.Controller.extend({
     localStorage.usr = this.get('usr');
   }.observes('usr'),
 
-  login: function() {
-
+  login: function(){
     var self = this, data2 = this.getProperties('username', 'password');
 
     // Clear out any error messages.
@@ -940,7 +954,8 @@ App.IndexController = Ember.Controller.extend({
 					
 					$.get('/api/sigarra/getPct_id').then(function(response)
 					{
-					
+						
+						$.get('/api/sigarra/getStudentId')
 						self.set('errorMessage', response.message);
 						if(response.statusCode = 200){
 							userId = parserLogin(response.body);
@@ -976,13 +991,17 @@ App.IndexController = Ember.Controller.extend({
 					$('#spinner #statusText').text("incorrect sifeup login credentials");
 					setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
 				}
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				$('#spinner #statusText').text("Incorrect sigarra credentials");
+			},
+			complete: function(data){
+				logoff();
+				setTimeout(function(){$('#spinner').stop().fadeOut(500);},500);
 			}
 		});
 	}, 1000);
-  },
-  
-  
-  
+  }
 });
 
 
@@ -1052,10 +1071,6 @@ function getCourses(username){
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				$('#spinner #statusText').text("Something happened to sigarra...");
-			},
-			complete: function(data){
-				logoff();
-				setTimeout(function(){$('#spinner').stop().fadeOut(500);},500);
 			}
 		});
 	},1000);	
