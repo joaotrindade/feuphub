@@ -971,15 +971,16 @@ App.IndexController = Ember.Controller.extend({
   alert( "Data Loaded: " + data );
 });*/
 						if(response.statusCode = 200){
+							userId = parserPctId(response.body);
 							self.set('usr',userId);
-							return parserPctId(response.body)
+							return userId;
 						}else{
 							self.set('errorMessage', response.message);	
 							return $.Deferred().reject();
 						}
 					}).then(function(PctID){
-						console.log(PctID);
-						/*$.get('/api/sigarra/getStudentId', { pct_id: parserPctId(response.body)}).then(function(response){
+						console.log("PCTID:"+PctID);
+						/*$.get('/api/sigarra/getStudentId', { pct_id: parserPctId(PctID)}).then(function(response){
 								parserNumUnico
 								if(response.statusCode = 200){
 								}else{
