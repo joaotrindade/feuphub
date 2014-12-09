@@ -1,0 +1,336 @@
+Olá,
+
+Depois de autenticados no SIGARRA, devem conseguir aceder aos URLs abaixo.
+Estou por cá para esclarecer as dúvidas que surgirem.
+
+
+Pesquisa de alunos:
+https://sigarra.up.pt/feup/pt/mob_fest_geral.pesquisa?pv_pag=1&pv_n_registos=1000&pv_em=2013
+
+{
+    "total":7727,
+    "pagina":"1",
+    "tam_pagina":1000,
+    "resultados":[
+        {
+            "codigo":"200807042", --> https://sigarra.up.pt/feup/pt/mob_fest_geral.perfil?pv_codigo=200807042
+            "nome":"Abayomi Moradeyo Otebolaku",
+            "inst_sigla":"FEUP",
+            "curso":"Programa Doutoral em Telecomunica\u00E7\u00F5es",
+            "a_lect_1_insc":2008,
+            "a_lectivo":2013,
+            "estado":"A Frequentar",
+            "inst_nome":"Faculdade de Engenharia"}
+            , ...
+        }
+    ]
+}
+
+Aluno:
+https://sigarra.up.pt/feup/pt/mob_fest_geral.perfil?pv_codigo=XXXXXXXXX
+
+{
+    "codigo":"XXXXXXXXX",
+    "nome":"Nome do Aluno",
+    "email":"XXXXXXXXX@fe.up.pt",
+    "email_alt":"XXXXXXXXX@fe.up.pt",
+    "pagina_web":"",
+    "telemovel":"",
+    "telefone":"",
+    "cursos":[
+        {
+            "fest_id":722642,
+            "fest_tipo":"N",
+            "fest_tipo_descr":"Normal",
+            "cur_nome":"Mestrado Integrado em Engenharia Electrot\u00E9cnica e de Computadores",
+            "cur_name":"Master in Electrical and Computers Engineering",
+            "cur_sigla":"MIEEC",
+            "fest_a_lect_1_insc":2010,
+            "fest_d_1_insc":"2010-09-16",
+            "cur_id":741,
+            "est_alectivo":2014,
+            "est_sig":"NI",
+            "est_nome":"N\u00E3o Inscrito",
+            "est_d_inicio":"2014-08-01",
+            "est_d_fim":"",
+            "inst_nome":"Faculdade de Engenharia",
+            "inst_sigla":"FEUP",
+            "ano_curricular":"4"
+        }
+    ]
+}
+
+Informação de exames de um aluno:
+https://sigarra.up.pt/feup/pt/mob_fest_geral.exames?pv_codigo=XXXXXXXXX
+
+[
+    {
+        "id":26890,
+        "ocorr_id":338286,
+        "ocorr_nome":"Hist\u00F3ria e Tend\u00EAncias do Multim\u00E9dia",
+        "data":"2014-06-18",
+        "hora_inicio":"09:00",
+        "hora_fim":"11:30",
+        "duracao":2.5,
+        "pfunc_id":10816,
+        "tipo":"T",
+        "tipo_descricao":"\u00C9poca Normal (2\u00BAS)",
+        "epoca":"Normal",
+        "salas":[
+            {"espaco_id":73348,"espaco_sigla":"B120"},
+            {"espaco_id":73247,"espaco_sigla":"B119"},
+            ...
+        ]
+    },
+    ...
+]
+
+Horário de um aluno:
+https://sigarra.up.pt/feup/pt/mob_hor_geral.estudante?pv_codigo=XXXXXXXXX&pv_semana_ini=20140521&pv_semana_fim=20140521
+
+{
+    "horario":[
+        {
+            "dia":5, --> 5ª-feira
+            "hora_inicio":30600, --> Nº de segundos desde o início do dia
+            "ucurr_sigla":"GOSE",
+            "ocorrencia_id":334725,
+            "tipo":"T",
+            "aula_id":3333093,
+            "aula_duracao":2, --> Em horas
+            "sala_sigla":"B018",
+            "salas":[
+                {
+                    "espaco_id":73178, --> https://sigarra.up.pt/feup/pt/mob_instal_geral.perfil?pv_sala_id=73178
+                    "espaco_nome":"B018"
+                }
+            ],
+            "doc_sigla":"JAF",
+            "docentes":[
+                {
+                    "doc_codigo":"207591", --> https://sigarra.up.pt/feup/pt/mob_func_geral.perfil?pv_codigo=207591
+                    "doc_nome":"Jos\u00E9 Manuel Marques Amorim de Ara\u00FAjo Faria"
+                }
+            ],
+            "turma_sigla":"COMP_212",
+            "turmas":[
+                {
+                    "turma_id":204342,
+                    "turma_sigla":"42MC08"
+                },
+                {
+                    "turma_id":204338,
+                    "turma_sigla":"42MC04"
+                }
+            ],
+        "periodo":3
+    },
+...
+
+Pesquisa de salas:
+https://sigarra.up.pt/feup/pt/mob_instal_geral.pesquisa?pv_n_registos=1000&pv_pag=1
+
+{
+    "total":2353,
+    "pagina":"1",
+    "tam_pagina":1000,
+    "resultados":[
+        {
+            "id":75172, --> https://sigarra.up.pt/feup/pt/mob_instal_geral.perfil?pv_sala_id=75172
+            "sigla":"AC",
+            "edificio_id":1420,
+            "edificio_sigla":"S",
+            "edificio_nome":"INESC Porto",
+            "piso":5,
+            "desc":"Ar Condicionado",
+            "activo":"S"},
+            ...
+        }
+    ]
+}
+
+https://sigarra.up.pt/feup/pt/mob_instal_geral.perfil?pv_sala_id=73181
+Sala:
+{
+    "id":"73181",
+    "sigla":"113",
+    "utilizacao":"Aula - te\u00F3rico-pr\u00E1tica",
+    "edificio_nome":"Aulas iii",
+    "piso":1,
+    "edificio_sigla":"B",
+    "edificio_id":1405,
+    "area":39,
+    "atributos":[
+        {
+            "nome":"Capacidade",
+            "conteudo":"40"
+        },
+        {
+            "nome":"Telefone",
+            "conteudo":"1149"
+        },
+        {
+            "nome":"Equipamento fixo de proje\u00E7\u00E3o multim\u00E9dia",
+            "conteudo":"Sim"
+        }
+    ],
+    "responsaveis":[
+        {
+            "tipo":"funcionario",
+            "codigo":230491,
+            "nome":"Ant\u00F3nio J\u00FAlio Afonso de Vasconcelos"
+        }
+    ],
+    "ocupantes":[]
+}
+
+Horário de sala:
+https://sigarra.up.pt/feup/pt/mob_hor_geral.sala?pv_espaco_id=73181&pv_semana_ini=20140521&pv_semana_fim=20140522
+
+{
+    "blocos":[
+        {
+            "semana_ini":"2014-02-09",
+            "semana_fim":"2014-02-15",
+            "bloco_codigo":null,
+            "c_turma_id":null,
+            "turmas_bloco":"",
+            "turma_real":"",
+            "periodo":""
+        },
+        ...
+    ],
+    "horario":[
+        {
+            "dia":5, --> 5ª-feira
+            "hora_inicio":30600, --> Nº de segundos desde a meia noite
+            "ucurr_sigla":"RTDI",
+            "ocorrencia_id":333831,
+            "tipo":"TP",
+            "aula_id":3334732,
+            "aula_duracao":2.5, --> Em horas
+            "sala_sigla":"B113",
+            "salas":[
+                {"espaco_id":73181,"espaco_nome":"B113"}
+            ],
+            "doc_sigla":"HFDL+FMB",
+            "docentes":[
+                {
+                    "doc_codigo":"419481",
+                    "doc_nome":"Helder Filipe Duarte Leite"
+                },
+                {
+                    "doc_codigo":"208361",
+                    "doc_nome":"Fernando Pires Maciel Barbosa"
+                }
+            ],
+            "turma_sigla":"3MIEEC09",
+            "turmas":[
+                {"turma_id":203984,"turma_sigla":"3MIEEC09"}
+            ],
+            "periodo":3
+        },
+        ...
+    ]
+}
+
+Pesquisa de pessoal:
+{
+    "total":1712,
+    "pagina":"1",
+    "tam_pagina":200,
+    "resultados":[
+        {
+            "codigo":"486709", --> https://sigarra.up.pt/feup/pt/mob_func_geral.perfil?pv_codigo=486709
+            "nome":"Abel Ant\u00F3nio de Azevedo Ferreira",
+            "sigla":"AAF",
+            "unidade_nome":""
+        },
+        ...
+    ]
+}
+
+Pessoal:
+https://sigarra.up.pt/feup/pt/mob_func_geral.perfil?pv_codigo=419454
+
+{
+    "codigo":"419454",
+    "nome":"Gil Ant\u00F3nio Oliveira da Silva",
+    "nome_curto":"Gil Silva",
+    "pagina_web":"",
+    "sigla":"GAOS",
+    "estado":"A",
+    "email":"gils@fe.up.pt",
+    "email_alt":"gils@fe.up.pt",
+    "telefone":"",
+    "ext_tel":"",
+    "tele_alt":"",
+    "voip_ext":"3084",
+    "telemovel":"",
+    "apresentacao":"",
+    "apresentacao_uk":"",
+    "salas":[
+        {
+            "id":73645,
+            "sigla":"D109"
+        }
+    ],
+    "interesses":[]
+}
+
+
+Ementas:
+https://sigarra.up.pt/feup/pt/mob_eme_geral.cantinas
+
+[
+    {
+        "codigo":1,
+        "descricao":"Cantina",
+        "horario":"11h30 \u00E0s 14h00",
+        "ementas":[]
+    },
+    {
+        "codigo":2,
+        "descricao":"Grill",
+        "horario":"12h00 \u00E0s 14h00",
+        "ementas":[]
+    },
+    {
+        "codigo":4,
+        "descricao":"Cafetaria - Restaurante FEUP",
+        "horario":"12h00 \u00E0s 14h45",
+        "ementas":[
+            {
+                "estado":"Aberto",
+                "data":"28-05-2014",
+                "pratos":[
+                    {
+                        "estado":"Aberto",
+                        "descricao":"Bifinhos de frango com molho de cogumelos",
+                        "tipo":1,
+                        "tipo_descr":"Carne"
+                    },
+                    {
+                        "estado":"Aberto",
+                        "descricao":"Escalopes de sardinha com arroz de feij\u00E3o",
+                        "tipo":2,
+                        "tipo_descr":"Peixe"
+                    },
+                    {
+                        "estado":"Aberto",
+                        "descricao":"Seitan \u00E0 Kiev",
+                        "tipo":3,
+                        "tipo_descr":"Vegetariano"
+                    },
+                    {
+                        "estado":"Aberto",
+                        "descricao":"Vitela cozida com arroz branco",
+                        "tipo":4,
+                        "tipo_descr":"Dieta"
+                    }
+                ]
+            },
+            ...
+        ]
+    }
+]
