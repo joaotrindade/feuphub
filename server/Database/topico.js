@@ -44,8 +44,22 @@ module.exports = (function() {
 		});
 	};
 	
+	function getTopicosbyUser(userID,callback){
+		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.UtilizadorKey = " + userID + " ORDER BY difference desc", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
+	function getTopicosbyUserResposta(userID,callback){
+		connection.query("SELECT distinct(Topico.id),Topico.tipo,Topico.titulo,Topico.upvote-Topico.downvote as difference,Topico.texto,DATE_FORMAT(Topico.data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero INNER JOIN Resposta on Topico.id = Resposta.TopicoKey WHERE Resposta.UtilizadorKey = " + userID + " ORDER BY difference desc", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	function getTopicoByID(tID,callback){
-		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.id = " + tID + " ORDER BY difference desc", function(err, results)
+		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero WHERE Topico.id = " + tID + " ORDER BY data asc", function(err, results)
 		{
 			callback(err,results);
 		});
@@ -164,7 +178,9 @@ module.exports = (function() {
 	}
 	
 	api.post('/:courseID', function(req, res) {
+		console.log("aqui");
 		var cID = req.params.courseID;
+		console.log(cID);
 		var body = req.body, type = body.type;
 		console.log(type);
 		if(type=="insert") {
@@ -186,6 +202,50 @@ module.exports = (function() {
 						console.log(result);
 						res.send({
 							success: true,
+						});
+					}
+				});
+			}
+		}
+		else if(type=="user")
+		{
+			if (auth.validTokenProvided(req, res)) {
+				getTopicosbyUser(cID,function(err,result) {
+					if(err)
+					{
+						console.log(err);
+						res.send({
+							success: false,
+							results: err
+						});
+					}
+					else {
+						console.log(result);
+						res.send({
+							success: true,
+							results: result
+						});
+					}
+				});
+			}
+		}
+		else if(type=="userrespostas")
+		{
+			if (auth.validTokenProvided(req, res)) {
+				getTopicosbyUserResposta(cID,function(err,result) {
+					if(err)
+					{
+						console.log(err);
+						res.send({
+							success: false,
+							results: err
+						});
+					}
+					else {
+						console.log(result);
+						res.send({
+							success: true,
+							results: result
 						});
 					}
 				});

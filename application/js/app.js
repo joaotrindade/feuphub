@@ -185,6 +185,10 @@ App.AccountController = Ember.ObjectController.extend({
 	email:null,
 	feedbacksuser:null,
 	utilizadorId:null,
+	new_username:null,
+	topicoscriados:null,
+	respostastopicos:null,
+	
 	
 	getAccount: function(){
 		var self = this;
@@ -192,6 +196,7 @@ App.AccountController = Ember.ObjectController.extend({
 		var token = this.get('controllers.index').get('token');
 		var apigo = 'api/database/utilizador/';
 		var apigo2 = "/api/database/feedback/" + usr;
+		var apigo3 = "/api/database/topico/" + usr;
 		
 		this.set('feedbacksuser',null);
 		this.set('email',null);
@@ -219,11 +224,30 @@ App.AccountController = Ember.ObjectController.extend({
 				alert("Algo deu Errado.");
 		});
 		
-		//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER OS TOPICOS CRIADOS POR ELE
+		$.post(apigo3, {"token": token, "type":"user"}).then( function(response3)
+		{
+		  if (response3.success)
+		  {	
+				self.set('topicoscriados', response3.results);
+		  }
+		  else
+				alert("Algo deu Errado.");
+		});
+		
+		$.post(apigo3, {"token": token, "type":"userrespostas"}).then( function(response4)
+		{
+		  if (response4.success)
+		  {	
+				self.set('respostastopicos', response4.results);
+		  }
+		  else
+				alert("Algo deu Errado.");
+		});
 		
 		//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER OS TOPICOS COMENTADOS POR ELE
 		
-		//TODO $POST - PEDIR AO NEVES PARA FAZER API PARA FAZER UPDATE AOS CAMPOS
+		//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER O FEEDBACK
+		
 	},
 	
 	actions: {  
@@ -251,6 +275,24 @@ App.AccountController = Ember.ObjectController.extend({
 				$("#edit_email").show();
 				$("#new_email").hide("slow");
 			}
+		},
+		updateInfo: function(type)
+		{
+			var self=this;
+			var usr = this.controllerFor('index').get('usr');
+			var texto = this.get('new_username');
+			var token = this.controllerFor('index').get('token');
+			var apigo3 = "/api/database/utilizador/" + usr;
+			$.post(apigo3, {"token": token, "numero":usr, "type":type, "valor":texto}).then( function(response3)
+			{
+			  if (response3.success)
+			  {	
+					self.set('nickname',self.get('new_username'));
+					self.controllerFor('application').set('numero',self.get('new_username'));
+			  }
+			  else
+					alert("Algo deu Errado nos updates.");
+			});
 		}
     }
 });
