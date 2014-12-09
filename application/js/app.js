@@ -37,10 +37,22 @@ App.ApplicationController = Ember.Controller.extend({
 	}.observes('currentPath'),
 	
 	checkIsLoggedIn:function(){
+		var self=this;
 		var variavel = this.controllerFor('index').get('usr');
-		this.set('numero',variavel);
 		if(variavel!="")
 		{
+			var apigo = 'api/database/utilizador';
+			var tok = this.controllerFor('index').get('token');
+			var us = this.controllerFor('index').get('usr');
+			$.post(apigo, {"token":tok, "numero":us}).then( function(response)
+			{
+				if (response.success)
+				{
+					self.set('numero', response.results[0].nickname);
+				}
+				else
+					alert("Algo deu Errado.");
+			});
 			this.set('loggedIn',true);
 		}
 		else
@@ -954,13 +966,27 @@ App.IndexController = Ember.Controller.extend({
 					
 					$.get('/api/sigarra/getPct_id').then(function(response)
 					{
-						
-						$.get('/api/sigarra/getStudentId')
-						self.set('errorMessage', response.message);
+					
+					/*function( data ) {
+  alert( "Data Loaded: " + data );
+});*/
 						if(response.statusCode = 200){
-							userId = parserLogin(response.body);
 							self.set('usr',userId);
+							return parserPctId(response.body)
+						}else{
+							self.set('errorMessage', response.message);	
+							return $.Deferred().reject();
 						}
+					}).then(function(PctID){
+						console.log(PctID);
+						/*$.get('/api/sigarra/getStudentId', { pct_id: parserPctId(response.body)}).then(function(response){
+								parserNumUnico
+								if(response.statusCode = 200){
+								}else{
+									self.set('errorMessage', response.message);	
+									return $.Deferred().reject();
+								}
+						}*/
 					}).then(function()
 						{
 							self.set('loginSuccess', "able");
@@ -1117,7 +1143,7 @@ function func(data)
 	return;
 }
 
-function parserLogin(input_html){
+function parserPctId(input_html){
 	/* PARSES PCT_ID */
 	var e1 = document.createElement( 'div' );
 	e1.innerHTML = input_html;

@@ -116,7 +116,7 @@ module.exports = (function() {
 		if(req.query.pct_id){
 			urlStudentPage.url += "?pct_id=" + req.query.pct_id;
 		}
-		
+
 		// Start the request
 		request(studentPage, function (error, response, body) {
 			if (!error && response.statusCode == 200 && response.headers["set-cookie"][0]!== undefined) {
