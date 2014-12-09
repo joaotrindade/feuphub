@@ -932,7 +932,8 @@ App.IndexController = Ember.Controller.extend({
     localStorage.usr = this.get('usr');
   }.observes('usr'),
 
-  login: function(){
+  login: function() {
+
     var self = this, data2 = this.getProperties('username', 'password');
 
     // Clear out any error messages.
@@ -957,36 +958,21 @@ App.IndexController = Ember.Controller.extend({
 			async: false,
 			success: function(data, textStatus, jqXHR)
 			{
-				if(data.statusCode==200 && data.headers["set-cookie"].length >1)
+				if(data.headers["set-cookie"].length >1)
 				{
 					//set sigarra cookies
 					document.cookie=data.headers["set-cookie"][0];
 					document.cookie=data.headers["set-cookie"][1];
 					$('#spinner #statusText').text("Login successful!");
 					
-					$.get('/api/sigarra/getPct_id', function(data){
-						console.log(data);
-						if(data.statusCode == 200){
-							userId = parserPctId(data.body);
-							alert("sucess!");
+					$.get('/api/sigarra/getPct_id').then(function(response)
+					{
+					
+						self.set('errorMessage', response.message);
+						if(response.statusCode = 200){
+							userId = parserLogin(response.body);
 							self.set('usr',userId);
-							return userId;
-						}else{
-							self.set('errorMessage', data.message);	
-							alert("erro!");
-							return $.Deferred().reject();
 						}
-						alert("why?");
-					}).then(function(PctID){
-						console.log("PCTID:"+PctID);
-						/*$.get('/api/sigarra/getStudentId', { pct_id: PctID}).then(function(response){
-								parserNumUnico
-								if(response.statusCode = 200){
-								}else{
-									self.set('errorMessage', response.message);	
-									return $.Deferred().reject();
-								}
-						}*/
 					}).then(function()
 						{
 							self.set('loginSuccess', "able");
@@ -1017,17 +1003,10 @@ App.IndexController = Ember.Controller.extend({
 					$('#spinner #statusText').text("incorrect sifeup login credentials");
 					setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
 				}
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				$('#spinner #statusText').text("Incorrect sigarra credentials");
-			},
-			complete: function(data){
-				logoff();
-				setTimeout(function(){$('#spinner').stop().fadeOut(500);},500);
 			}
 		});
 	}, 1000);
-  }
+  },
 });
 
 
@@ -1143,7 +1122,7 @@ function func(data)
 	return;
 }
 
-function parserPctId(input_html){
+function parserLogin(input_html){
 	/* PARSES PCT_ID */
 	var e1 = document.createElement( 'div' );
 	e1.innerHTML = input_html;
