@@ -35,7 +35,7 @@ module.exports = (function() {
 	var urlStudentPage = 'https://sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina';
 	
 	var studentPage = {
-		url: 'https://sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina?';
+		url: 'https://sigarra.up.pt/feup/pt/vld_entidades_geral.entidade_pagina?',
 		method: 'GET',
 		headers: headers
 	}
