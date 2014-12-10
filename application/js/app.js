@@ -989,6 +989,7 @@ App.IndexController = Ember.Controller.extend({
 	
 	var username = this.get('username');
 	var password = this.get('password');
+	var user_pct_Id;
 	var userId;
 	var datan;
 	setTimeout(function(){
@@ -1012,33 +1013,42 @@ App.IndexController = Ember.Controller.extend({
 					
 						self.set('errorMessage', response.message);
 						if(response.statusCode = 200){
-							userId = parserLogin(response.body);
-							self.set('usr',userId);
+							user_pct_Id = parserLogin(response.body);
+							
 						}
 					}).then(function()
 						{
-							self.set('loginSuccess', "able");
-							console.log("User identifier: "+ userId+"\n");
-							datan = self.getProperties('username', 'password','loginSuccess');
-							setTimeout(function(){ getCourses(username);},1000);
-							
-						}).then(function()
+							var auxUrl = '/api/sigarra/getStudentId?pct_id=' + user_pct_Id;
+							$.get(auxUrl).then(function(response)
 							{
-								$.post('/api/auth/authenticate', datan).then(function(response) 
+								//alert("my shit");
+								//alert(parserNumUnico(response.body));
+								userId = parserNumUnico(response.body);
+								self.set('usr',userId);
+								self.set('loginSuccess', "able");
+								console.log("User identifier: "+ userId+"\n");
+								datan = self.getProperties('username', 'password','loginSuccess');
+								setTimeout(function(){ updateCourses(userId);},1000);
+							
+							
+							}).then(function()
 								{
-									self.set('errorMessage', response.message);
-									if (response.success) 
+									$.post('/api/auth/authenticate', datan).then(function(response) 
 									{
-										//alert('Login succeeded!');
+										self.set('errorMessage', response.message);
+										if (response.success) 
+										{
+											//alert('Login succeeded!');
 
-										self.set('token', response.token);
-										//self.set('usr',self.get('username'));
-										//alert(self.get('token'));
-										var attemptedTransition = self.get('attemptedTransition');
-										self.transitionToRoute('home');
-									}
+											self.set('token', response.token);
+											//self.set('usr',self.get('username'));
+											//alert(self.get('token'));
+											var attemptedTransition = self.get('attemptedTransition');
+											self.transitionToRoute('home');
+										}
+									});
 								});
-							});
+						});
 				}
 				else
 				{
@@ -1050,6 +1060,119 @@ App.IndexController = Ember.Controller.extend({
 	}, 1000);
   },
 });
+
+
+function updateCourses(userId){
+	//$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
+	var courses;
+	setTimeout(function(){
+	
+	
+		$.ajax({
+			type: "GET",
+			url: "/api/database/utilizador/exists/" + userId,
+			success: function(data, textStatus, jqXHR)
+			{
+				//alert("entrou aqui");
+				if (data.exists == true)
+				{	
+					// VER SE PRECISA DE UPDATE
+					alert("vai ver se precisa de atualizar");
+					$.ajax({
+						type:"GET",
+						url: "/api/database/utilizador/needsUpdate/" + userId,
+						success: function(data_2, textStatus, jqXHR)
+						{
+							if (data_2.result == true) // PRECISA DE UPDATE
+							{
+								alert("Vai atualizar dados");
+								$.ajax({
+									type: "GET",
+									url: "/api/sigarra/getStudentCourses",
+									data: "pv_codigo=" + userId,
+									success: function(data_3, textStatus, jqXHR)
+									{
+										//var json = JSON.parse(data);
+										console.log(data_3.body);
+										if(data_3.statusCode == 200)
+										{
+											alert("recebeu resposta positiva");
+											$.post('/api/database/utilizador/updateUser/', {"userId": userId, "courseData":data_3.body}).then(function(result)
+											{
+												console.log("fez post");
+												if (result.success == false)
+												{
+													alert("erro a criar user");
+												}
+											});
+										}
+										else
+										{
+											alert("recebeu resposta negativa");
+										}
+									},
+									error: function(data_3, textStatus, jqXHR)
+									{
+										alert("ERRO NO AJAX");
+									}
+								});
+							}
+							else	// NAO PRECISA DE UPDATE
+							{
+								// DO NOTHING
+								alert("Nao vai atualizar dados");
+							}
+						},
+						error: function(data, textStatus, jqXHR)
+						{
+							alert("ERRO NO AJAX");
+						}
+					});
+				}
+				else
+				{
+					// INSERIR NOVO GAJO
+					//alert("vai inserir novo user");
+					$.ajax({
+								type: "GET",
+								url: "/api/sigarra/getStudentCourses",
+								data: "pv_codigo=" + userId,
+								success: function(data, textStatus, jqXHR)
+								{
+									//var json = JSON.parse(data);
+									console.log(data.body);
+									if(data.statusCode == 200)
+									{
+										alert("recebeu resposta positiva");
+										$.post('/api/database/utilizador/insertNewUser/', {"userId": userId, "courseData":data.body}).then(function(result)
+										{
+											if (result.success == false)
+											{
+												alert("erro a criar user");
+											}
+										});
+										
+									}
+									else
+									{
+										alert("recebeu resposta negativa");
+									}
+								},
+								error: function(data, textStatus, jqXHR)
+								{
+									alert("ERRO NO AJAX");
+								}
+							});
+				}
+			},
+			error: function(data, textStatus, jqXHR)
+			{
+				alert("Erro no UpdateCourses");
+			}
+		
+		});
+	},1000);	
+}
 
 
 
@@ -1072,16 +1195,14 @@ App.PhotosRoute = App.AuthenticatedRoute.extend({
 
 //END LOGIN
 
-function getCourses(username){
+function getCourses(userId){
 	$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
 	var courses;
 	var data;
 	
-	if(username[0] >= '0' && username[0]<='9'){
-		data = "pv_codigo="+username;
-	}else{
-		data = "pv_login="+username;
-	}
+	if (userId > 0)
+
+		data = "pv_codigo="+userId;
 		
 	setTimeout(function(){
 
@@ -1095,7 +1216,10 @@ function getCourses(username){
 				
 				if(data.statusCode == 200)
 				{
-					$('#spinner #statusText').text("Done! Here they are");
+					alert("recebeu resposta positiva");
+					//alert(data);
+					return data;
+					/*$('#spinner #statusText').text("Done! Here they are");
 					courses=data.body;
 					console.log("Cadeiras do aluno:\n\n");
 					console.log(courses);
@@ -1109,10 +1233,11 @@ function getCourses(username){
 							vec.push(obj[y]["inscricoes"][x]["ucurr_sigla"]);
 						}
 					}
-					console.log(vec);
+					console.log(vec);*/
 				}
 				else
 				{
+					alert("recebeu resposta negativa");
 					$('#spinner #statusText').text("Something went wrong...");
 				}
 			},

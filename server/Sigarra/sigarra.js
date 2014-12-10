@@ -68,9 +68,8 @@ module.exports = (function() {
 		
     });
 	
-	api.get('/getPct_id', function(req, res) {
+		api.get('/getPct_id', function(req, res) {
 		headers["Cookie"] = req.headers.cookie;
-		
 		// Start the request
 		request(homePage, function (error, response, body) {
 			if (!error && response.statusCode == 200 && response.headers["set-cookie"][0]!== undefined) {
@@ -112,20 +111,24 @@ module.exports = (function() {
 	
 	api.get('/getStudentId', function(req,res){
 		headers["Cookie"] = req.headers.cookie;
-		
 		if(req.query.pct_id){
-			urlStudentPage.url += "?pct_id=" + req.query.pct_id;
+			studentPage.url += "?pct_id=" + req.query.pct_id;
 		}
 
 		// Start the request
 		request(studentPage, function (error, response, body) {
-			if (!error && response.statusCode == 200 && response.headers["set-cookie"][0]!== undefined) {
-				http_session = response.headers["set-cookie"][0];
+			//before: if (!error && response.statusCode == 200 && response.headers["set-cookie"][0]!== undefined) {
+			if (!error && response.statusCode == 200) {
+				//before: 
+					//http_session = response.headers["set-cookie"][0];
+					
+					//headers["Cookie"] = http_session+" "+si_session+" "+si_security;
 				headers["Cookie"] = "";
-				headers["Cookie"] = http_session+" "+si_session+" "+si_security;
+				studentPage.url = urlStudentPage ;
 				res.send(response);
 			}
 			else{
+				studentPage.url = urlStudentPage ;
 				res.send(response);
 			}
 			resetCookies();
