@@ -123,7 +123,7 @@ module.exports = (function() {
 		if (auth.validTokenProvided(req, res)) {
 			var pollID = req.params.id;
 			var userID = req.body.userid;
-			deletePoll(pollID, userID, function(err,results)){
+			deletePoll(pollID, userID, function(err,results){
 				if(err){
 					res.send({
 						success: false,
@@ -135,7 +135,7 @@ module.exports = (function() {
 						results: results
 					});
 				}
-			}
+			});
 		}
 	});
 	api.post('/create', function(req,res){
