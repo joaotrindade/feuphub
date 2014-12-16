@@ -91,7 +91,7 @@
 						{{input value=username type="text" placeholder="Utilizador" class='utilizador'}}
 						{{input value=password type="password" placeholder="Senha" class='senha'}}
 						<div class="iniciarSessaoBotao">
-							<input id="bttn" class="ember-view ember-text-field botaoLogin" type="submit" value="Iniciar Sessão" {{action login target="controller"}} />
+							<input id="bttn" class="ember-view ember-text-field botaoLogin" type="submit" value="Iniciar Sessão" {{action 'login'}} />
 						</div>
 					</form>
 					{{#if errorMessage}}
@@ -174,7 +174,7 @@
 				
 				<div class="courses">
 				
-					{{#link-to 'mieic'}} 
+					{{#link-to 'cursos' (query-params codigo="mieic")}}
 						<div class="mieic_icon"></div>
 					{{/link-to}}
 					
