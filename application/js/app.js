@@ -23,6 +23,7 @@ App.Router.map(function() {
 var usrname = "";
 
 App.ApplicationController = Ember.Controller.extend({
+  needs:['index','login'],
   page: null,
   isVisibleHeader: true,
   loggedIn:null,
