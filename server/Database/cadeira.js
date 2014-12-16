@@ -47,6 +47,12 @@ module.exports = (function() {
 	api.post('/cadeiraMenu/', function(req, res) {
 		idCurso = req.body.idCurso,
 		ano = req.body.ano;
+		console.log(" /cadeirasmenu /");
+		console.log("idcurso");
+		console.log(idCurso);
+		console.log("ano");
+		console.log(ano);
+		console.log(req.body);
 		getCadeirasMenu(function(err,results)
 		{
 			if(err)
