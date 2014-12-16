@@ -515,6 +515,27 @@ App.CursosController = Ember.ObjectController.extend({
 		
 		yearExpanded: function(year){
 			this.set('isExpanded', true);
+			
+			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+			var self = this;
+
+			if(usr != null)
+			{
+				var token = this.get('controllers.index').get('token');
+				var apigo = "/api/database/cadeira/" + this.codigo.toUpperCase() + "/" + year;
+				
+				$.post(apigo).then( function(response)
+				{
+				  if (response.success)
+				  {
+						console.log(response.results);
+				  }
+				  else
+						alert("ALGO DEU MAL NO GET DISICIPLINAS");
+				});
+			}
+			else
+				alert("Faça Login para fazer downvote");
 		},
     }
 });
