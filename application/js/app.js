@@ -39,12 +39,12 @@ App.ApplicationController = Ember.Controller.extend({
 	
 	checkIsLoggedIn:function(){
 		var self=this;
-		var variavel = this.controllerFor('index').get('usr');
+		var variavel = this.get('controllers.index').get('usr');
 		if(variavel!="")
 		{
 			var apigo = '/api/database/utilizador';
-			var tok = this.controllerFor('index').get('token');
-			var us = this.controllerFor('index').get('usr');
+			var tok = this.get('controllers.index').get('token');
+			var us = this.get('controllers.index').get('usr');
 			$.post(apigo, {"token":tok, "numero":us}).then( function(response)
 			{
 				if (response.success)
