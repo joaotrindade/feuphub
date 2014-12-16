@@ -45,8 +45,8 @@ module.exports = (function() {
     });
 	
 	api.post('/cadeiraMenu/', function(req, res) {
-		idCurso = req.body.idCurso,
-		ano = req.body.ano;
+		var idCurso = req.body.idCurso,
+		var ano = req.body.ano;
 		console.log(" /cadeirasmenu /");
 		console.log("idcurso");
 		console.log(idCurso);
