@@ -48,8 +48,8 @@ module.exports = (function() {
 		
 		console.log(" /cadeirasmenu /");
 		console.log(req.body);
-		
-		var idCurso = req.body.idCurso,
+
+		var idCurso = req.body.idCurso;
 		var ano = req.body.ano;
 		
 		getCadeirasMenu(idCurso,ano,function(err,results)
