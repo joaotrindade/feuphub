@@ -851,7 +851,8 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 							
 				$.post(apigo, {"token": token, "texto" : texto, "type" : "curso", "userid" : usr, "type2": "insert"}).then( function(response)
 				{
-				  alert(response);
+				  alert(response.results);
+				  alert(response.success);
 				  if (response.success)
 				  {
 						if(self.cursoid != "")
@@ -979,7 +980,6 @@ App.IndexController = Ember.Controller.extend({
   actions: {
        
 	  login: function() {
-		alert("Entrou");
 		var self = this, data2 = this.getProperties('username', 'password');
 
 		// Clear out any error messages.
@@ -1311,7 +1311,7 @@ function parserNumUnico(input_html)
 	/* PARSES PV_FEST_ID */
 	var e1 = document.createElement( 'div' );
 	e1.innerHTML = input_html;
-	var url = e1.querySelector('a').href;
+	var url = e1.querySelector('a').href; // POR VEZES ESTE VALOR VEM A NULL E FALHA
 	e1.innerHTML = "";
 	e1 = null;
 	var temp = url.split("=")
