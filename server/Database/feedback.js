@@ -8,7 +8,7 @@ module.exports = (function() {
 	};
 	
 	function insertFeedbacksByCourse(courseID,texto,userid,tagNome,callback){
-		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,tag_nome,CursoKey,CadeiraKey,UtilizadorKey) VALUES (0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + tagNome + "','" + courseID + "'," + "NULL," + userid + ")", function(err, results)
+		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CursoKey,CadeiraKey,UtilizadorKey) VALUES (0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + courseID + "'," + "NULL," + userid + ")", function(err, results)
 		{
 			callback(err,results);
 		});
@@ -30,6 +30,7 @@ module.exports = (function() {
 	
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
+		console.log(cID);
 		var body = req.body, type = body.type, type2 = body.type2;
 			if(type=="curso") 
 			{
