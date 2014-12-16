@@ -38,5 +38,14 @@ module.exports = (function() {
 		return true;
 	}
 	
-    return {api: api, validTokenProvided: validTokenProvided};
+	function isValid(req){
+		var userToken = req.body.token || req.param('token') || req.headers.token;
+
+		if (!currentToken || userToken != currentToken) {
+			return false;
+		}
+		return true;
+	}
+	
+    return {api: api, validTokenProvided: validTokenProvided, isValid: isValid};
 }(module || {}));

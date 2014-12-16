@@ -156,7 +156,7 @@ module.exports = (function() {
 	api.post('/', function(req, res) {
 		var body = req.body, username = body.type, string = body.query;		
 
-		if (auth.validTokenProvided(req, res)) {
+		if (auth.isValid(req, res)) {
 			searchInDatabase(string, username).then(function(searchResult){
 				res.send({
 					success: true,
