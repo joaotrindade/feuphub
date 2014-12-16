@@ -388,181 +388,6 @@
 		{{outlet}}
   </script>
   
-  <script type="text/x-handlebars" id="mieic">
-		<div class="midpage">
-			
-				<div class="right_bar">
-					
-					<div class="bestprof">
-						<div class="bestprof_title"> 
-							Melhor Professor
-						</div>
-						<div class="circular_photo"></div>
-						
-						<div class="bestprof_name">
-							Filipe Correia
-						</div>
-					</div>
-					
-					<div class="gaG">
-						<div class="gaTitle">
-							Avaliação Global
-						</div>
-						<div class="gaPercentage">
-							66%
-						</div>
-					</div>
-					
-					<div class="feedback">
-						Feedback
-						<div class="feedback_user">
-							<div class="feed">
-								- Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-							</div>
-							
-							<div class="user">
-								Rui Neves
-							</div>
-						</div>
-						
-						<div class="feedback_user">
-							<div class="feed">
-								- E este tipo de letra? Será que fica bem?
-							</div>
-							
-							<div class="user">
-								Rui Neves
-							</div>
-						</div>
-						
-						<div class="feedback_user">
-							<div class="feed">
-								- Boas aulas Práticas.
-							</div>
-							
-							<div class="user">
-								Rui Neves
-							</div>
-						</div>
-						
-					</div>
-					
-				</div>
-				{{getAno}}
-				<div class="courses">
-				
-					{{#link-to 'mieic'}} 
-						<a href="#/mieic"><div class="mieic_icon"></div></a>
-					{{/link-to}}
-						
-						<a href="#/mieic?ano=1">
-							<div class="year1">
-								<p>1º<br>Ano</br></p>
-							</div>						
-						</a>
-						
-						<a href="#/mieic?ano=2">
-						<div class="year2">
-								<p>2º<br>Ano</br></p>
-							</div> 
-						</a>
-						
-						<a href="#/mieic?ano=3">
-							<div class="year3">
-								<p>3º<br>Ano</br></p>
-							</div> 
-						</a>
-						
-						<a href="#/mieic?ano=4">
-							<div class="year4">
-								<p>4º<br>Ano</br></p>
-							</div> 
-						</a>
-						
-						<a href="#/mieic?ano=5">
-							<div class="year5">
-								<p>5º<br>Ano</br></p>
-							</div> 
-						</a>
-						        
-						
-				</div>			
-				
-				{{#if isExpanded}}
-				<div class="uc">
-					<div class="firstSemesterLogo">
-						<p>1º<br>Semestre</br></p>
-					</div>
-					<div class="firstSemesterDiv">
-					
-					</div>
-					<div class="secondSemesterLogo">
-						<p>2º<br>Semestre</br></p>
-					</div>
-					<div class="secondSemesterDiv">
-						
-					</div>
-				</div>
-				{{/if}}
-				
-				
-				<div class="content">
-				
-					<div class='topic'>
-						<div class='score'>
-							<div {{action 'upvotetopic' 1}} class='upvote'></div>
-							<div class='number'>3450</div>
-							<div {{action 'downvotetopic' 1}}  class='downvote'></div>
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						{{#link-to 'topic' class="linkto-none"}} 
-						<div class='title'>
-							Qual o melhor professor da cadeira de LCOM?
-						</div>
-						{{/link-to}}
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							João Trindade
-						</div>
-					</div>
-					
-					<div class='topic'>
-						<div class='score'>
-							<div {{action 'upvotetopic' 2}} class='upvote'></div>
-							<div class='number'>3450</div>
-							<div {{action 'downvotetopic' 2}}  class='downvote'></div>
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						<div class='title'>
-							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-						</div>
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							Pedro Santos
-						</div>
-						
-					</div>
-					
-				</div>
-					
-			</div>
-	
-  </script>
-  
   <script type="text/x-handlebars" id="cursos">	
 	<div class="midpage">
 			
@@ -656,35 +481,26 @@
 				{{/if}}
 			{{/if}}
 				
-				<a href="#/mieic?ano=1">
-					<div class="year1">
-						<p>1º<br>Ano</br></p>
-					</div>						
-				</a>
 				
-				<a href="#/mieic?ano=2">
-				<div class="year2">
-						<p>2º<br>Ano</br></p>
-					</div> 
-				</a>
-				
-				<a href="#/mieic?ano=3">
-					<div class="year3">
-						<p>3º<br>Ano</br></p>
-					</div> 
-				</a>
-				
-				<a href="#/mieic?ano=4">
-					<div class="year4">
-						<p>4º<br>Ano</br></p>
-					</div> 
-				</a>
-				
-				<a href="#/mieic?ano=5">
-					<div class="year5">
-						<p>5º<br>Ano</br></p>
-					</div> 
-				</a>
+				<div {{action 'yearExpanded' 1 }} class="year1">
+					<p>1º<br>Ano</br></p>
+				</div>						
+			
+				<div {{action 'yearExpanded' 2 }} class="year2">
+					<p>2º<br>Ano</br></p>
+				</div> 
+			
+				<div {{action 'yearExpanded' 3 }} class="year3">
+					<p>3º<br>Ano</br></p>
+				</div> 
+			
+				<div {{action 'yearExpanded' 4 }} class="year4">
+					<p>4º<br>Ano</br></p>
+				</div> 
+			
+				<div {{action 'yearExpanded' 5 }} class="year5">
+					<p>5º<br>Ano</br></p>
+				</div> 
 						
 				
 		</div>			

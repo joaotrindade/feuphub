@@ -347,12 +347,14 @@ App.CursosController = Ember.ObjectController.extend({
 	isMiemm:false,
 	isMieq:false,
 	
+	isExpanded:false,
+	
 	getCursoTopics: function(){
 		var self = this;
 		this.set('topicscurso', null);
 		this.set('feedbackscurso', null);		
 		this.set('codigo', this.get('codigo')); 
-		
+		this.set('isExpanded', false);
 		//GET TOPICOS DE UM CURSO
 		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
 		
@@ -509,7 +511,11 @@ App.CursosController = Ember.ObjectController.extend({
 			}
 			else
 				alert("Faça Login para fazer downvote");
-        }
+        },
+		
+		yearExpanded: function(year){
+			this.set('isExpanded', true);
+		},
     }
 });
  
@@ -1030,16 +1036,23 @@ App.IndexController = Ember.Controller.extend({
 								var auxUrl = '/api/sigarra/getStudentId?pct_id=' + user_pct_Id;
 								$.get(auxUrl).then(function(response)
 								{
-									console.log("Verify Response Body");
-									console.log(response);
-									//alert("my shit");
-									//alert(parserNumUnico(response.body));
-									userId = parserNumUnico(response.body);
-									self.set('usr',userId);
-									self.set('loginSuccess', "able");
-									console.log("User identifier: "+ userId+"\n");
-									datan = self.getProperties('username', 'password','loginSuccess');
-									setTimeout(function(){ updateCourses(userId);},1000);
+									if(response.statusCode = 200){
+										console.log("Verify Response Body");
+										console.log(response);
+										//alert("my shit");
+										//alert(parserNumUnico(response.body));
+										userId = parserNumUnico(response.body);
+										self.set('usr',userId);
+										self.set('loginSuccess', "able");
+										console.log("User identifier: "+ userId+"\n");
+										datan = self.getProperties('username', 'password','loginSuccess');
+										setTimeout(function(){ updateCourses(userId);},1000);
+									}
+									else
+									{
+										console.log(response.body);
+										deferred.reject();
+									}
 								
 								
 								}).then(function()
