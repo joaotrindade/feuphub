@@ -23,6 +23,8 @@ module.exports = (function() {
 	search.start(connection);
 	var utilizador = require("./utilizador");
 	utilizador.start(connection);
+	var poll = require("./poll");
+	poll.start(connection);
 	
 	api.get('/', function(req, res) {
         res.send("Hello, this is the database!\n")
@@ -35,6 +37,7 @@ module.exports = (function() {
 	api.use('/feedback',feedback.api);
 	api.use('/search',search.api);
 	api.use('/utilizador',utilizador.api);
+	api.use('/poll', poll.api);
     return api;
 
 	
