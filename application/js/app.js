@@ -1017,10 +1017,16 @@ App.IndexController = Ember.Controller.extend({
 							self.set('errorMessage', response.message);
 							if(response.statusCode = 200){
 								user_pct_Id = parserLogin(response.body);
-								
+								return user_pct_Id;
 							}
-						}).then(function()
+							else
 							{
+								deferred.reject();
+							}
+							
+						}).then(function(pct_id)
+							{
+								console.log("pct_id: "+user_pct_Id+" vs "+pct_id;
 								var auxUrl = '/api/sigarra/getStudentId?pct_id=' + user_pct_Id;
 								$.get(auxUrl).then(function(response)
 								{
