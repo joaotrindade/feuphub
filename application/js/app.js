@@ -527,6 +527,7 @@ App.CursosController = Ember.ObjectController.extend({
 				
 				$.post(apigo, { "idCurso" : curso, "ano" : year} ).then( function(response)
 				{
+				  console.log(response);
 				  if (response.success)
 				  {
 						console.log(response.results);
