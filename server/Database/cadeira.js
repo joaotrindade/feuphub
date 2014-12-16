@@ -45,14 +45,13 @@ module.exports = (function() {
     });
 	
 	api.post('/cadeiraMenu/', function(req, res) {
+		
+		console.log(" /cadeirasmenu /");
+		console.log(req.body);
+		
 		var idCurso = req.body.idCurso,
 		var ano = req.body.ano;
-		console.log(" /cadeirasmenu /");
-		console.log("idcurso");
-		console.log(idCurso);
-		console.log("ano");
-		console.log(ano);
-		console.log(req.body);
+		
 		getCadeirasMenu(idCurso,ano,function(err,results)
 		{
 			if(err)
