@@ -57,10 +57,13 @@ module.exports = (function() {
 		getCadeirasMenu(idCurso,ano,function(err,results)
 		{
 			if(err)
+			{
+				console.log(err);
 				res.send({
 					success: false,
 					results: err
 				});
+			}
 			else
 				res.send({
 					success: true,
