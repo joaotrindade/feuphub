@@ -15,7 +15,7 @@ module.exports = (function() {
 	};
 	
 	function getRespostas(tID,callback){
-		connection.query("SELECT id,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,nome FROM Resposta inner join Utilizador on Resposta.UtilizadorKey = Utilizador.numero WHERE TopicoKey = " + tID + " ORDER BY difference desc", function(err, results)
+		connection.query("SELECT Resposta.id,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,nickname as nome FROM Resposta inner join Utilizador on Resposta.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE TopicoKey = " + tID + " ORDER BY difference desc", function(err, results)
 		{
 			callback(err,results);
 		});

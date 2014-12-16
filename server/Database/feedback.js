@@ -15,14 +15,14 @@ module.exports = (function() {
 	};
 	
 	function getFeedbacksByCourse(courseID,callback){
-		connection.query("SELECT id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero WHERE Feedback.CursoKey like '" + courseID + "' ORDER BY difference desc", function(err, results)
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CursoKey like '" + courseID + "' ORDER BY difference desc", function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function getFeedbacksByCourseLimit5(courseID,callback){
-		connection.query("SELECT id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero WHERE Feedback.CursoKey like '" + courseID + "' ORDER BY difference desc LIMIT 5", function(err, results)
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CursoKey like '" + courseID + "' ORDER BY difference desc LIMIT 5", function(err, results)
 		{
 			callback(err,results);
 		});
