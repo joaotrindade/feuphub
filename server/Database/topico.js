@@ -37,6 +37,8 @@ module.exports = (function() {
 		});
 	};
 	
+	
+	
 	function getTopicos(courseID,callback){
 		connection.query("SELECT id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,nickname as nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Topico.CursoKey like '" + courseID + "' ORDER BY difference desc", function(err, results)
 		{
