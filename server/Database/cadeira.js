@@ -22,7 +22,7 @@ module.exports = (function() {
 	}
 	
 	function getCadeirasMenu(idCurso,ano, callback){
-		connection.query("select * from Cadeira inner join CadeiraCurso where Cadeira.codigo = CadeiraCurso.CadeiraKey where CursoKey ='" idCurso + "' and ano=" + ano, function(err, results)
+		connection.query("select * from Cadeira inner join CadeiraCurso where Cadeira.codigo = CadeiraCurso.CadeiraKey where CursoKey ='" + idCurso + "' and ano=" + ano, function(err, results)
 		{
 			callback(err,results);
 		});
