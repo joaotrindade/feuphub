@@ -30,7 +30,6 @@ module.exports = (function() {
 	
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
-		console.log(cID);
 		var body = req.body, type = body.type, type2 = body.type2;
 			if(type=="curso") 
 			{
