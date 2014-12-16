@@ -22,7 +22,7 @@ module.exports = (function() {
 	}
 	
 	function getCadeirasMenu(idCurso,ano, callback){
-		connection.query("select * from Cadeira inner join CadeiraCurso where Cadeira.codigo = CadeiraCurso.CadeiraKey where CursoKey ='" + idCurso + "' and ano=" + ano, function(err, results)
+		connection.query("select * from Cadeira inner join CadeiraCurso on Cadeira.codigo = CadeiraCurso.CadeiraKey where CursoKey = '" + idCurso + "' and ano=" + ano, function(err, results)
 		{
 			callback(err,results);
 		});
@@ -45,15 +45,8 @@ module.exports = (function() {
     });
 	
 	api.post('/cadeiraMenu/', function(req, res) {
-		
-		console.log(" /cadeirasmenu /");
-		console.log(req.body);
 		var idCurso = req.body.idCurso;
 		var ano = req.body.ano;
-		console.log("curso : ");
-		console.log(idCurso);
-		console.log("ano : ");
-		console.log(ano);
 		getCadeirasMenu(idCurso,ano,function(err,results)
 		{
 			if(err)
