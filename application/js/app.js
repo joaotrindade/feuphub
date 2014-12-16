@@ -1026,7 +1026,7 @@ App.IndexController = Ember.Controller.extend({
 							
 						}).then(function(pct_id)
 							{
-								console.log("pct_id: "+user_pct_Id+" vs "+pct_id;
+								console.log("pct_id: "+user_pct_Id+" vs "+pct_id);
 								var auxUrl = '/api/sigarra/getStudentId?pct_id=' + user_pct_Id;
 								$.get(auxUrl).then(function(response)
 								{
