@@ -20,6 +20,13 @@ module.exports = (function() {
 			callback(err,results);
 		});
 	}
+	
+	function getCadeirasMenu(idCurso,ano, callback){
+		connection.query("select * from Cadeira inner join CadeiraCurso where Cadeira.codigo = CadeiraCurso.CadeiraKey where CursoKey ='" idCurso + "' and ano=" + ano, function(err, results)
+		{
+			callback(err,results);
+		});
+	}
 
     api.get('/', function(req, res) {
         getAll(function(err, results)
@@ -37,25 +44,22 @@ module.exports = (function() {
 		});
     });
 	
-	api.post('/', function(req, res) {
-		if (auth.validTokenProvided(req, res)) {
-			getAll(function(err,results)
-			{
-				if(err)
-					res.send({
-						success: false,
-						results: err
-					});
-				else
-					res.send({
-						success: true,
-						results: results
-					});
-			});
-		}
-		else{
-			res.send("not allowed");
-		}
+	api.post('/:idCurso/:ano', function(req, res) {
+		idCurso = req.params.idCurso,
+		ano = req.params.ano;
+		getCadeirasMenu(function(err,results)
+		{
+			if(err)
+				res.send({
+					success: false,
+					results: err
+				});
+			else
+				res.send({
+					success: true,
+					results: results
+				});
+		});
     });
 	
 
