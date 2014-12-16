@@ -850,6 +850,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 							
 				$.post(apigo, {"token": token, "texto" : texto, "type" : "curso", "userid" : usr, "type2": "insert"}).then( function(response)
 				{
+				  alert(response);
 				  if (response.success)
 				  {
 						if(self.cursoid != "")
