@@ -1024,6 +1024,8 @@ App.IndexController = Ember.Controller.extend({
 								var auxUrl = '/api/sigarra/getStudentId?pct_id=' + user_pct_Id;
 								$.get(auxUrl).then(function(response)
 								{
+									console.log("Verify Response Body");
+									console.log(response);
 									//alert("my shit");
 									//alert(parserNumUnico(response.body));
 									userId = parserNumUnico(response.body);
