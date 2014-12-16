@@ -853,6 +853,10 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 				{
 				  alert(response.results);
 				  alert(response.success);
+				  console.log(response);
+				  console.log(response.results);
+				  console.log(response.success);
+				  
 				  if (response.success)
 				  {
 						if(self.cursoid != "")
