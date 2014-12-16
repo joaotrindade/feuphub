@@ -975,92 +975,95 @@ App.IndexController = Ember.Controller.extend({
   usrChanged: function() {
     localStorage.usr = this.get('usr');
   }.observes('usr'),
+  
+  actions: {
+       
+	  login: function() {
+		alert("Entrou");
+		var self = this, data2 = this.getProperties('username', 'password');
 
-  login: function() {
-
-    var self = this, data2 = this.getProperties('username', 'password');
-
-    // Clear out any error messages.
-    this.set('errorMessage', null);
-	$('#bttn').click(function(event) {   
-     event.preventDefault(event);  
-	});	
+		// Clear out any error messages.
+		this.set('errorMessage', null);
+		$('#bttn').click(function(event) {   
+		 event.preventDefault(event);  
+		});	
+			
+		$('#spinner').fadeIn(100);
+		$('#spinner #statusText').text("Validating your login with SIFEUP");
 		
-	$('#spinner').fadeIn(100);
-	$('#spinner #statusText').text("Validating your login with SIFEUP");
-	
-	var username = this.get('username');
-	var password = this.get('password');
-	var user_pct_Id;
-	var userId;
-	var datan;
-	setTimeout(function(){
+		var username = this.get('username');
+		var password = this.get('password');
+		var user_pct_Id;
+		var userId;
+		var datan;
+		setTimeout(function(){
 
-		$.ajax({
-			type: "POST",
-			url: "/api/sigarra/login",
-			data: {'username':username,'password':password},
-			async: false,
-			success: function(data, textStatus, jqXHR)
-			{
-				if(data.headers["set-cookie"].length >1)
+			$.ajax({
+				type: "POST",
+				url: "/api/sigarra/login",
+				data: {'username':username,'password':password},
+				async: false,
+				success: function(data, textStatus, jqXHR)
 				{
-					//set sigarra cookies
-					document.cookie=data.headers["set-cookie"][0];
-					document.cookie=data.headers["set-cookie"][1];
-					$('#spinner #statusText').text("Login successful!");
-					
-					$.get('/api/sigarra/getPct_id').then(function(response)
+					if(data.headers["set-cookie"].length >1)
 					{
-					
-						self.set('errorMessage', response.message);
-						if(response.statusCode = 200){
-							user_pct_Id = parserLogin(response.body);
-							
-						}
-					}).then(function()
+						//set sigarra cookies
+						document.cookie=data.headers["set-cookie"][0];
+						document.cookie=data.headers["set-cookie"][1];
+						$('#spinner #statusText').text("Login successful!");
+						
+						$.get('/api/sigarra/getPct_id').then(function(response)
 						{
-							var auxUrl = '/api/sigarra/getStudentId?pct_id=' + user_pct_Id;
-							$.get(auxUrl).then(function(response)
+						
+							self.set('errorMessage', response.message);
+							if(response.statusCode = 200){
+								user_pct_Id = parserLogin(response.body);
+								
+							}
+						}).then(function()
 							{
-								//alert("my shit");
-								//alert(parserNumUnico(response.body));
-								userId = parserNumUnico(response.body);
-								self.set('usr',userId);
-								self.set('loginSuccess', "able");
-								console.log("User identifier: "+ userId+"\n");
-								datan = self.getProperties('username', 'password','loginSuccess');
-								setTimeout(function(){ updateCourses(userId);},1000);
-							
-							
-							}).then(function()
+								var auxUrl = '/api/sigarra/getStudentId?pct_id=' + user_pct_Id;
+								$.get(auxUrl).then(function(response)
 								{
-									$.post('/api/auth/authenticate', datan).then(function(response) 
+									//alert("my shit");
+									//alert(parserNumUnico(response.body));
+									userId = parserNumUnico(response.body);
+									self.set('usr',userId);
+									self.set('loginSuccess', "able");
+									console.log("User identifier: "+ userId+"\n");
+									datan = self.getProperties('username', 'password','loginSuccess');
+									setTimeout(function(){ updateCourses(userId);},1000);
+								
+								
+								}).then(function()
 									{
-										self.set('errorMessage', response.message);
-										if (response.success) 
+										$.post('/api/auth/authenticate', datan).then(function(response) 
 										{
-											//alert('Login succeeded!');
+											self.set('errorMessage', response.message);
+											if (response.success) 
+											{
+												//alert('Login succeeded!');
 
-											self.set('token', response.token);
-											//self.set('usr',self.get('username'));
-											//alert(self.get('token'));
-											var attemptedTransition = self.get('attemptedTransition');
-											self.transitionToRoute('home');
-										}
+												self.set('token', response.token);
+												//self.set('usr',self.get('username'));
+												//alert(self.get('token'));
+												var attemptedTransition = self.get('attemptedTransition');
+												self.transitionToRoute('home');
+											}
+										});
 									});
-								});
-						});
+							});
+					}
+					else
+					{
+						$('#spinner #statusText').text("incorrect sifeup login credentials");
+						setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
+					}
 				}
-				else
-				{
-					$('#spinner #statusText').text("incorrect sifeup login credentials");
-					setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
-				}
-			}
-		});
-	}, 1000);
-  },
+			});
+		}, 1000);
+	  },
+  }
 });
 
 
