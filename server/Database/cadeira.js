@@ -44,9 +44,9 @@ module.exports = (function() {
 		});
     });
 	
-	api.post('/:idCurso/:ano', function(req, res) {
-		idCurso = req.params.idCurso,
-		ano = req.params.ano;
+	api.post('/cadeiraMenu/', function(req, res) {
+		idCurso = req.body.idCurso,
+		ano = req.body.ano;
 		getCadeirasMenu(function(err,results)
 		{
 			if(err)
