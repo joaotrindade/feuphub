@@ -540,11 +540,11 @@ App.CursosController = Ember.ObjectController.extend({
 			  {
 					//console.log(response.results);
 					response.results.forEach(function(item){ 
-						if(item.ano == 1)
+						if(item.semestre == 1)
 						{
 							self.cadeiras1ano.addObject(item);
 						}
-						else if(item.ano == 2)
+						else if(item.semestre == 2)
 						{
 							self.cadeiras2ano.addObject(item);
 						}
@@ -1142,7 +1142,7 @@ function updateCourses(userId){
 				if (data.exists == true)
 				{	
 					// VER SE PRECISA DE UPDATE
-					alert("vai ver se precisa de atualizar");
+					//alert("vai ver se precisa de atualizar");
 					$.ajax({
 						type:"GET",
 						url: "/api/database/utilizador/needsUpdate/" + userId,
@@ -1185,7 +1185,7 @@ function updateCourses(userId){
 							else	// NAO PRECISA DE UPDATE
 							{
 								// DO NOTHING
-								alert("Nao vai atualizar dados");
+								//alert("Nao vai atualizar dados");
 							}
 						},
 						error: function(data, textStatus, jqXHR)
