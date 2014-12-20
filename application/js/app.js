@@ -329,7 +329,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 		var apigo = "/api/database/cadeira/" + codigo;
 		
 		$.get(apigo, function(data) {
-			console.log(data);
+			//console.log(data);
 			if(data.success == true)
 			{
 				self.curso = data.results[0].CursoKey;
@@ -595,7 +595,7 @@ App.CursosController = Ember.ObjectController.extend({
 			{
 			  if (response.success)
 			  {
-					console.log(response.results);
+					//console.log(response.results);
 					response.results.forEach(function(item){ 
 						if(item.semestre == 1)
 						{
