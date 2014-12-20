@@ -900,6 +900,7 @@ App.CreatetopicController = Ember.ObjectController.extend({
 							
 				$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr, "type": type}).then( function(response)
 				{
+				  console.log(response);
 				  if (response.success)
 				  {
 						if(self.cursoid != "")
