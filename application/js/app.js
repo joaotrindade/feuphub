@@ -367,7 +367,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 				
 				var apigo2 = "/api/database/topico/" + codigo;
 		
-				$.post(apigo2, {"type" : "getTopicosCadeira"}).then( function(response)
+				$.post(apigo2, {"token": token, "type" : "getTopicosCadeira"}).then( function(response)
 				{
 				  if (response.success)
 				  {
