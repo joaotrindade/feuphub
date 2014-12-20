@@ -380,6 +380,31 @@ cursor: pointer;
 
 /*-----------PEDRO------------*/
 
+/* CADEIRA ------------------------------------------------------------------------------------ */
+
+.showcadeirasigla
+{
+	border-left: 1px solid #666;
+	float:left;
+	height: 51px;
+	width: 56px;
+	margin-top: 5px;
+	padding-top: 25px;
+	font-family: EXOB;
+	text-align: center;
+	color: white;
+	margin-left: 10px;
+}
+
+.showcadeirasigla:hover
+{
+	border-bottom: 4px solid rgb(113,200,236);
+	cursor: pointer;
+}
+
+
+/*--------------------------------------------------------------------------------------------- */
+
 .topic
 {
 	height: 80px;
