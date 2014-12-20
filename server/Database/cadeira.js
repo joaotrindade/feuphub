@@ -15,7 +15,7 @@ module.exports = (function() {
 	};
 	
 	function getOne(codigo, callback){
-		connection.query("select * from Cadeira where codigo = '" + codigo + "'", function(err, results)
+		connection.query("select * from Cadeira inner join CadeiraCurso on Cadeira.codigo = CadeiraCurso.CadeiraKey where codigo = '" + codigo + "'", function(err, results)
 		{
 			callback(err,results);
 		});
