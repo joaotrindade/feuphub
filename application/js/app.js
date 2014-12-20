@@ -40,6 +40,7 @@ App.ApplicationController = Ember.Controller.extend({
 	checkIsLoggedIn:function(){
 		var self=this;
 		var variavel = this.get('controllers.index').get('usr');
+		console.log(variavel);
 		if(variavel!="")
 		{
 			var apigo = '/api/database/utilizador';
