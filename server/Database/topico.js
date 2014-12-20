@@ -218,27 +218,29 @@ module.exports = (function() {
 		}
 		else if (type=='insertCadeira')
 		{
-			var tipo  = body.tipo;
-			var titulo = body.titulo;
-			var texto = body.texto;
-			var data = body.data;
-			var userid = body.userid;
-			
-			insertTopicoCadeira(cID,tipo,titulo,texto,data,userid,function(err,results) {
-				if(err)
-					{
-						console.log(err);
-						res.send({
-							success: false,
-						});
-					}
-					else {
-						console.log(result);
-						res.send({
-							success: true,
-						});
-					}
-			});
+			if (auth.validTokenProvided(req, res)) {
+				var tipo  = body.tipo;
+				var titulo = body.titulo;
+				var texto = body.texto;
+				var data = body.data;
+				var userid = body.userid;
+				
+				insertTopicoCadeira(cID,tipo,titulo,texto,data,userid,function(err,results) {
+					if(err)
+						{
+							console.log(err);
+							res.send({
+								success: false,
+							});
+						}
+						else {
+							console.log(result);
+							res.send({
+								success: true,
+							});
+						}
+				});
+			}
 		}
 		else if(type=="user")
 		{
