@@ -992,109 +992,110 @@
   <script type="text/x-handlebars" id="account">
 	<div class="midpage">
 		<div class="right_bar">
-					<div class="personal_account">
-						<div class="personal_account_title"> 
-							Conta Pessoal
-						</div>
-						
-						<div class="personal_account_usernametab">
-							Nome de utilizador <div class="personal_account_username">{{nickname}}</div><div class="personal_account_edit" id="edit_username" {{action actionEdit "edit_username"}}></div>
-							<form class="form-inline" {{action updateInfo "nickname" on="submit"}} style="display:none" id="new_user">
-								{{input value=new_username type="text" placeholder="Novo nome de utilizador" class='new_user'}}
-								<div class="confirmarBotao">{{input id="bttn_new_user" type="submit" value="Confirmar" class='botaoConfirmar'}}</div>
-								<div class="cancelarBotao" {{action actionCloseEdit "edit_username"}}>Cancelar</div>
-							</form>
-						</div>
-						
-						<div class="personal_account_emailtab">
-							Email <div class="personal_account_email">{{email}}</div><div class="personal_account_edit" id="edit_email" {{action actionEdit "edit_email"}}></div>
-							<form class="form-inline" {{action updateInfo "email" on="submit"}} style="display:none" id="new_email">
-								{{input value=new_username type="text" placeholder="Novo email" class='new_email'}}
-								<div class="confirmarBotao">{{input id="bttn_new_email" type="submit" value="Confirmar" class='botaoConfirmar'}}</div>
-								<div class="cancelarBotao" {{action actionCloseEdit "edit_email"}}>Cancelar</div>
-							</form>
-						</div>
-					</div>
-					
-					<div class="division"></div>
-					
-					<div class="feedback">
-						Feedbacks Criados
-						{{#each item in feedbacksuser}}
-							<div class="feedback_user">
-								<div class="feed">
-									- {{item.texto}}
-								</div>
-								
-								<div class="user">
-									{{item.nome}}
-								</div>
-							</div>
-						{{/each}}
-						{{#link-to 'viewfeedbacks' (query-params cursoid="" cadeiraid="" feupid="" userid=utilizadorId) class='linkto-none'}}
-							<div class='getmorefeedbacks'>+Feedbacks</div>
-						{{/link-to}}
-					</div>
+			<div class="personal_account">
+				<div class="personal_account_title"> 
+					Conta Pessoal
 				</div>
 				
-				<div class="content">
-					<div class="achievement_bar">Espaço para colocar os achievements</div>
-					<div class="personal_account_title" id="topicos_criados">Tópicos Criados</div>
-					
-					{{#each item in topicoscriados}}
-					<div class='topic'>
-						<div class='topic_icon' id="topic_created">
-							
+				<div class="personal_account_usernametab">
+					Nome de utilizador <div class="personal_account_username">{{nickname}}</div><div class="personal_account_edit" id="edit_username" {{action actionEdit "edit_username"}}></div>
+					<form class="form-inline" {{action updateInfo "nickname" on="submit"}} style="display:none" id="new_user">
+						{{input value=new_username type="text" placeholder="Novo nome de utilizador" class='new_user'}}
+						<div class="confirmarBotao">{{input id="bttn_new_user" type="submit" value="Confirmar" class='botaoConfirmar'}}</div>
+						<div class="cancelarBotao" {{action actionCloseEdit "edit_username"}}>Cancelar</div>
+					</form>
+				</div>
+				
+				<div class="personal_account_emailtab">
+					Email <div class="personal_account_email">{{email}}</div><div class="personal_account_edit" id="edit_email" {{action actionEdit "edit_email"}}></div>
+					<form class="form-inline" {{action updateInfo "email" on="submit"}} style="display:none" id="new_email">
+						{{input value=new_username type="text" placeholder="Novo email" class='new_email'}}
+						<div class="confirmarBotao">{{input id="bttn_new_email" type="submit" value="Confirmar" class='botaoConfirmar'}}</div>
+						<div class="cancelarBotao" {{action actionCloseEdit "edit_email"}}>Cancelar</div>
+					</form>
+				</div>
+			</div>
+			
+			<div class="division"></div>
+			
+			<div class="feedback">
+				Feedbacks Criados
+				{{#each item in feedbacksuser}}
+					<div class="feedback_user">
+						<div class="feed">
+							- {{item.texto}}
 						</div>
 						
-						<div class='comments'>
-						</div>
-						
-						{{#link-to 'topic' (query-params topicoid=item.id) class='linkto-none'}} 
-						<div class='title'>
-							{{item.titulo}} 
-						</div>
-						{{/link-to}} 
-						
-						<div class='data'>
-							{{item.data}} 
-						</div>
-						
-						<div class='user_op'>
+						<div class="user">
 							{{item.nome}}
 						</div>
-						
 					</div>
-					{{/each}}
-					
-					<div class="personal_account_title" id="topicos_comentados">Tópicos Comentados</div>
-					
-					{{#each item in respostastopicos}}
-					<div class='topic'>
-						<div class='topic_icon' id="topic_commented">
-							
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						{{#link-to 'topic' (query-params topicoid=item.id) class='linkto-none'}} 
-						<div class='title'>
-							{{item.titulo}} 
-						</div>
-						{{/link-to}} 
-						
-						<div class='data'>
-							{{item.data}} 
-						</div>
-						
-						<div class='user_op'>
-							{{item.nome}}
-						</div>
-						
-					</div>
-					{{/each}}	
+				{{/each}}
+				{{#link-to 'viewfeedbacks' (query-params cursoid="" cadeiraid="" feupid="" userid=utilizadorId) class='linkto-none'}}
+					<div class='getmorefeedbacks'>+Feedbacks</div>
+				{{/link-to}}
+			</div>
 		</div>
+				
+		<div class="content">
+			<div class="achievement_bar">Espaço para colocar os achievements</div>
+			<div class="personal_account_title" id="topicos_criados">Tópicos Criados</div>
+			
+			{{#each item in topicoscriados}}
+			<div class='topic'>
+				<div class='topic_icon' id="topic_created">
+					
+				</div>
+				
+				<div class='comments'>
+				</div>
+				
+				{{#link-to 'topic' (query-params topicoid=item.id) class='linkto-none'}} 
+				<div class='title'>
+					{{item.titulo}} 
+				</div>
+				{{/link-to}} 
+				
+				<div class='data'>
+					{{item.data}} 
+				</div>
+				
+				<div class='user_op'>
+					{{item.nome}}
+				</div>
+				
+			</div>
+			{{/each}}
+			
+			<div class="personal_account_title" id="topicos_comentados">Tópicos Comentados</div>
+			
+			{{#each item in respostastopicos}}
+			<div class='topic'>
+				<div class='topic_icon' id="topic_commented">
+					
+				</div>
+				
+				<div class='comments'>
+				</div>
+				
+				{{#link-to 'topic' (query-params topicoid=item.id) class='linkto-none'}} 
+				<div class='title'>
+					{{item.titulo}} 
+				</div>
+				{{/link-to}} 
+				
+				<div class='data'>
+					{{item.data}} 
+				</div>
+				
+				<div class='user_op'>
+					{{item.nome}}
+				</div>
+				
+			</div>
+			{{/each}}	
+		</div>
+	</div>
  </script>
   
   <div class="gv-item category-technology gv-size-medium isotope-item gv-item-shadow gv-item-triangle" id="gv-site-2" style="background-color: rgb(238, 75, 75); position: absolute; left: 288px; top: 0px; border-color: rgb(238, 75, 75);">
