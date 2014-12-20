@@ -293,12 +293,33 @@ App.CadeirasController = Ember.ObjectController.extend({
 	queryParams: ['sigla','codigo'],
 	sigla: null,
 	codigo: null,
+	curso: null,
+	ano: null,
+	
+	isMieic:false,
+	isMieec:false,
+	isMieig:false,
+	isMiea:false,
+	isMiec:false,
+	isMib:false,
+	isMiem:false,
+	isMiemm:false,
+	isMieq:false,
 	
 	getCadeiraTopics: function(){
+		this._super();
 		var sigla = this.get('sigla');
 		var codigo = this.get('codigo');
-		alert(codigo);
-		alert(sigla);
+		
+		this.set('isMieic', false);
+		this.set('isMieec', false);
+		this.set('isMieig', false);
+		this.set('isMiea', false);
+		this.set('isMiec', false);
+		this.set('isMib', false);
+		this.set('isMiem', false);
+		this.set('isMiemm', false);
+		this.set('isMieq', false);
 		
 		var self = this;
 		var token = this.get('controllers.index').get('token');
@@ -306,6 +327,40 @@ App.CadeirasController = Ember.ObjectController.extend({
 		
 		$.get(apigo, function(data) {
 			console.log(data);
+			if(data.success == true)
+			{
+				self.curso = data.results[0].CursoKey;
+				self.ano = data.results[0].ano;
+				
+				if(self.curso == "MIEQ")
+				{
+					self.set('isMieq', true);
+				}else if (self.curso == "MIEIC")
+				{
+					self.set('isMieic', true);
+				}else if (self.curso == "MIEEC")
+				{
+					self.set('isMieec', true);
+				}else if (self.curso == "MIEIG")
+				{
+					self.set('isMieig', true);
+				}else if (self.curso == "MIEA")
+				{
+					self.set('isMiea', true);
+				}else if (self.curso == "MIEC")
+				{
+					self.set('isMiec', true);
+				}else if (self.curso == "MIB")
+				{
+					self.set('isMib', true);
+				}else if (self.curso == "MIEM")
+				{
+					self.set('isMiem', true);
+				}else if (self.curso == "MIEMM")
+				{
+					self.set('isMiemm', true);
+				}
+			}
 		});
 	},
 	
