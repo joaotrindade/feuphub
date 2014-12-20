@@ -14,6 +14,13 @@ module.exports = (function() {
 		});
 	};
 	
+	function insertTopicoCadeira(cadeiraID,tipo,titulo,texto,data,userid,callback){
+		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CadeiraKey,UtilizadorKey) VALUES (" + tipo + ",'" + titulo + "',0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + cadeiraID + "'," + userid + ")", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	function deleteTopic(tID,callback){
 		connection.query("SELECT RespostaKey FROM Utilizador_Resposta INNER JOIN Resposta on Utilizador_Resposta.RespostaKey=Resposta.id WHERE TopicoKey=" + tID, function(err, resultssel)
 		{
@@ -185,7 +192,7 @@ module.exports = (function() {
 		console.log(cID);
 		var body = req.body, type = body.type;
 		console.log(type);
-		if(type=="insert") {
+		if(type=="insert") { // INSERT CURSO
 			if (auth.validTokenProvided(req, res)) {
 				var tipo  = body.tipo;
 				var titulo = body.titulo;
@@ -208,6 +215,30 @@ module.exports = (function() {
 					}
 				});
 			}
+		}
+		else if (type=='insertCadeira')
+		{
+			var tipo  = body.tipo;
+			var titulo = body.titulo;
+			var texto = body.texto;
+			var data = body.data;
+			var userid = body.userid;
+			
+			insertTopicoCadeira(cID,tipo,titulo,texto,data,userid,function(err,results) {
+				if(err)
+					{
+						console.log(err);
+						res.send({
+							success: false,
+						});
+					}
+					else {
+						console.log(result);
+						res.send({
+							success: true,
+						});
+					}
+			});
 		}
 		else if(type=="user")
 		{
