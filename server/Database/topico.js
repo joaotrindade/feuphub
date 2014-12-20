@@ -60,6 +60,13 @@ module.exports = (function() {
 		});
 	};
 	
+	function getTopicosbyCadeira(cadeiraId,callback){
+		connection.query("SELECT Topico.id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,Topico.CadeiraKey,nickname as nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Topico.CadeiraKey = '" + cadeiraId + "' ORDER BY difference desc", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	function getTopicosbyUserResposta(userID,callback){
 		connection.query("SELECT distinct(Topico.id),Topico.tipo,Topico.titulo,Topico.upvote-Topico.downvote as difference,Topico.texto,DATE_FORMAT(Topico.data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey, Topico.CadeiraKey,nickname as nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero INNER JOIN Resposta on Topico.id = Resposta.TopicoKey inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Resposta.UtilizadorKey = " + userID + " ORDER BY difference desc", function(err, results)
 		{
@@ -268,6 +275,28 @@ module.exports = (function() {
 		{
 			if (auth.validTokenProvided(req, res)) {
 				getTopicosbyUserResposta(cID,function(err,result) {
+					if(err)
+					{
+						console.log(err);
+						res.send({
+							success: false,
+							results: err
+						});
+					}
+					else {
+						console.log(result);
+						res.send({
+							success: true,
+							results: result
+						});
+					}
+				});
+			}
+		}
+		else if(type=="getTopicosCadeira")
+		{
+			if (auth.validTokenProvided(req, res)) {
+				getTopicosbyCadeira(cID,function(err,result) {
 					if(err)
 					{
 						console.log(err);
