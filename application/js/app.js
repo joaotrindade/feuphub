@@ -299,6 +299,14 @@ App.CadeirasController = Ember.ObjectController.extend({
 		var codigo = this.get('codigo');
 		alert(codigo);
 		alert(sigla);
+		
+		var self = this;
+		var token = this.get('controllers.index').get('token');
+		var apigo = "/api/database/cadeira/" + codigo;
+		
+		$.get(apigo, function(data) {
+			console.log(data);
+		});
 	},
 	
 	actions: {
