@@ -513,7 +513,7 @@ App.CursosController = Ember.ObjectController.extend({
 			{
 			  if (response.success)
 			  {
-					//console.log(response.results);
+					console.log(response.results);
 					response.results.forEach(function(item){ 
 						if(item.semestre == 1)
 						{
