@@ -40,7 +40,6 @@ App.ApplicationController = Ember.Controller.extend({
 	checkIsLoggedIn:function(){
 		var self=this;
 		var variavel = this.get('controllers.index').get('usr');
-		console.log(variavel);
 		if(variavel!="")
 		{
 			var apigo = '/api/database/utilizador';
@@ -910,7 +909,8 @@ App.CreatetopicController = Ember.ObjectController.extend({
 						}
 						else if(self.cadeiraid != "")
 						{
-							self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
+							self.transitionToRoute('cursos',{queryParams: {codigo: "MIEIC"}});
+							//self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
 						}
 						else if(self.feupid != "")
 						{
