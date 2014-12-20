@@ -697,6 +697,33 @@
 		</div>	
 		
 		<div class="content">
+			{{#each item in topicosCadeira}}
+				 <div class='topic'>
+						<div class='score'>
+							<div {{action 'upvotetopic' item.id }} class='upvote'></div>
+							<div class='number'>{{item.difference}}</div>
+							<div {{action 'downvotetopic' item.id }}  class='downvote'></div>
+						</div>
+						
+						<div class='comments'>
+						</div>
+						
+						{{#link-to 'topic' (query-params topicoid=item.id) class='linkto-none'}} 
+						<div class='title'>
+							{{item.titulo}} 
+						</div>
+						{{/link-to}} 
+						
+						<div class='data'>
+							{{item.data}} 
+						</div>
+						
+						<div class='user_op'>
+							{{item.nome}}
+						</div>
+						
+					</div>
+			{{/each}}
 		</div>
 	</div>
   </script>

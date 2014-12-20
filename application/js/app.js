@@ -291,6 +291,7 @@ App.AccountController = Ember.ObjectController.extend({
 App.CadeirasController = Ember.ObjectController.extend({
 	needs:['index'],
 	queryParams: ['sigla','codigo'],
+	topicosCadeira: [],
 	sigla: null,
 	codigo: null,
 	curso: null,
@@ -310,6 +311,8 @@ App.CadeirasController = Ember.ObjectController.extend({
 		this._super();
 		var sigla = this.get('sigla');
 		var codigo = this.get('codigo');
+		
+		this.set('topicosCadeira', []);
 		
 		this.set('isMieic', false);
 		this.set('isMieec', false);
@@ -361,6 +364,18 @@ App.CadeirasController = Ember.ObjectController.extend({
 				{
 					self.set('isMiemm', true);
 				}
+				
+				var apigo2 = "/api/database/topico/" + codigo;
+		
+				$.post(apigo2 {"type" : "getTopicosCadeira"}).then( function(response)
+				{
+				  if (response.success)
+				  {
+					self.set('topicosCadeira', response.results);
+				  }
+				  else
+						alert("Algo deu Errado No Get Topicos Cadeiras.");
+				});
 			}
 		});
 	},
