@@ -894,8 +894,8 @@ App.CreatetopicController = Ember.ObjectController.extend({
 						else if(this.isPoll)
 							tipo = 3;
 							
-						/*alert(titulo);
-						alert(texto);
+						/*alert(usr);
+						alert(token);
 						alert(tipo);*/
 							
 				$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr, "type": type}).then( function(response)
@@ -909,8 +909,7 @@ App.CreatetopicController = Ember.ObjectController.extend({
 						}
 						else if(self.cadeiraid != "")
 						{
-							self.transitionToRoute('cursos',{queryParams: {codigo: "MIEIC"}});
-							//self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
+							self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
 						}
 						else if(self.feupid != "")
 						{
