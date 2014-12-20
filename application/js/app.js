@@ -336,6 +336,8 @@ App.CursosController = Ember.ObjectController.extend({
 	codigo:null,
 	topicscurso:null,
 	feedbackscurso:null,
+	cadeiras1ano: [],
+	cadeiras2ano: [],
 	
 	isMieic:false,
 	isMieec:false,
@@ -355,6 +357,9 @@ App.CursosController = Ember.ObjectController.extend({
 		this.set('feedbackscurso', null);		
 		this.set('codigo', this.get('codigo')); 
 		this.set('isExpanded', false);
+		
+		this.set('cadeiras1ano',[]);
+		this.set('cadeiras2ano',[]);
 		//GET TOPICOS DE UM CURSO
 		var apigo = "/api/database/topico/" + this.codigo.toUpperCase();
 		
@@ -514,29 +519,42 @@ App.CursosController = Ember.ObjectController.extend({
         },
 		
 		yearExpanded: function(year){
+			this._super();
+			
 			this.set('isExpanded', true);
+			
+			this.set('cadeiras1ano',[]);
+			this.set('cadeiras2ano',[]);
+			
 			
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 
-			if(usr != null)
+			var token = this.get('controllers.index').get('token');
+			var apigo = "/api/database/cadeira/cadeiraMenu/";
+			var curso = this.codigo.toUpperCase();
+			
+			$.post(apigo, { "idCurso" : curso, "ano" : year} ).then( function(response)
 			{
-				var token = this.get('controllers.index').get('token');
-				var apigo = "/api/database/cadeira/cadeiraMenu/";
-				var curso = this.codigo.toUpperCase();
-				
-				$.post(apigo, { "idCurso" : curso, "ano" : year} ).then( function(response)
-				{
-				  if (response.success)
-				  {
-						console.log(response.results);
-				  }
-				  else
-						alert("ALGO DEU MAL NO GET DISICIPLINAS");
-				});
-			}
-			else
-				alert("Faça Login para fazer downvote");
+			  if (response.success)
+			  {
+					//console.log(response.results);
+					response.results.forEach(function(item){ 
+						if(item.ano == 1)
+						{
+							self.cadeiras1ano.addObject(item);
+						}
+						else if(item.ano == 2)
+						{
+							self.cadeiras2ano.addObject(item);
+						}
+					});
+
+			  }
+			  else
+					alert("ALGO DEU MAL NO GET DISICIPLINAS");
+			});
+
 		},
     }
 });

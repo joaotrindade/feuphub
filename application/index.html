@@ -511,13 +511,17 @@
 				<p>1º<br>Semestre</br></p>
 			</div>
 			<div class="firstSemesterDiv">
-			
+				{{#each item in cadeiras1ano}}
+					<div class='showdisciplinascurso'>{{item.sigla}}</div>
+				{{/each}}
 			</div>
 			<div class="secondSemesterLogo">
 				<p>2º<br>Semestre</br></p>
 			</div>
 			<div class="secondSemesterDiv">
-				
+				{{#each item in cadeiras2ano}}
+					<div class='showdisciplinascurso'>{{item.sigla}}</div>
+				{{/each}}
 			</div>
 		</div>
 		{{/if}}

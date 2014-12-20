@@ -310,6 +310,24 @@ cursor: pointer;
 
 /*-----------PEDRO------------*/
 
+.showdisciplinascurso
+{
+	float:left;
+	overflow: hidden;
+	font-family: EXO;
+	font-size:11px;
+	padding-top:25px;
+	color: white;
+	width: 55px;
+	height: 42px;
+}
+
+.showdisciplinascurso:hover
+{
+	cursor: pointer;
+	color: rgb(113,200,236);
+}
+
 .uc
 {
 	height: 135px;
