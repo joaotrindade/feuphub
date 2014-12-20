@@ -225,7 +225,7 @@ module.exports = (function() {
 				var data = body.data;
 				var userid = body.userid;
 				
-				insertTopicoCadeira(cID,tipo,titulo,texto,data,userid,function(err,results) {
+				insertTopicoCadeira(cID,tipo,titulo,texto,data,userid,function(err,result) {
 					if(err)
 						{
 							console.log(err);
@@ -240,13 +240,6 @@ module.exports = (function() {
 							});
 						}
 				});
-			}
-			else
-			{
-				res.send({
-						success: false,
-						results: 'erro auth'
-					});
 			}
 		}
 		else if(type=="user")
