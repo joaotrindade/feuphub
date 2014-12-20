@@ -512,9 +512,12 @@
 			</div>
 			<div class="firstSemesterDiv">
 				{{#each item in cadeiras1ano}}
+					{{#link-to 'cadeiras' (query-params sigla=item.sigla)}}
 					<div class='showdisciplinascurso'>{{item.sigla}}</div>
+					{{/link-to}}
 				{{/each}}
 			</div>
+			
 			<div class="secondSemesterLogo">
 				<p>2º<br>Semestre</br></p>
 			</div>

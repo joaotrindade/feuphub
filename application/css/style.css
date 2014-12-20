@@ -312,7 +312,7 @@ cursor: pointer;
 
 .showdisciplinascurso
 {
-	float:left;
+	display: inline-block;
 	overflow: hidden;
 	font-family: EXO;
 	font-size:11px;
@@ -330,11 +330,9 @@ cursor: pointer;
 
 .uc
 {
-	height: 135px;
 	background-color: rgb(53,56,62);
 	border-bottom: 1px solid rgb(211,219,225);
 	border-right: 1px solid rgb(211,219,225);
-	text-align: center;
 }
 
 .uc .firstSemesterLogo
@@ -352,7 +350,7 @@ cursor: pointer;
 
 .uc .firstSemesterDiv
 {
-	height:50%;
+	min-height: 68px;
 	margin-left:61px;
 	border-bottom: 1px solid #666;
 	margin-right: 289px;
@@ -373,8 +371,9 @@ cursor: pointer;
 
 .uc .secondSemesterDiv
 {
-	height:50%;
+	min-height: 68px;
 	margin-left:61px;
+	border-bottom: 1px solid #666;
 	margin-right: 289px;
 }
 
