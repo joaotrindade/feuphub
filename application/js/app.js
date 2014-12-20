@@ -331,6 +331,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 			{
 				self.curso = data.results[0].CursoKey;
 				self.ano = data.results[0].ano;
+				self.sigla = data.results[0].sigla;
 				
 				if(self.curso == "MIEQ")
 				{
@@ -855,7 +856,25 @@ App.CreatetopicController = Ember.ObjectController.extend({
        
         subtopic: function() {
             
-			var apigo = "/api/database/topico/" + this.cursoid.toUpperCase(); //TODO: ALTERAR PARA SER POSSIVEL CRIAR NAS CADEIRAS E NO FEUPMAINPAGE
+			var apigo = null;
+			var type = "vazio";
+			
+			if(this.cursoid != "")
+			{
+				apigo = "/api/database/topico/" + this.cursoid.toUpperCase();
+				type = "insert";
+			}
+			else if(this.cadeiraid != "")
+			{
+				apigo = "/api/database/topico/" + this.cadeiraid;
+				type = "insertCadeira";
+			}
+			else if(this.feupid != "")
+			{
+				apigo = "/api/database/topico/FEUP";
+				type ="inserFeup";
+			}
+			
 			var self = this;
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 
@@ -879,12 +898,23 @@ App.CreatetopicController = Ember.ObjectController.extend({
 						alert(texto);
 						alert(tipo);*/
 							
-				$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr, "type": "insert"}).then( function(response)
+				$.post(apigo, {"token": token, "tipo" : tipo, "texto" : texto, "titulo" : titulo, "userid" : usr, "type": type}).then( function(response)
 				{
 				  if (response.success)
 				  {
-						//alert("Inserido em MIEEC");
-						self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
+						if(self.cursoid != "")
+						{
+							self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
+						}
+						else if(self.cadeiraid != "")
+						{
+							self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
+						}
+						else if(self.feupid != "")
+						{
+							self.transitionToRoute('home');
+						}
+						
 				  }
 				  else
 						alert("Algo deu Errado.");

@@ -570,6 +570,17 @@
 			
 		<div class="right_bar">
 			
+			<div class='create_topic_feedback'>
+				
+				{{#link-to 'createtopic' (query-params cursoid="" cadeiraid=codigo feupid="") class='linkto-none'}} 
+				<div class='create_new_topic'>Nova Questão</div>
+				{{/link-to}}
+				
+				{{#link-to 'givefeedback' (query-params cursoid="" cadeiraid=codigo feupid="") class='linkto-none'}} 
+				<div class='create_new_feedback'>Dar Feedback</div>
+				{{/link-to}}
+			</div>
+			
 			<div class="bestprof">
 				<div class="bestprof_title"> 
 					Melhor Professor
