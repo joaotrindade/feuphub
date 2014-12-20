@@ -241,6 +241,13 @@ module.exports = (function() {
 						}
 				});
 			}
+			else
+			{
+				res.send({
+						success: false,
+						results: 'erro auth'
+					});
+			}
 		}
 		else if(type=="user")
 		{
