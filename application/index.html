@@ -628,30 +628,48 @@
 		
 		<div class="courses">
 			{{#if isMieic}}
+				{{#link-to 'cursos' (query-params codigo="mieic")}}
 				<div class="mieic_icon"></div>
+				{{/link-to}}
 			{{else}}
 				{{#if isMieec}}
+					{{#link-to 'cursos' (query-params codigo="mieec")}}
 					<div class="mieec_icon"></div>
+					{{/link-to}}
 				{{else}}
 					{{#if isMieig}}
+						{{#link-to 'cursos' (query-params codigo="mieig")}}
 						<div class="mieig_icon"></div>
+						{{/link-to}}
 					{{else}}
 						{{#if isMiea}}
+							{{#link-to 'cursos' (query-params codigo="miea")}}
 							<div class="miea_icon"></div>
+							{{/link-to}}
 						{{else}}
 							{{#if isMiec}}
+								{{#link-to 'cursos' (query-params codigo="miec")}}
 								<div class="miec_icon"></div>
+								{{/link-to}}
 							{{else}}
 								{{#if isMib}}
+									{{#link-to 'cursos' (query-params codigo="mib")}}
 									<div class="mib_icon"></div>
+									{{/link-to}}
 								{{else}}
 									{{#if isMiem}}
+										{{#link-to 'cursos' (query-params codigo="miem")}}
 										<div class="miem_icon"></div>
+										{{/link-to}}
 									{{else}}
 										{{#if isMiemm}}
+											{{#link-to 'cursos' (query-params codigo="miemm")}}
 											<div class="miemm_icon"></div>
+											{{/link-to}}
 										{{else}}
+											{{#link-to 'cursos' (query-params codigo="mieq")}}
 											<div class="mieq_icon"></div>
+											{{/link-to}}
 										{{/if}}
 									{{/if}}
 								{{/if}}
@@ -660,10 +678,9 @@
 					{{/if}}
 				{{/if}}
 			{{/if}}
-				
-				
+			
 			<div class="year1">
-				<p> <br>{{sigla}}</br></p>
+				<br>{{sigla}}</br>
 			</div>	
 			
 		</div>	
