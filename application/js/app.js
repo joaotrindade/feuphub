@@ -16,7 +16,7 @@ App.Router.map(function() {
   this.route('articles');
   this.route('photos');
   this.route('credentials');
-  this.route('cadeiras');
+  this.resource('cadeiras');
   this.resource('account');
 });
 
@@ -123,19 +123,9 @@ App.AuthenticatedRoute = Ember.Route.extend({
   }
 });
 
-App.CadeirasRoute = App.AuthenticatedRoute.extend({
-  model: function() {
-	alert(this.getUsername());
-	 $.post('/api/database/cadeira/', {"token": this.postJSONWithToken()}).then(function(response) {
-		if (response.success) {
-			$("#cadeiras").append("<table>");
-			$("#cadeiras").append("<tr><th>Codigo</th><th>Nome</th><th>Sigla</th><th>Ano</th><th>Semestre</th></tr>");
-			for(x=0;x<response.results.length;x++) {
-				$("#cadeiras").append("<tr><td>" + response.results[x].codigo + "</td><td>" + response.results[x].nome + "</td><td>" + response.results[x].sigla + "</td><td>" + response.results[x].ano + "</td><td>" + response.results[x].semestre + "</td></tr>");
-			}
-			$("#cadeiras").append("</table>");
-		}
-	 });
+App.CadeirasRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.getCadeiraTopics();
   }
 });
 
@@ -298,33 +288,18 @@ App.AccountController = Ember.ObjectController.extend({
     }
 });
 
-App.MieicController = Ember.ObjectController.extend({
-	queryParams: ['ano'],
-	isExpanded: false,
-	ano: null,
+App.CadeirasController = Ember.ObjectController.extend({
+	needs:['index'],
+	queryParams: ['sigla'],
+	sigla: null,
 	
-	getAno: function(){
-		var ano = this.get('ano');
-		if(ano==null)
-		{
-			this.set('isExpanded', false);
-		}
-		else
-		{
-			this.set('ano', this.get('ano'));
-			this.set('isExpanded', true);
-		}
-	}.property('ano'),
+	getCadeiraTopics: function(){
+		var sigla = this.get('sigla');
+		alert(sigla);
+	},
 	
 	actions: {
-       
-        upvotetopic: function(id) {
-            alert("Fazer Upvote Ao Topico com id= " + id);
-        },
-       
-        downvotetopic: function(id) {
-            alert("Fazer Upvote Ao Topico com id= " + id);
-        }
+
     }
 	
 	
