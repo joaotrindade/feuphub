@@ -290,11 +290,14 @@ App.AccountController = Ember.ObjectController.extend({
 
 App.CadeirasController = Ember.ObjectController.extend({
 	needs:['index'],
-	queryParams: ['sigla'],
+	queryParams: ['sigla','codigo'],
 	sigla: null,
+	codigo: null,
 	
 	getCadeiraTopics: function(){
 		var sigla = this.get('sigla');
+		var codigo = this.get('codigo');
+		alert(codigo);
 		alert(sigla);
 	},
 	

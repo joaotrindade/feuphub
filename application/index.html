@@ -512,7 +512,7 @@
 			</div>
 			<div class="firstSemesterDiv">
 				{{#each item in cadeiras1ano}}
-					{{#link-to 'cadeiras' (query-params sigla=item.sigla) class='linkto-none'}}
+					{{#link-to 'cadeiras' (query-params sigla=item.sigla codigo=item.CadeiraKey) class='linkto-none'}}
 					<div class='showdisciplinascurso'>{{item.sigla}}</div>
 					{{/link-to}}
 				{{/each}}
@@ -523,7 +523,7 @@
 			</div>
 			<div class="secondSemesterDiv">
 				{{#each item in cadeiras2ano}}
-					{{#link-to 'cadeiras' (query-params sigla=item.sigla) class='linkto-none'}}
+					{{#link-to 'cadeiras' (query-params sigla=item.sigla codigo=item.CadeiraKey) class='linkto-none'}}
 					<div class='showdisciplinascurso'>{{item.sigla}}</div>
 					{{/link-to}}
 				{{/each}}
