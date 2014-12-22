@@ -31,7 +31,7 @@ describe('API',function () {
 			.send(data)
 			.expect(function(done){
 				assert.equal(true, res.body.success);
-				token = res.body.success.token;
+				token = res.body.token;
 			}).end(done);
 		});
 
