@@ -930,6 +930,7 @@ App.TopicController = Ember.ObjectController.extend({
         },
 		
 		upvotetopic: function(id) {
+			this._super();
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
@@ -969,6 +970,7 @@ App.TopicController = Ember.ObjectController.extend({
         },
        
         downvotetopic: function(id) {
+			this._super();
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 
