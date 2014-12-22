@@ -927,7 +927,86 @@ App.TopicController = Ember.ObjectController.extend({
 			}
 			else
 				alert("Faça Login para apagar topico");
-        }
+        },
+		
+		upvotetopic: function(id) {
+            var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+			var self = this;
+			
+			if(usr != null)
+			{
+				var token = this.get('controllers.index').get('token');
+				var apigo = "/api/database/topico/up/" + id;
+				
+				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
+				{
+					if (response.success)
+					{
+							var temporary = self.topicoDetails.difference;
+							
+							if(response.results.tipo == "inseriu")
+							{
+								temporary +=1;
+								self.topicoDetails.difference = temporary;
+							}
+							else if(response.results.tipo == "retirou")
+							{
+								temporary -=1;
+								self.topicoDetails.difference = temporary;
+							}
+							else if(response.results.tipo == "trocou")
+							{
+								temporary +=2;
+								self.topicoDetails.difference = temporary;
+							}
+					}
+					else
+						alert("ALGO DEU MAL NO UPVOTE");
+				});
+			}
+			else
+				alert("Faça Login para fazer upvote");
+        },
+       
+        downvotetopic: function(id) {
+            var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+			var self = this;
+
+			if(usr != null)
+			{
+				var token = this.get('controllers.index').get('token');
+				var apigo = "/api/database/topico/down/" + id;
+				
+				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
+				{
+				  if (response.success)
+				  {
+
+						var temporary = self.topicoDetails.difference;
+						
+						if(response.results.tipo == "inseriu")
+						{
+							temporary -=1;
+							self.topicoDetails.difference = temporary;
+						}
+						else if(response.results.tipo == "retirou")
+						{
+							temporary +=1;
+							self.topicoDetails.difference = temporary;
+						}
+						else if(response.results.tipo == "trocou")
+						{
+							temporary -=2;
+							self.topicoDetails.difference = temporary; 
+						}
+				  }
+				  else
+						alert("ALGO DEU MAL NO DOWNVOTE");
+				});
+			}
+			else
+				alert("Faça Login para fazer downvote");
+        },
     }
 });
 
