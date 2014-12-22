@@ -35,6 +35,22 @@ module.exports = (function() {
 		});
 	};
 	
+	function getFeedbacksByCadeira(cadeiraID,callback){
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CadeiraKey like '" + cadeiraID + "' ORDER BY difference desc", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
+	function getFeedbacksByCadeiraLimit5(cadeiraID,callback){
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CadeiraKey like '" + cadeiraID + "' ORDER BY difference desc LIMIT 5", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
+	
+	
 	api.post('/:courseID', function(req, res) {
 		var cID = req.params.courseID;
 		var body = req.body, type = body.type, type2 = body.type2;
@@ -132,6 +148,46 @@ module.exports = (function() {
 							}
 						});
 					}
+				}
+				else if(type2=="get5")
+				{
+					getFeedbacksByCadeiraLimit5(cID,function(err,result) {
+						if(err)
+						{
+							console.log(err);
+							res.send({
+								success: false,
+								results: err
+							});
+						}
+						else {
+							console.log(result);
+							res.send({
+								success: true,
+								results: result
+							});
+						}
+					});
+				}
+				else
+				{
+					getFeedbacksByCadeira(cID,function(err,result) {
+						if(err)
+						{
+							console.log(err);
+							res.send({
+								success: false,
+								results: err
+							});
+						}
+						else {
+							console.log(result);
+							res.send({
+								success: true,
+								results: result
+							});
+						}
+					});
 				}
 			}
 });
