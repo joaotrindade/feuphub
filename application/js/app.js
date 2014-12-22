@@ -948,17 +948,17 @@ App.TopicController = Ember.ObjectController.extend({
 							if(response.results.tipo == "inseriu")
 							{
 								temporary +=1;
-								self.topicoDetails.difference = temporary;
+								Ember.set(self.topicoDetails, "difference",	temporary); 
 							}
 							else if(response.results.tipo == "retirou")
 							{
 								temporary -=1;
-								self.topicoDetails.difference = temporary;
+								Ember.set(self.topicoDetails, "difference",	temporary); 
 							}
 							else if(response.results.tipo == "trocou")
 							{
 								temporary +=2;
-								self.topicoDetails.difference = temporary;
+								Ember.set(self.topicoDetails, "difference",	temporary); 
 							}
 					}
 					else
@@ -989,17 +989,17 @@ App.TopicController = Ember.ObjectController.extend({
 						if(response.results.tipo == "inseriu")
 						{
 							temporary -=1;
-							self.topicoDetails.difference = temporary;
+							Ember.set(self.topicoDetails, "difference",	temporary); 
 						}
 						else if(response.results.tipo == "retirou")
 						{
 							temporary +=1;
-							self.topicoDetails.difference = temporary;
+							Ember.set(self.topicoDetails, "difference",	temporary); 
 						}
 						else if(response.results.tipo == "trocou")
 						{
 							temporary -=2;
-							self.topicoDetails.difference = temporary; 
+							Ember.set(self.topicoDetails, "difference",	temporary); 
 						}
 				  }
 				  else
