@@ -590,7 +590,7 @@ App.CursosController = Ember.ObjectController.extend({
 	}.property('codigo'),
 	
 	actions: {
-       
+		
         upvotetopic: function(id) {
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
@@ -1012,7 +1012,7 @@ App.TopicController = Ember.ObjectController.extend({
     }
 });
 
-App.CreatetopicController = Ember.ObjectController.extend({
+App.CreatetopicController = Ember.ObjectController.extend({ 
 	needs: ['index'],
 	queryParams: ['cursoid','cadeiraid','feupid'],
 	isQuestion: false,
@@ -1310,8 +1310,8 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 			$.post(apigo, {"token": token, "type" : "delete", "idFeedback": id, "NumeroUser": usr}).then( function(response) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
 			{
 			  if (response.success)
-			  {	
-					self.refresh();
+			  {							
+					location.reload(); 
 			  }
 			  else
 					alert("Algo deu Errado No Delete Feedbacks.");
@@ -1361,6 +1361,7 @@ App.IndexController = Ember.Controller.extend({
   actions: {
        
 	  login: function() {
+	    
 		var self = this, data2 = this.getProperties('username', 'password');
 
 		// Clear out any error messages.
