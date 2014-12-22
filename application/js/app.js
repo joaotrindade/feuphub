@@ -1297,7 +1297,27 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
        
         subfeedback: function() {
 		
-        }
+        },
+		
+		deletefeedback: function(id) {
+			alert(id);
+			
+			var self = this;
+			var apigo = "/api/database/feedback/delete";
+			var token = this.get('controllers.index').get('token');
+			var usr = this.get('controllers.index').get('usr');
+			
+			$.post(apigo, {"token": token, "type" : "delete", "idFeedback": id, "NumeroUser": usr}).then( function(response) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+			{
+			  if (response.success)
+			  {	
+					self.refresh();
+			  }
+			  else
+					alert("Algo deu Errado No Delete Feedbacks.");
+			});
+			
+        },
     }
 	
 	
