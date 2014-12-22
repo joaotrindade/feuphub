@@ -986,6 +986,9 @@
 					
 					<div class="mid_description">
 						<div class="username_desc">{{item.nome}}</div>
+						{{#if item.isMeu}}
+							<div {{action 'deletefeedback' item.id}} class='delete_topic'>Apagar Tópico</div>
+						{{/if}}
 						<div class="data_desc">{{item.data}}</div>
 						<div class="clear"></div>
 						{{item.texto}}

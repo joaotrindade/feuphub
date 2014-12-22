@@ -1244,16 +1244,30 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 		else if(this.userid != "")
 		{
 			this.set('isUser',true);
+			//TODO: MOSTRAR OS DO USER!
 			type="user";
 		}
 			
 		//GET FEEDBACKS
 		var token = this.get('controllers.index').get('token');
+		var nick = this.get('controllers.index').get('nickname');
 		
 		$.post(apigo, {"token": token, "type" : type, "type2": "get"}).then( function(response) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
 		{
 		  if (response.success)
 		  {	
+				response.results.forEach(function(item){
+				
+					if(item.nickname == nick)
+					{
+						item.isMeu = true;
+					}
+					else
+					{
+						item.isMeu = false;
+					}
+				});
+				
 				self.set('feedbacks', response.results);
 		  }
 		  else
