@@ -14,6 +14,13 @@ module.exports = (function() {
 		});
 	};
 	
+	function insertFeedbacksByCadeira(cadeiraID,texto,userid,tagNome,callback){
+		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CadeiraKey,CursoKey,UtilizadorKey) VALUES (0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + cadeiraID + "'," + "NULL," + userid + ")", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
+	
 	function getFeedbacksByCourse(courseID,callback){
 		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CursoKey like '" + courseID + "' ORDER BY difference desc", function(err, results)
 		{
@@ -99,8 +106,33 @@ module.exports = (function() {
 					});
 				}
 			}
-			else 
+			else if (type=="cadeira")
 			{
+				if(type2=="insert")
+				{
+					if (auth.validTokenProvided(req, res)) {
+						var texto = req.body.texto;
+						var userid = req.body.userid;
+						var tagnome = req.body.tagnome; 
+						insertFeedbacksByCadeira(cID,texto,userid,tagnome,function(err,result) {
+							if(err)
+							{
+								console.log(err);
+								res.send({
+									success: false,
+									results: err
+								});
+							}
+							else {
+								console.log(result);
+								res.send({
+									success: true,
+									results: result
+								});
+							}
+						});
+					}
+				}
 			}
 });
    
