@@ -49,19 +49,13 @@ module.exports = (function() {
 		});
 	};
 	
-	function deleteFeedbackByCourse(cID,userid,callback) {
-		connection.query("DELETE FROM Feedback WHERE CursoKey like '" + cID + "' and UtilizadorKey=" + userid, function(err, results)
+	function deleteFeedback(fID,userid,callback) {
+		connection.query("DELETE FROM Feedback WHERE id = " + fID + " and UtilizadorKey = " + userid, function(err, results)
 		{
 			callback(err,results);
 		});
 	}
-	
-	function deleteFeedbackByCadeira(cID,userid,callback) {
-		connection.query("DELETE FROM Feedback WHERE CadeiraKey like '" + cID + "' and UtilizadorKey=" + userid, function(err, results)
-		{
-			callback(err,results);
-		});
-	}
+
 	
 	
 	
@@ -115,29 +109,6 @@ module.exports = (function() {
 						}
 					});
 				}
-				else if(type2=="delete")
-				{
-					if (auth.validTokenProvided(req, res)) {
-						var userid = req.body.userid;
-						deleteFeedbackByCourse(cID,userid,function(err,result) {
-							if(err)
-							{
-								console.log(err);
-								res.send({
-									success: false,
-									results: err
-								});
-							}
-							else {
-								console.log(result);
-								res.send({
-									success: true,
-									results: result
-								});
-							}
-						});
-					}
-				}
 				else
 				{
 					getFeedbacksByCourse(cID,function(err,result) {
@@ -158,6 +129,30 @@ module.exports = (function() {
 						}
 					});
 				}
+			}
+			else if(type=="delete")
+			{
+				if (auth.validTokenProvided(req, res)) {
+						var fID = req.body.idFeedback;
+						var userid = req.body.NumeroUser;
+						deleteFeedback(fID,userid,function(err,result) {
+							if(err)
+							{
+								console.log(err);
+								res.send({
+									success: false,
+									results: err
+								});
+							}
+							else {
+								console.log(result);
+								res.send({
+									success: true,
+									results: result
+								});
+							}
+						});
+					}
 			}
 			else if (type=="cadeira")
 			{
@@ -205,29 +200,6 @@ module.exports = (function() {
 							});
 						}
 					});
-				}
-				else if(type2=="delete")
-				{
-					if (auth.validTokenProvided(req, res)) {
-						var userid = req.body.userid;
-						deleteFeedbackByCadeira(cID,userid,function(err,result) {
-							if(err)
-							{
-								console.log(err);
-								res.send({
-									success: false,
-									results: err
-								});
-							}
-							else {
-								console.log(result);
-								res.send({
-									success: true,
-									results: result
-								});
-							}
-						});
-					}
 				}
 				else
 				{
