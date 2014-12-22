@@ -1250,30 +1250,45 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 			
 		//GET FEEDBACKS
 		var token = this.get('controllers.index').get('token');
-		var nick = this.get('controllers.index').get('nickname');
 		
-		$.post(apigo, {"token": token, "type" : type, "type2": "get"}).then( function(response) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+		var usr = this.get('controllers.index').get('usr');
+		var apigo2 = 'api/database/utilizador/';
+		
+		$.post(apigo2, {"token":token, "numero":usr}).then( function(response)
 		{
-		  if (response.success)
-		  {	
-				var count = 0;
-				response.results.forEach(function(item){
-					alert(item.nome + " == " + nick);
-					if(item.nome == nick)
-					{
-						response.results[count].isMeu = true;
-					}
-					else
-					{
-						response.results[count].isMeu = false;
-					}
-					count = count +1;
-				});
-				console.log(response.results);
-				self.set('feedbacks', response.results);
-		  }
-		  else
-				alert("Algo deu Errado No Get Feedbacks.");
+			var nick = null;
+			if (response.success)
+			{
+				nick = response.results[0].nickname;
+			}
+			else
+			{
+				alert("Algo deu Errado a ir buscar o nickname.");
+			}
+				
+			$.post(apigo, {"token": token, "type" : type, "type2": "get"}).then( function(response) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+			{
+			  if (response.success)
+			  {	
+					var count = 0;
+					response.results.forEach(function(item){
+						if(item.nome == nick)
+						{
+							response.results[count].isMeu = true;
+						}
+						else
+						{
+							response.results[count].isMeu = false;
+						}
+						count = count +1;
+					});
+					console.log(response.results);
+					self.set('feedbacks', response.results);
+			  }
+			  else
+					alert("Algo deu Errado No Get Feedbacks.");
+			});
+			
 		});
 
 	},
