@@ -29,7 +29,7 @@ describe('API',function () {
 			var data = {'username': '201109244', 'password': 'pass' , 'loginSuccess' : 'able'};
 			request.post("/api/auth/authenticate")
 			.send(data)
-			.expect(function(done){
+			.expect(function(res){
 				assert.equal(true, res.body.success);
 				token = res.body.token;
 			}).end(done);
