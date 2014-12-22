@@ -292,6 +292,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 	needs:['index'],
 	queryParams: ['sigla','codigo'],
 	topicosCadeira: [],
+	feedbackscadeira: null,
 	sigla: null,
 	codigo: null,
 	curso: null,
@@ -313,6 +314,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 		var codigo = this.get('codigo');
 		
 		this.set('topicosCadeira', []);
+		this.set('feedbackscadeira', null);	
 		
 		this.set('isMieic', false);
 		this.set('isMieec', false);
@@ -372,6 +374,20 @@ App.CadeirasController = Ember.ObjectController.extend({
 				  if (response.success)
 				  {
 					self.set('topicosCadeira', response.results);
+					
+						//GET FEEDBACK DE UM CADEIRA
+						var apigo3 = "/api/database/feedback/" + codigo;
+						
+						$.post(apigo3, {"token": token, "type" : "cadeira", "type2": "get5"}).then( function(response3) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+						{
+						  if (response3.success)
+						  {	
+								self.set('feedbackscadeira', response3.results);
+						  }
+						  else
+								alert("Algo deu Errado.");
+						});
+						
 				  }
 				  else
 						alert("Algo deu Errado No Get Topicos Cadeiras.");
@@ -961,15 +977,27 @@ App.GivefeedbackController = Ember.ObjectController.extend({
        
         subfeedback: function() {
 		
-			var apigo = "/api/database/feedback/";
+			var apigo = null;
+			var type2 = "vazio";
+			var type = "vazio";
 			
 			if(this.cursoid != "")
 			{
-				apigo = apigo + this.cursoid.toUpperCase();
+				apigo = "/api/database/feedback/" + this.cursoid.toUpperCase();
+				type2 = "insert";
+				type = "curso";
 			}
 			else if(this.cadeiraid != "")
 			{
-				//apigo = apigo + TODO
+				apigo = "/api/database/feedback/" + this.cadeiraid;
+				type2 = "insert";
+				type = "cadeira";
+			}
+			else if(this.feupid != "")
+			{
+				apigo = "/api/database/feedback/FEUP";
+				type2 ="insert";
+				type = "feup";
 			}
 			
 			var self = this;
@@ -982,7 +1010,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 
 				var token = this.get('controllers.index').get('token');
 							
-				$.post(apigo, {"token": token, "texto" : texto, "type" : "curso", "userid" : usr, "tagnome": "", "type2": "insert"}).then( function(response)
+				$.post(apigo, {"token": token, "texto" : texto, "type" : type, "userid" : usr, "tagnome": "", "type2": type2}).then( function(response)
 				{
 				
 				  if (response.success)
@@ -993,11 +1021,15 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 						}
 						else if(self.cadeiraid != "")
 						{
-							//self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}}); TODO PARA CADEIRA
+							self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
+						}
+						else if(self.feupid != "")
+						{
+							self.transitionToRoute('home');
 						}
 				  }
 				  else
-						alert("Algo deu Errado.");
+						alert("Algo deu Errado a inserir feedback de " + type + ".");
 				});
 			}
 			else
@@ -1039,13 +1071,12 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 		else if(this.cadeiraid != "")
 		{
 			this.set('nameof',this.cadeiraid.toUpperCase());
+			apigo = apigo + this.cadeiraid;
 			type="cadeira";
-			//apigo = apigo + TODO
 		}
 		else if(this.userid != "")
 		{
 			this.set('isUser',true);
-			//TODO pedir neves para acrescentar verificação de usr no get de todos os feedbacks
 			type="user";
 		}
 			
@@ -1059,7 +1090,7 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 				self.set('feedbacks', response.results);
 		  }
 		  else
-				alert("Algo deu Errado.");
+				alert("Algo deu Errado No Get Feedbacks.");
 		});
 
 	},

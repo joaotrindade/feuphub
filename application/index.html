@@ -603,36 +603,22 @@
 			
 			<div class="feedback">
 				Feedback
+				
+				{{#each item in feedbackscadeira}}
 				<div class="feedback_user">
 					<div class="feed">
-						- Não gostei, muito teorico.
+						- {{item.texto}}
 					</div>
 					
 					<div class="user">
-						Rui Neves
+						{{item.nome}}
 					</div>
 				</div>
+				{{/each}}
 				
-				<div class="feedback_user">
-					<div class="feed">
-						- E este tipo de letra? Será que fica bem?
-					</div>
-					
-					<div class="user">
-						Rui Neves
-					</div>
-				</div>
-				
-				<div class="feedback_user">
-					<div class="feed">
-						- Boas aulas Práticas.
-					</div>
-					
-					<div class="user">
-						Rui Neves
-					</div>
-				</div>
-				
+				{{#link-to 'viewfeedbacks' (query-params cursoid="" cadeiraid=codigo feupid="" userid="") class='linkto-none'}}
+				<div class='getmorefeedbacks'>+Feedbacks</div>
+				{{/link-to}}
 			</div>
 			
 		</div>
