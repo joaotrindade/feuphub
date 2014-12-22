@@ -51,7 +51,6 @@ module.exports = (function() {
 		{
 			if(err)
 			{
-				console.log(err);
 				res.send({
 					success: false,
 					results: err

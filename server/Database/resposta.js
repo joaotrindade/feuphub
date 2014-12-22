@@ -142,13 +142,11 @@ module.exports = (function() {
 		addOne(id,texto,data,user_id,function(err,result) {
 			if(err)
 			{
-				console.log(err);
 				res.send({
 					success: false
 				});
 			}
 			else {
-				console.log(result);
 				res.send({
 					success: true
 				});
@@ -162,14 +160,12 @@ api.post('/:topicID', function(req, res) {
 		getRespostas(tID,function(err,result) {
 			if(err)
 			{
-				console.log(err);
 				res.send({
 					success: false,
 					results: err
 				});
 			}
 			else {
-				console.log(result);
 				res.send({
 					success: true,
 					results: result
@@ -188,14 +184,12 @@ api.post('/:typeID/:answerID', function(req, res) {
 					upvoteResposta(uID,rID,function(err,result) {
 						if(err)
 						{
-							console.log(err);
 							res.send({
 								success: false,
 								results: err
 							});
 						}
 						else {
-							console.log(result);
 							res.send({
 								success: true,
 								results: result
@@ -207,14 +201,12 @@ api.post('/:typeID/:answerID', function(req, res) {
 					downvoteResposta(uID,rID,function(err,result) {
 					if(err)
 					{
-						console.log(err);
 						res.send({
 							success: false,
 							results: err
 						});
 					}
 					else {
-						console.log(result);
 						res.send({
 							success: true,
 							results: result

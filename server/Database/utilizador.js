@@ -10,7 +10,6 @@ module.exports = (function() {
 	function updateNickname(idUser,nickname,callback) {
 		connection.query("SELECT id FROM Visitante INNER JOIN Utilizador ON Visitante.id = Utilizador.VisitanteKey WHERE numero=" + idUser, function(err, results)
 		{
-			console.log(results[0].id);
 			connection.query("UPDATE Visitante SET nickname='" + nickname + "' WHERE id=" + results[0].id, function(err, results2)
 			{
 				callback(err,results);
@@ -33,7 +32,6 @@ module.exports = (function() {
 	};
 	
 	function needsUpdate(userid,callback){
-		//console.log("entrou funcao");
 		connection.query("SELECT TIMEDIFF( (SELECT lastUpdateDate from Utilizador where numero = " + userid + "), (SELECT data from Status where status=1) ) < 0 as Response", function(err, results)
 		{
 			callback(err,results);
@@ -67,8 +65,6 @@ module.exports = (function() {
 	}
 		
 	function insertCadeiraConcluida(userid, cadeira, callback) {
-		//console.log("user: " + userid);
-		//console.log("cadeira: " + cadeira.ucurr_codigo);
 		
 		var select1 = "SELECT count(*) as Existe from Cadeira where codigo = '" + cadeira.ucurr_codigo+ "'";
 		var select2 = "SELECT count(*) as Existe from CadeirasConcluidas where CadeiraKey = '"+ cadeira.ucurr_codigo + "' and UtilizadorKey = " + userid ;
@@ -78,30 +74,23 @@ module.exports = (function() {
 		{
 			if(!err3 && results3[0].Existe > 0)
 			{
-				//console.log("here 2");
 				connection.query(select2, function(err4, results4)
 				{
-					//console.log("here 3");
 					if (!err4 && results4[0].Existe == 0)
 					{
-						//console.log("here 4");
 						connection.query(insert1,function(err5,results5)
 						{
-							//console.log("fim");
-							//console.log(insert1);
 							callback();
 						});
 					}
 					else
 					{	
-						//console.log(err4);
 						callback();
 					}
 				});
 			}
 			else
 			{
-				//console.log(err3);
 				callback();
 			}
 		});
@@ -116,19 +105,14 @@ module.exports = (function() {
 		var insert1;
 		var select2;
 		var select1;
-		//console.log(cadeiras[0]);
-		//console.log(cadeiras[0].ucurr_codigo);
 		
 		connection.query("INSERT INTO Visitante(nickname) VALUES(" + userid + ")", function(err1, result1)
 		{
 			if (!err1)
 			{
-				//console.log("segundo insert");
 				id_visitante = result1.insertId;
 				connection.query("INSERT INTO Utilizador(numero,tipo,nome,CursoKey,VisitanteKey) VALUES(" + userid + ",1," + "'no_name'" + ",'" + id_curso + "'," + id_visitante +")", function(err2, result2)
 				{
-					//console.log(result2);
-					//console.log(err2);
 					if (!err2)
 					{
 						updateUser(userid,cadeiras,callback)
@@ -141,8 +125,6 @@ module.exports = (function() {
 			}
 			else
 			{
-				//console.log("err1");
-				//console.log(err1);
 				callback(true,err1);
 			}
 			
@@ -152,7 +134,6 @@ module.exports = (function() {
 	}
 	
 	function updateUser(userid,data,callback){
-		//console.log("entrou principal");
 		contador = 0;
 		loopArray(userid,data, function(){
 			updateUserTimeStamp(userid);
@@ -165,7 +146,6 @@ module.exports = (function() {
 		var courseData = req.body.courseData;
 		var object = JSON.parse(courseData);
 		var cadeiras = object[0].inscricoes;
-		//console.log("update");
 		updateUser(userId,cadeiras,function(err,result)
 		{
 			if (err)
@@ -191,8 +171,6 @@ module.exports = (function() {
 		{
 			if (err)
 			{
-				console.log("err");
-				console.log(err);
 				res.send({
 						success: false,
 						exists: false,
@@ -222,13 +200,11 @@ module.exports = (function() {
 	});
 	
 	api.get('/needsUpdate/:userid', function(req, res) {
-		console.log("entrou needs");
 		var userid = req.params.userid;
         needsUpdate(userid,function(err, results)
 		{
 			if(err)
 			{
-				console.log("erro");
 				res.send({
 					success: false,
 					result: err
@@ -236,9 +212,8 @@ module.exports = (function() {
 			}
 			else
 			{
-				console.log("ok");
 				if(results[0].Response == 1)
-				{	//console.log("vai dizer que sim");
+				{	
 					res.send({
 						success: true,
 						result: true
@@ -246,7 +221,6 @@ module.exports = (function() {
 				}
 				else
 				{
-					//console.log("vai dizer que nao");
 					res.send({
 						success: true,
 						result: false
@@ -263,17 +237,13 @@ module.exports = (function() {
 		{
 			if(err)
 			{
-				console.log("Inseriu sem sucesso");
-				console.log(err);
 				res.send({
 					success: false,
 					results: err
 				});
 			}
 			else
-			{
-				//console.log("Inseriu com sucesso");
-				
+			{				
 				res.send({
 					success: true
 				});
@@ -287,14 +257,12 @@ module.exports = (function() {
 		getUser(numero,function(err,result) {
 			if(err)
 			{
-				console.log(err);
 				res.send({
 					success: false,
 					results: err
 				});
 			}
 			else {
-				console.log(result);
 				res.send({
 					success: true,
 					results: result
@@ -306,22 +274,18 @@ module.exports = (function() {
 
 	api.post('/:idUser', function(req, res) {
 	var numero = req.params.idUser;
-	console.log("aqui");
-	console.log(numero);
 	var body = req.body, type=body.type, alterar=body.valor;
 	if (auth.validTokenProvided(req, res)) {
 		if(type=="nickname") {
 			updateNickname(numero,alterar,function(err,result) {
 				if(err)
 				{
-					console.log(err);
 					res.send({
 						success: false,
 						results: err
 					});
 				}
 				else {
-					console.log(result);
 					res.send({
 						success: true,
 						results: result
@@ -334,14 +298,12 @@ module.exports = (function() {
 			updateEmail(numero,alterar,function(err,result) {
 				if(err)
 				{
-					console.log(err);
 					res.send({
 						success: false,
 						results: err
 					});
 				}
 				else {
-					console.log(result);
 					res.send({
 						success: true,
 						results: result

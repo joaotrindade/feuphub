@@ -194,11 +194,8 @@ module.exports = (function() {
 	}
 	
 	api.post('/:courseID', function(req, res) {
-		console.log("aqui");
 		var cID = req.params.courseID;
-		console.log(cID);
 		var body = req.body, type = body.type;
-		console.log(type);
 		if(type=="insert") { // INSERT CURSO
 			if (auth.validTokenProvided(req, res)) {
 				var tipo  = body.tipo;
@@ -209,15 +206,14 @@ module.exports = (function() {
 				insertTopico(cID,tipo,titulo,texto,data,userid,function(err,result) {
 					if(err)
 					{
-						console.log(err);
 						res.send({
 							success: false,
 						});
 					}
 					else {
-						console.log(result);
 						res.send({
 							success: true,
+							id: result.insertId
 						});
 					}
 				});
@@ -235,15 +231,14 @@ module.exports = (function() {
 				insertTopicoCadeira(cID,tipo,titulo,texto,data,userid,function(err,result) {
 					if(err)
 						{
-							console.log(err);
 							res.send({
 								success: false,
 							});
 						}
 						else {
-							console.log(result);
 							res.send({
 								success: true,
+								id: result.insertId
 							});
 						}
 				});
@@ -255,14 +250,12 @@ module.exports = (function() {
 				getTopicosbyUser(cID,function(err,result) {
 					if(err)
 					{
-						console.log(err);
 						res.send({
 							success: false,
 							results: err
 						});
 					}
 					else {
-						console.log(result);
 						res.send({
 							success: true,
 							results: result
@@ -277,14 +270,12 @@ module.exports = (function() {
 				getTopicosbyUserResposta(cID,function(err,result) {
 					if(err)
 					{
-						console.log(err);
 						res.send({
 							success: false,
 							results: err
 						});
 					}
 					else {
-						console.log(result);
 						res.send({
 							success: true,
 							results: result
@@ -299,14 +290,12 @@ module.exports = (function() {
 				getTopicosbyCadeira(cID,function(err,result) {
 					if(err)
 					{
-						console.log(err);
 						res.send({
 							success: false,
 							results: err
 						});
 					}
 					else {
-						console.log(result);
 						res.send({
 							success: true,
 							results: result
@@ -319,14 +308,12 @@ module.exports = (function() {
 			getTopicos(cID,function(err,result) {
 				if(err)
 				{
-					console.log(err);
 					res.send({
 						success: false,
 						results: err
 					});
 				}
 				else {
-					console.log(result);
 					res.send({
 						success: true,
 						results: result
@@ -339,21 +326,18 @@ module.exports = (function() {
 	api.post('/id/:topicID', function(req, res) {
 		var tID = req.params.topicID;
 		var body = req.body, type = body.type;
-		console.log(type);
 		if(type=="delete") 
 		{
 			if (auth.validTokenProvided(req, res)) {
 				deleteTopic(tID,function(err,result) {
 					if(err)
 					{
-						console.log(err);
 						res.send({
 							success: false,
 							results: err
 						});
 					}
 					else {
-						console.log(result);
 						res.send({
 							success: true,
 							results: result
@@ -367,14 +351,12 @@ module.exports = (function() {
 			getTopicoByID(tID,function(err,result) {
 				if(err)
 				{
-					console.log(err);
 					res.send({
 						success: false,
 						results: err
 					});
 				}
 				else {
-					console.log(result);
 					res.send({
 						success: true,
 						results: result
@@ -394,14 +376,12 @@ module.exports = (function() {
 					upvoteTopico(uID,tID,function(err,result) {
 						if(err)
 						{
-							console.log(err);
 							res.send({
 								success: false,
 								results: err
 							});
 						}
 						else {
-							console.log(result);
 							res.send({
 								success: true,
 								results: result
@@ -413,14 +393,12 @@ module.exports = (function() {
 					downvoteTopico(uID,tID,function(err,result) {
 					if(err)
 					{
-						console.log(err);
 						res.send({
 							success: false,
 							results: err
 						});
 					}
 					else {
-						console.log(result);
 						res.send({
 							success: true,
 							results: result

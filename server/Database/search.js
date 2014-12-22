@@ -57,13 +57,8 @@ module.exports = (function() {
 			}
 		}
 		
-		//console.log("searchTopicoAutenticado: "+stringQuery);
-		//console.log("\n");
-		
 		connection.query(stringQuery, function(err, result){
 			if(!err){
-				//console.log(result);
-				//console.log("\n\n");
 				deferred.resolve(result);	
 			}
 		});
@@ -84,13 +79,9 @@ module.exports = (function() {
 			}
 		}
 		
-		//console.log("searchCadeiraAutenticado: "+stringQuery);
-		//console.log("\n");
-		
 		connection.query(stringQuery, function(err, result){
 			if(!err){
-				//console.log(result);
-				//console.log("\n\n");
+
 				deferred.resolve(result);	
 			}
 		});
@@ -111,14 +102,9 @@ module.exports = (function() {
 				stringQuery += "`titulo` like '%"+array[i]+"%' OR ";
 			}
 		}
-				
-		//console.log("searchTopico: "+stringQuery);
-		//console.log("\n");
 		
 		connection.query(stringQuery, function(err, result){
 			if(!err){
-				//console.log(result);
-				//console.log("\n\n");
 				deferred.resolve(result);
 			}
 		});
@@ -139,14 +125,9 @@ module.exports = (function() {
 				stringQuery += "`nome` like '%"+array[i]+"%' OR `sigla` like '%"+array[i]+"%' OR ";
 			}
 		}
-		
-		//console.log("searchCurso: "+stringQuery);
-		//console.log("\n");
 
 		connection.query(stringQuery, function(err, result){
 			if(!err){
-				//console.log(result);
-				//console.log("\n\n");
 				deferred.resolve(result);	
 			}
 		});

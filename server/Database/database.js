@@ -1,12 +1,24 @@
 module.exports = (function() {
     'use strict';
 	var mysql      = require('mysql');
-	var connection = mysql.createConnection({
-		host     : '127.0.0.1',
-		user     : 'feuphub',
-		password : 'chituc2014',
-		database : 'feuphubmain'
-	});
+	var connection;
+
+	//testing database
+	if(process.argv[6]=="--test"){
+		connection = mysql.createConnection({
+			host     : 'feuphub.fe.up.pt',
+			user     : 'feuphub',
+			password : 'chituc2014',
+			database : 'feuphubtests'
+		});
+	}else{	
+		connection = mysql.createConnection({
+			host     : 'feuphub.fe.up.pt',
+			user     : 'feuphub',
+			password : 'chituc2014',
+			database : 'feuphubmain'
+		});
+	}
 	
 	var api = express.Router();
 	var course = require("./curso");
@@ -38,7 +50,7 @@ module.exports = (function() {
 	api.use('/search',search.api);
 	api.use('/utilizador',utilizador.api);
 	api.use('/poll', poll.api);
-    return api;
+    return {api: api, connection: connection};
 
 	
 }(module || {}));
