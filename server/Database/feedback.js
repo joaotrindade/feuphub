@@ -14,8 +14,8 @@ module.exports = (function() {
 		});
 	};
 	
-	function insertFeedbacksByCadeira(cadeiraID,texto,userid,tagNome,callback){
-		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CadeiraKey,CursoKey,UtilizadorKey) VALUES (0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + cadeiraID + "'," + "NULL," + userid + ")", function(err, results)
+	function insertFeedbacksByCadeira(cadeiraID,texto,userid,tagNome,codDocente,avaliacao,callback){
+		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CadeiraKey,CursoKey,UtilizadorKey,docenteEscolhido,avaliacao) VALUES (0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + cadeiraID + "'," + "NULL," + userid + "," + codDocente + ",'" + avaliacao + "')", function(err, results)
 		{
 			callback(err,results);
 		});
@@ -161,8 +161,10 @@ module.exports = (function() {
 					if (auth.validTokenProvided(req, res)) {
 						var texto = req.body.texto;
 						var userid = req.body.userid;
-						var tagnome = req.body.tagnome; 
-						insertFeedbacksByCadeira(cID,texto,userid,tagnome,function(err,result) {
+						var tagnome = req.body.tagnome;
+						var codDocente = req.body.codDocente;
+						var avaliacao = req.body.avaliacao;
+						insertFeedbacksByCadeira(cID,texto,userid,tagnome,codDocente,avaliacao,function(err,result) {
 							if(err)
 							{
 								console.log(err);
