@@ -1256,18 +1256,20 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 		{
 		  if (response.success)
 		  {	
+				var count = 0;
 				response.results.forEach(function(item){
 				
 					if(item.nickname == nick)
 					{
-						item.isMeu = true;
+						response.results[count].isMeu = true;
 					}
 					else
 					{
-						item.isMeu = false;
+						response.results[count].isMeu = false;
 					}
+					count = count +1;
 				});
-				
+				console.log(response.results);
 				self.set('feedbacks', response.results);
 		  }
 		  else
