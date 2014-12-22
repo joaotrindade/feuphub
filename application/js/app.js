@@ -1258,7 +1258,7 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 		  {	
 				var count = 0;
 				response.results.forEach(function(item){
-				
+					alert(item.nome + " == " + nick);
 					if(item.nome == nick)
 					{
 						response.results[count].isMeu = true;
