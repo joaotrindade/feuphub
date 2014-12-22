@@ -5,20 +5,9 @@ var requests = require('request');			//for proxy http requests
 var TopicId=0;
 var token;
 
-/*A simple test, purely to test if mocha and supertest framework are working*/
-describe('Simple tests (always pass)', function (){
-	describe('Array', function(){
-	  describe('#indexOf()', function(){
-		it('should return -1 when the value is not present', function(){
-		  assert.equal(-1, [1,2,3].indexOf(4)); // 4 is not present in this array so indexOf returns -1
-		});
-	  });
-	});
-});
-
 describe('API',function () {
 	describe('Database', function (){
-		
+	
 		/* Tests if server urls are responding correctly to unit test http requests*/
 		it('root answers with Hello', function(done) {
 			request.get('/api/database/').expect('Hello, this is the database!\n', done);
