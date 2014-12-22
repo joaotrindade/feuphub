@@ -6,14 +6,14 @@ module.exports = (function() {
 	//testing database
 	if(process.argv[6]=="--test"){
 		connection = mysql.createConnection({
-			host     : 'feuphub.fe.up.pt',
+			host     : '127.0.0.1',
 			user     : 'feuphub',
 			password : 'chituc2014',
 			database : 'feuphubtests'
 		});
 	}else{	
 		connection = mysql.createConnection({
-			host     : 'feuphub.fe.up.pt',
+			host     : '127.0.0.1',
 			user     : 'feuphub',
 			password : 'chituc2014',
 			database : 'feuphubmain'
