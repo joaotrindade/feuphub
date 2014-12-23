@@ -8,14 +8,14 @@ module.exports = (function() {
 	};
 	
 	function insertTopico(courseID,tipo,titulo,texto,data,userid,callback){
-		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CursoKey,UtilizadorKey) VALUES (" + tipo + ",'" + titulo + "',0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + courseID + "'," + userid + ")", function(err, results)
+		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CursoKey,UtilizadorKey) VALUES (" + connection.escape(tipo) + ",'" + connection.escape(titulo) + "',0,0,'" + connection.escape(texto) + "',CURRENT_TIMESTAMP(),'" + connection.escape(courseID) + "'," + connection.escape(userid) + ")", function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function insertTopicoCadeira(cadeiraID,tipo,titulo,texto,data,userid,callback){
-		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CadeiraKey,UtilizadorKey) VALUES (" + tipo + ",'" + titulo + "',0,0,'" + texto + "',CURRENT_TIMESTAMP(),'" + cadeiraID + "'," + userid + ")", function(err, results)
+		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CadeiraKey,UtilizadorKey) VALUES (" + connection.escape(tipo) + ",'" + connection.escape(titulo) + "',0,0,'" + connection.escape(texto) + "',CURRENT_TIMESTAMP(),'" + connection.escape(cadeiraID) + "'," + connection.escape(userid) + ")", function(err, results)
 		{
 			callback(err,results);
 		});
