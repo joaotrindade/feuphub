@@ -7,8 +7,8 @@ module.exports = (function() {
 		connection = conn;
 	};
 	
-	function insertFeedbacksByCourse(courseID,texto,userid,tagNome,callback){
-		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CursoKey,CadeiraKey,UtilizadorKey) VALUES (0,0," + connection.escape(texto) + ",CURRENT_TIMESTAMP()," + connection.escape(courseID) + "," + "NULL," + connection.escape(userid) + ")", function(err, results)
+	function insertFeedbacksByCourse(courseID,texto,userid,tagNome,avaliacao,callback){
+		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CursoKey,CadeiraKey,UtilizadorKey,avaliacao) VALUES (0,0," + connection.escape(texto) + ",CURRENT_TIMESTAMP()," + connection.escape(courseID) + "," + "NULL," + connection.escape(userid) + "," + avaliacao + ")", function(err, results)
 		{
 			callback(err,results);
 		});
@@ -70,7 +70,8 @@ module.exports = (function() {
 						var texto = req.body.texto;
 						var userid = req.body.userid;
 						var tagnome = req.body.tagnome; 
-						insertFeedbacksByCourse(cID,texto,userid,tagnome,function(err,result) {
+						var avaliacao = req.body.avaliacao; 
+						insertFeedbacksByCourse(cID,texto,userid,tagnome,avaliacao,function(err,result) {
 							if(err)
 							{
 								console.log(err);
