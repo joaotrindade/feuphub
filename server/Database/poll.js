@@ -8,25 +8,25 @@ module.exports = (function() {
 	};
 	
 	function getPollByCreatedUser(userId, callback){
-		connection.query("SELECT * FROM `Poll` WHERE `UtilizadorKey` = '"+userId+"'", function(err, results)
+		connection.query("SELECT * FROM `Poll` WHERE `UtilizadorKey` = "+connection.escape(userId), function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	function getPollById(id, callback){
-		connection.query("SELECT * FROM `Poll` WHERE `id` = '"+id+"'", function(err, results)
+		connection.query("SELECT * FROM `Poll` WHERE `id` = "+connection.escape(id), function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	function getPollByCurso(cursoId, callback){
-		connection.query("SELECT * FROM `Poll` WHERE `CursoKey` = '"+cursoId+"'", function(err, results)
+		connection.query("SELECT * FROM `Poll` WHERE `CursoKey` = "+connection.escape(cursoId)+, function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	function getPollByCadeira(cadeiraId, callback){
-		connection.query("SELECT * FROM `Poll` WHERE `CadeiraKey` = '"+cadeiraId+"'", function(err, results)
+		connection.query("SELECT * FROM `Poll` WHERE `CadeiraKey` = "+connection.escape(cadeiraId), function(err, results)
 		{
 			callback(err,results);
 		});
@@ -38,7 +38,7 @@ module.exports = (function() {
 			}else if(results[0]['UtilizadorKey']!= userId){
 				callback("User of id "+userId+"is not the creator of the poll",[]);
 			}else{
-				connection.query("DELETE FROM `Poll` WHERE `id` = '" +pollId+ "'and `UtilizadorKey` = 1", function(err, results)
+				connection.query("DELETE FROM `Poll` WHERE `id` = " +connection.escape(pollId)+ " and `UtilizadorKey` = 1", function(err, results)
 				{
 					callback(err,results);
 				});

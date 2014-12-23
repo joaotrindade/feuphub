@@ -15,7 +15,7 @@ module.exports = (function() {
 	};
 	
 	function insertTopicoCadeira(cadeiraID,tipo,titulo,texto,data,userid,callback){
-		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CadeiraKey,UtilizadorKey) VALUES (" + tipo + ",'" + connection.escape(titulo) + "',0,0,'" + connection.escape(texto) + "',CURRENT_TIMESTAMP(),'" + connection.escape(cadeiraID) + "'," + connection.escape(userid) + ")", function(err, results)
+		connection.query("INSERT INTO Topico(tipo,titulo,upvote,downvote,texto,data,CadeiraKey,UtilizadorKey) VALUES (" + tipo + "," + connection.escape(titulo) + ",0,0," + connection.escape(texto) + ",CURRENT_TIMESTAMP()," + connection.escape(cadeiraID) + "," + connection.escape(userid) + ")", function(err, results)
 		{
 			callback(err,results);
 		});
@@ -47,7 +47,7 @@ module.exports = (function() {
 	
 	
 	function getTopicos(courseID,callback){
-		connection.query("SELECT Topico.id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,Topico.CadeiraKey,nickname as nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Topico.CursoKey like '" + connection.escape(courseID) + "' ORDER BY difference desc", function(err, results)
+		connection.query("SELECT Topico.id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,Topico.CadeiraKey,nickname as nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Topico.CursoKey like " + connection.escape(courseID) + " ORDER BY difference desc", function(err, results)
 		{
 			callback(err,results);
 		});
@@ -61,7 +61,7 @@ module.exports = (function() {
 	};
 	
 	function getTopicosbyCadeira(cadeiraId,callback){
-		connection.query("SELECT Topico.id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,Topico.CadeiraKey,nickname as nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Topico.CadeiraKey = '" + connection.escape(cadeiraId) + "' ORDER BY difference desc", function(err, results)
+		connection.query("SELECT Topico.id,Topico.tipo,titulo,upvote-downvote as difference,texto,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Topico.CursoKey,Topico.CadeiraKey,nickname as nome,numero FROM Topico inner join Utilizador on Topico.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Topico.CadeiraKey = " + connection.escape(cadeiraId) + " ORDER BY difference desc", function(err, results)
 		{
 			callback(err,results);
 		});
@@ -114,7 +114,7 @@ module.exports = (function() {
 					{
 						connection.query("UPDATE Topico SET upvote=upvote+1 WHERE id = " + connection.escape(tID) + "", function(err, results)
 						{
-							connection.query("UPDATE Utilizador_Topico SET upvote=1 WHERE UtilizadorKey = " + connection.escape(uID) + " AND TopicoKey = " + connection.escape(tID) + "", function(err, results3)
+							connection.query("UPDATE Utilizador_Topico SET upvote=1 WHERE UtilizadorKey = " + connection.escape(uID) + " AND TopicoKey = " + connection.escape(tID), function(err, results3)
 							{
 								results['tipo'] = "inseriu";
 								callback(err,results);
@@ -127,7 +127,7 @@ module.exports = (function() {
 			{
 				connection.query("INSERT INTO Utilizador_Topico VALUES(" + connection.escape(uID) + "," + connection.escape(tID) + ",0,1)", function(err, results)
 				{
-					connection.query("UPDATE Topico SET upvote=upvote+1 WHERE id = " + connection.escape(tID) + "", function(err, results)
+					connection.query("UPDATE Topico SET upvote=upvote+1 WHERE id = " + connection.escape(tID), function(err, results)
 					{
 						results['tipo'] = "inseriu";
 						callback(err,results);
