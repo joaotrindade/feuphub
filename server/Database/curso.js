@@ -15,7 +15,7 @@ module.exports = (function() {
 	};
 	
 	function getOne(sigla, callback){
-		connection.query("select * from Curso where sigla = '" + sigla + "'", function(err, results)
+		connection.query("select * from Curso where sigla = '" + connection.escape(sigla) + "'", function(err, results)
 		{
 			callback(err,results);
 		});
