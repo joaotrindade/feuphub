@@ -1132,12 +1132,37 @@ App.CreatetopicController = Ember.ObjectController.extend({
 App.GivefeedbackController = Ember.ObjectController.extend({
 	needs: ['index'],
 	queryParams: ['cursoid','cadeiraid','feupid'],
+	professorescadeira: [],
+	isCadeira: false;
 	cursoid: null,
 	cadeiraid: null,
 	feupid: null,
 	
 	initialGiveFeedback: function(){
-
+		this._super();
+		
+		var token = this.get('controllers.index').get('token');
+		var usr = this.get('controllers.index').get('usr');
+		var self = this;
+		
+		this.set('professorescadeira',[]);
+		this.set('isCadeira',false);
+		
+		if(this.cadeiraid != "")
+		{	
+			var apigo = "/api/database/cadeira/docentes/";
+			var codigocadeira = this.cadeiraid;
+			this.set('isCadeira',true);
+			
+			$.post(apigo, {"idCadeira": codigocadeira}).then( function(response)
+			{
+				if(response.success)
+				{
+					console.log(response.results);
+					self.set('professorescadeira',response.results);
+				}
+			});
+		}
 	},
 	
 	actions: {
@@ -1282,7 +1307,6 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 						}
 						count = count +1;
 					});
-					console.log(response.results);
 					self.set('feedbacks', response.results);
 			  }
 			  else
@@ -1300,8 +1324,7 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
         },
 		
 		deletefeedback: function(id) {
-			alert(id);
-			
+		
 			var self = this;
 			var apigo = "/api/database/feedback/delete";
 			var token = this.get('controllers.index').get('token');
