@@ -1752,9 +1752,9 @@ function getStudentCode(self, pct_id){
 			self.set('loginSuccess', "able");
 			var datan = self.getProperties('username', 'password', 'loginSuccess');
 			$('#spinner #statusText').text("Consegui!");
-			console.log("Success getStudentCode");
-			console.log(data);
 			deferred.resolve(datan);
+		}else if(data.statusCode == 400){
+			deferred.resolve(getStudentCode(self, pct_id));
 		}else{
 			console.log("Error getStudentCode");
 			console.log(data);
