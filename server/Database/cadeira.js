@@ -37,12 +37,12 @@ module.exports = (function() {
 	
 	function getStats(idCadeira, callback){
 	
-		connection.query("select * from Docente where codigo =(select docenteEscolhido from Feedback where CadeiraKey=" + connection.escape(idCadeira) + " GROUP BY docenteEscolhido order by count(docenteEscolhido) LIMIT 1", function(err, results)
+		connection.query("> select * from Docente where codigo =(select docenteEscolhido from Feedback where CadeiraKey=" +connection.escape(idCadeira)+" GROUP BY docenteEscolhido order by count(docenteEscolhido) LIMIT 1);", function(err, results)
 		{
 			var resfinal ;
-			resfinal.idDocente = results[0];
+			resfinal.docente = results;
 			
-			connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+ connection.escape(idCadeira) + ")db UNION (select count(*) from Feedback where CadeiraKey=" + connection.escape(idCadeira) + ") ;", function(err2, results2)
+			connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+connection.escape(idCadeira)+")db UNION ALL SELECT * FROM(select count(*)as cenas from Feedback where CadeiraKey="+connection.escape(idCadeira)+")db2 ;", function(err2, results2)
 			{
 				resfinal.media = results2[0]/results2[1];
 				callback(err2,resfinal);
