@@ -1456,14 +1456,25 @@ cursor: pointer;
 {
 	display:inline-block;
 	width: 100px;
-	height: 200px;
+	height: 300px;
 	margin-right: 15px;
 }
 
 .showprofessor_feedback .imagemprofessor
 {
 	width: 100px;
-	height: 100px;
+	height: 200px;
+}
+
+.showprofessor_feedback .imagemprofessor .nomeprofessor
+{
+	width: 100px;
+	height: 50px;
+	
+	font-family: EXO;
+	font-size:13px;
+	
+	overflow: hidden;
 }
 
 /* ------------------------------------------------------------------------------------------------------ */

@@ -1163,7 +1163,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 						self.professorescadeira.addObject(item);
 					});
 					
-					console.log(professorescadeira);
+					console.log(self.professorescadeira);
 				}
 			});
 		}
