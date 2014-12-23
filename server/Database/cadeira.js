@@ -34,6 +34,19 @@ module.exports = (function() {
 			callback(err,results);
 		});
 	}
+	
+	function getStats(idCadeira, callback){
+		connection.query("SELECT * FROM (select docenteEscolhido from Feedback where CadeiraKey='" + idCadeira + "' group by docenteEscolhido order by docenteEscolhido)da UNION SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey='"+ idCadeira +"')db UNION (select count(*) from Feedback where CadeiraKey='" + idCadeira + "') ;", function(err, results)
+		{
+			var resfinal ;
+			resfinal.idDocente = results[0];
+			resfinal.media = results[1]/results[2];
+			callback(err,resfinal);
+		});
+	}
+	
+	
+
 
     api.get('/', function(req, res) {
         getAll(function(err, results)
@@ -87,6 +100,23 @@ module.exports = (function() {
 					success: true,
 					results: results
 				});
+		});
+    });
+	
+		api.get('/stats/:codigo', function(req, res) {
+		var codigo = req.params.codigo;		
+		getStats(codigo, function(err, results)
+		{
+			if(err)
+				res.send({
+					success: false,
+					results: err
+				});
+			else
+				res.send({
+					success: true,
+					results: results
+				});		
 		});
     });
 	
