@@ -1657,101 +1657,129 @@ App.IndexController = Ember.Controller.extend({
 		// Clear out any error messages.
 		this.set('errorMessage', null);
 		$('#bttn').click(function(event) {   
-		 event.preventDefault(event);  
+			event.preventDefault(event);  
 		});	
 			
 		$('#spinner').fadeIn(100);
 		$('#spinner #statusText').text("Validating your login with SIFEUP");
 		
 		var username = this.get('username');
-		var password = this.get('password');
-		var user_pct_Id;
-		var userId;
-		var datan;
-		setTimeout(function(){
-
-			$.ajax({
-				type: "POST",
-				url: "/api/sigarra/login",
-				data: {'username':username,'password':password},
-				async: false,
-				success: function(data, textStatus, jqXHR)
-				{
-					if(data.headers["set-cookie"].length >1)
-					{
-						//set sigarra cookies
-						document.cookie=data.headers["set-cookie"][0];
-						document.cookie=data.headers["set-cookie"][1];
-						$('#spinner #statusText').text("Login successful!");
-						
-						$.get('/api/sigarra/getPct_id').then(function(response)
-						{
-						
-							self.set('errorMessage', response.message);
-							if(response.statusCode = 200){
-								user_pct_Id = parserLogin(response.body);
-								return user_pct_Id;
-							}
-							else
-							{
-								deferred.reject();
-							}
-							
-						}).then(function(pct_id)
-							{
-								console.log("pct_id: "+user_pct_Id+" vs "+pct_id);
-								var auxUrl = '/api/sigarra/getStudentId?pct_id=' + user_pct_Id;
-								$.get(auxUrl).then(function(response)
-								{
-									if(response.statusCode = 200){
-										console.log("Verify Response Body");
-										console.log(response);
-										//alert("my shit");
-										//alert(parserNumUnico(response.body));
-										userId = parserNumUnico(response.body);
-										self.set('usr',userId);
-										self.set('loginSuccess', "able");
-										console.log("User identifier: "+ userId+"\n");
-										datan = self.getProperties('username', 'password','loginSuccess');
-										setTimeout(function(){ updateCourses(userId);},1000);
-									}
-									else
-									{
-										console.log(response.body);
-										deferred.reject();
-									}
-								
-								
-								}).then(function()
-									{
-										$.post('/api/auth/authenticate', datan).then(function(response) 
-										{
-											self.set('errorMessage', response.message);
-											if (response.success) 
-											{
-												//alert('Login succeeded!');
-
-												self.set('token', response.token);
-												//self.set('usr',self.get('username'));
-												//alert(self.get('token'));
-												var attemptedTransition = self.get('attemptedTransition');
-												self.transitionToRoute('home');
-											}
-										});
-									});
-							});
-					}
-					else
-					{
-						$('#spinner #statusText').text("incorrect sifeup login credentials");
-						setTimeout(function(){$('#spinner').stop().fadeOut(500);},1000);
-					}
-				}
-			});
-		}, 1000);
+		var password = this.get('password');	
+		logIntoSigarra(username,password)
+		.then(getPctId)
+		.then(function(user_pct_Id){return getStudentCode(self, user_pct_Id);})
+		.then(function(datan){return logIntoFeuphub(self, datan);})
+		.done(function(){ //all went ok!
+			$('#spinner #statusText').text("Success!");
+			updateCourses(self.get('usr'));
+		})
+		.fail(function(errorThrown){  //error somewhere...
+			 $('#spinner #statusText').text(errorThrown);
+		})
+		.always(function(){ //execute no matter what
+			setTimeout(function() {
+				$('#spinner').stop().fadeOut(500);
+			}, 1000);
+		});
 	  },
   }
 });
+
+function logIntoSigarra(username, password){
+	var deferred = $.Deferred();
+	
+	$.post("/api/sigarra/login" , {'username': username,'password': password})
+	.done(function(data, textStatus, jqXHR){
+	
+		if (data.statusCode == 200 && data.headers["set-cookie"].length > 1) {
+			//set sigarra cookies
+			document.cookie = data.headers["set-cookie"][0];
+			document.cookie = data.headers["set-cookie"][1];
+			$('#spinner #statusText').text("Login successful!");
+			  deferred.resolve();
+		}else{
+			deferred.reject("Failed to validate user credentials in sigarra");
+		}
+	}).fail(function(qXHR, textStatus, errorThrown){
+		console.log("In logIntoSigarra \n");
+		console.log(textStatus);
+		console.log(errorThrown);
+		deferred.reject(errorThrown);
+	});
+	
+	return deferred.promise();
+};
+
+function getPctId(){
+	var deferred = $.Deferred();
+	
+	$.get('/api/sigarra/getPct_id')
+	.done(function(data, textStatus, jqXHR){
+	
+		if(data.statusCode == 200){
+			var user_pct_Id = parserLogin(data.body);
+			deferred.resolve(user_pct_Id);
+		}else{
+			deferred.reject("Failed to retrieve unique student pct id from sigarra");
+		}
+		
+	}).fail(function(qXHR, textStatus, errorThrown){
+		console.log("In getPctId \n");
+		console.log(textStatus);
+		console.log(errorThrown);
+		deferred.reject(errorThrown);
+	});
+	
+	return deferred.promise();
+};
+
+function getStudentCode(self, pct_id){
+	var deferred = $.Deferred();
+	
+	$.get('/api/sigarra/getStudentId?pct_id=' + pct_id)
+	.done(function(data, textStatus, jqXHR){
+		
+		if(data.statusCode == 200){
+			var userId = parserNumUnico(data.body);
+			self.set('usr', userId);
+			self.set('loginSuccess', "able");
+			var datan = self.getProperties('username', 'password', 'loginSuccess');
+			deferred.resolve(datan);
+		}else{
+			deferred.reject("Failed to retrieve student code from sigarra");
+		}
+		
+	}).fail(function(qXHR, textStatus, errorThrown){
+		console.log("In getStudentCode: "+pct_id+"\n");
+		console.log(textStatus);
+		console.log(errorThrown);
+		deferred.reject(errorThrown);
+	});
+	return deferred.promise();
+}
+
+function logIntoFeuphub(self, datan){
+	var deferred = $.Deferred();
+	
+	$.post('/api/auth/authenticate', datan)
+	.then(function(response){
+		self.set('errorMessage', response.message);
+		if (response.success) 
+		{
+			//alert('Login succeeded!');
+			self.set('token', response.token);
+			//self.set('usr',self.get('username'));
+			//alert(self.get('token'));
+			var attemptedTransition = self.get('attemptedTransition');
+			self.transitionToRoute('home');
+			deferred.resolve();
+		}else{
+			deferred.reject();
+		}
+	});
+	
+	return deferred.promise();
+}
 
 
 function updateCourses(userId){
@@ -1785,13 +1813,13 @@ function updateCourses(userId){
 									success: function(data_3, textStatus, jqXHR)
 									{
 										//var json = JSON.parse(data);
-										console.log(data_3.body);
+										//console.log(data_3.body);
 										if(data_3.statusCode == 200)
 										{
 											alert("recebeu resposta positiva");
 											$.post('/api/database/utilizador/updateUser/', {"userId": userId, "courseData":data_3.body}).then(function(result)
 											{
-												console.log("fez post");
+												//console.log("fez post");
 												if (result.success == false)
 												{
 													alert("erro a criar user");
@@ -1832,7 +1860,7 @@ function updateCourses(userId){
 								success: function(data, textStatus, jqXHR)
 								{
 									//var json = JSON.parse(data);
-									console.log(data.body);
+									//console.log(data.body);
 									if(data.statusCode == 200)
 									{
 										alert("recebeu resposta positiva");
