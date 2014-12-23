@@ -27,6 +27,13 @@ module.exports = (function() {
 			callback(err,results);
 		});
 	}
+	
+	function getDocentes(idCadeira, callback){
+		connection.query("select * from Docente inner join CadeiraDocente on Docente.Codigo = CadeiraDocente.DocenteKey where CadeiraKey='" + idCadeira + "'", function(err, results)
+		{
+			callback(err,results);
+		});
+	}
 
     api.get('/', function(req, res) {
         getAll(function(err, results)
@@ -48,6 +55,25 @@ module.exports = (function() {
 		var idCurso = req.body.idCurso;
 		var ano = req.body.ano;
 		getCadeirasMenu(idCurso,ano,function(err,results)
+		{
+			if(err)
+			{
+				res.send({
+					success: false,
+					results: err
+				});
+			}
+			else
+				res.send({
+					success: true,
+					results: results
+				});
+		});
+    });
+	
+	api.post('/docentes/', function(req, res) {
+		var idCadeira = req.body.idCadeira;
+		getDocentes(idCadeira,function(err,results)
 		{
 			if(err)
 			{
