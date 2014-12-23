@@ -15,28 +15,28 @@ module.exports = (function() {
 	};
 	
 	function getOne(codigo, callback){
-		connection.query("select * from Cadeira inner join CadeiraCurso on Cadeira.codigo = CadeiraCurso.CadeiraKey where codigo = '" + codigo + "'", function(err, results)
+		connection.query("select * from Cadeira inner join CadeiraCurso on Cadeira.codigo = CadeiraCurso.CadeiraKey where codigo = '" + connection.escape(codigo) + "'", function(err, results)
 		{
 			callback(err,results);
 		});
 	}
 	
 	function getCadeirasMenu(idCurso,ano, callback){
-		connection.query("select * from Cadeira inner join CadeiraCurso on Cadeira.codigo = CadeiraCurso.CadeiraKey where CursoKey = '" + idCurso + "' and ano=" + ano, function(err, results)
+		connection.query("select * from Cadeira inner join CadeiraCurso on Cadeira.codigo = CadeiraCurso.CadeiraKey where CursoKey = '" + connection.escape(idCurso) + "' and ano=" + ano, function(err, results)
 		{
 			callback(err,results);
 		});
 	}
 	
 	function getDocentes(idCadeira, callback){
-		connection.query("select * from Docente inner join CadeiraDocente on Docente.Codigo = CadeiraDocente.DocenteKey where CadeiraKey='" + idCadeira + "'", function(err, results)
+		connection.query("select * from Docente inner join CadeiraDocente on Docente.Codigo = CadeiraDocente.DocenteKey where CadeiraKey='" + connection.escape(idCadeira) + "'", function(err, results)
 		{
 			callback(err,results);
 		});
 	}
 	
 	function getStats(idCadeira, callback){
-		connection.query("SELECT * FROM (select docenteEscolhido from Feedback where CadeiraKey='" + idCadeira + "' group by docenteEscolhido order by docenteEscolhido)da UNION SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey='"+ idCadeira +"')db UNION (select count(*) from Feedback where CadeiraKey='" + idCadeira + "') ;", function(err, results)
+		connection.query("SELECT * FROM (select docenteEscolhido from Feedback where CadeiraKey='" + connection.escape(idCadeira) + "' group by docenteEscolhido order by docenteEscolhido)da UNION SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey='"+ connection.escape(idCadeira) +"')db UNION (select count(*) from Feedback where CadeiraKey='" + connection.escape(idCadeira) + "') ;", function(err, results)
 		{
 			var resfinal ;
 			resfinal.idDocente = results[0];
