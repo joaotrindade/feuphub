@@ -131,8 +131,10 @@ module.exports = (function() {
 				studentPage.url = urlStudentPage ;
 				res.send(response);
 			}
+			studentPage.url = urlStudentPage ;
 			resetCookies();
 		});
+		studentPage.url = urlStudentPage ;
 	});
 	
 	api.post('/logout',function(req,res){

@@ -1743,7 +1743,7 @@ function getStudentCode(self, pct_id){
 	
 	console.log("getStudentCode: "+pct_id);
 	
-	$.get('/api/sigarra/getStudentId?pct_id=' + pct_id)
+	$.get('/api/sigarra/getStudentId', {'pct_id' : pct_id})
 	.done(function(data, textStatus, jqXHR){
 		
 		if(data.statusCode == 200){
