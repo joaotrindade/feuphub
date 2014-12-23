@@ -401,9 +401,12 @@ App.CadeirasController = Ember.ObjectController.extend({
 				});
 				
 				var apigo4 = "/api/database/cadeira/stats/" + codigo;
-						
+				
+				alert("VOU FAZER PEDIDO DATA");
 				$.get(apigo4, function(data2) 
 				{
+				  alert("JA RECEBI DATA");
+				  console.log(data2);
 				  if (data2.success)
 				  {	
 						self.set('media', data2.media);
