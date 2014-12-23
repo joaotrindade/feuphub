@@ -931,24 +931,22 @@
 			</div>
 		</div>
 		
-		<div class="create_options">
-			{{#if isCadeira}}
-			<div class="option">
-				<div class="option_title">
-					Melhor Professor
-				</div>
-				
-				<div class="option_more">
-					{{#each item in professorescadeira}}
-						<div class="showprofessor_feedback">
-							<div class="imagemprofessor" {{bind-attr style=item.style}} ></div>
-							<div class="nomeprofessor">{{item.nome}}</div>
-							<div class="preferidoprofessor"></div>
-						</div>
-					{{/each}}
-				</div>
+		{{#if isCadeira}}
+			<div class="create_down_title" style="margin-top: 15px;">
+				Escolhe qual destes professores, para ti, é o melhor nesta disciplina.
 			</div>
-			{{/if}}
+			
+			{{#each item in professorescadeira}}
+				<div {{action 'selectprof' item.DocenteKey}} class="showprofessor_feedback">
+					<div class="imagemprofessor" {{bind-attr style=item.style}} ></div>
+					<div class="nomeprofessor">{{item.nome}}</div>
+					<div class="preferidoprofessor">{{item.preferido}}</div>
+				</div>
+			{{/each}}
+			
+		{{/if}}
+		
+		<div class="create_options">
 			
 			<div class="option">
 				<div class="option_title">

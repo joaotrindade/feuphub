@@ -1160,6 +1160,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 				{   
 					response.results.forEach(function(item){
 						item.style = "background-image: url(" + item.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;";
+						item.preferido = "";
 						self.professorescadeira.addObject(item);
 					});
 					
@@ -1171,6 +1172,22 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 	
 	actions: {
        
+		selectprof: function(id){
+			
+			this._super();
+			
+			this.professorescadeira.forEach(function(item){
+				if(item.DocenteKey == id)
+				{
+					item.preferido = "BEST";
+				}
+				else
+				{
+					item.preferido = "";
+				}
+			});
+		},
+		
         subfeedback: function() {
 		
 			var apigo = null;
