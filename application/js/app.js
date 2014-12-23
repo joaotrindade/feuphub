@@ -300,6 +300,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 	media: null,
 	nomeDocente: null,
 	fotoDocente: null,
+	isGreen: true,
 	
 	isMieic:false,
 	isMieec:false,
@@ -318,6 +319,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 		
 		this.set('topicosCadeira', []);
 		this.set('feedbackscadeira', null);	
+		this.set('isGreen', true);
 		
 		this.set('isMieic', false);
 		this.set('isMieec', false);
@@ -410,6 +412,11 @@ App.CadeirasController = Ember.ObjectController.extend({
 						var n2 = data2.results.total.n_positivos;
 						var n3 = parseInt((n1 / n2) * 100);	
 						
+						if(n3 < 50)
+							self.set('isGreen', false);
+						else
+							self.set('isGreen', true);
+							
 						self.set('media', n3);
 						self.set('nomeDocente', data2.results.idDocente.nome);
 						self.set('fotoDocente', "background-image: url(" + data2.results.idDocente.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;");
