@@ -1740,9 +1740,7 @@ function getPctId(){
 
 function getStudentCode(self, pct_id){
 	var deferred = $.Deferred();
-	
-	console.log("getStudentCode: "+pct_id);
-	
+		
 	$.get('/api/sigarra/getStudentId', {'pct_id' : pct_id})
 	.done(function(data, textStatus, jqXHR){
 		
