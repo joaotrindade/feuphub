@@ -47,13 +47,13 @@ module.exports = (function() {
 	function searchTopicoAutenticado(array, username){
 		//nao falta parte nao autenticada?
 		var deferred = Q.defer();
-		var stringQuery = "SELECT `id`,`titulo` From `Topico` INNER JOIN `CadeirasConcluidas` ON `CadeirasConcluidas.CadeiraKey`=`Topico.CadeiraKey` WHERE `CadeirasConcluidas.UtilizadorKey`= ' "+username+"'";
+		var stringQuery = "SELECT `id`,`titulo` From `Topico` INNER JOIN `CadeirasConcluidas` ON `CadeirasConcluidas.CadeiraKey`=`Topico.CadeiraKey` WHERE `CadeirasConcluidas.UtilizadorKey`= ' "+ connection.escape(username)+"'";
 		for(var i=0; i<array.length;i++)
 		{
 			if(i+1==array.length){
-				stringQuery += "`titulo` like '%"+array[i]+"%'";			
+				stringQuery += "`titulo` like '%"+connection.escape(array[i])+"%'";			
 			}else{
-				stringQuery += "`titulo` like '%"+array[i]+"%' OR ";
+				stringQuery += "`titulo` like '%"+connection.escape(array[i])+"%' OR ";
 			}
 		}
 		
@@ -68,14 +68,14 @@ module.exports = (function() {
 
 	function searchCadeiraAutenticado(array,username){
 		var deferred = Q.defer();
-		var stringQuery = "SELECT `sigla`, `nome` FROM `Cadeira` INNER JOIN `CadeirasConcluidas` ON `CadeirasConcluidas.CadeiraKey`=`Cadeira.codigo` WHERE `CadeirasConcluidas.UtilizadorKey`= ' "+username+"'";
+		var stringQuery = "SELECT `sigla`, `nome` FROM `Cadeira` INNER JOIN `CadeirasConcluidas` ON `CadeirasConcluidas.CadeiraKey`=`Cadeira.codigo` WHERE `CadeirasConcluidas.UtilizadorKey`= ' "+connection.escape(username)+"'";
 		
 		for(var i=0; i<array.length;i++)
 		{
 			if(i+1==array.length){
-				stringQuery += "`nome` like '%"+array[i]+"%' OR `sigla` like '%"+array[i]+"%';";
+				stringQuery += "`nome` like '%"+connection.escape(array[i])+"%' OR `sigla` like '%"+connection.escape(array[i])+"%';";
 			}else{
-				stringQuery += "`nome` like '%"+array[i]+"%' OR `sigla` like '%"+array[i]+"%' OR ";
+				stringQuery += "`nome` like '%"+connection.escape(array[i])+"%' OR `sigla` like '%"+connection.escape(array[i])+"%' OR ";
 			}
 		}
 		
@@ -97,9 +97,9 @@ module.exports = (function() {
 		for(var i=0; i<array.length;i++)
 		{
 			if(i+1==array.length){
-				stringQuery += "`titulo` like '%"+array[i]+"%';";			
+				stringQuery += "`titulo` like '%"+connection.escape(array[i])+"%';";			
 			}else{
-				stringQuery += "`titulo` like '%"+array[i]+"%' OR ";
+				stringQuery += "`titulo` like '%"+connection.escape(array[i])+"%' OR ";
 			}
 		}
 		
@@ -120,9 +120,9 @@ module.exports = (function() {
 		for(var i=0; i<array.length;i++)
 		{
 			if(i+1==array.length){
-				stringQuery += "`nome` like '%"+array[i]+"%' OR `sigla` like '%"+array[i]+"%';";
+				stringQuery += "`nome` like '%"+connection.escape(array[i])+"%' OR `sigla` like '%"+connection.escape(array[i])+"%';";
 			}else{
-				stringQuery += "`nome` like '%"+array[i]+"%' OR `sigla` like '%"+array[i]+"%' OR ";
+				stringQuery += "`nome` like '%"+connection.escape(array[i])+"%' OR `sigla` like '%"+connection.escape(array[i])+"%' OR ";
 			}
 		}
 
