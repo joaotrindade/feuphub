@@ -202,177 +202,33 @@
 				</div>
 				
 				<div class="content">
-				
-					<div class='topic'>
-						<div class='score'>
-							<div class='upvote'></div>
-							<div class='number'>3450</div>
-							<div class='downvote'></div>
+					{{#each item in topicosGeral}}
+					 <div class='topic'>
+							<div class='score'>
+								<div {{action 'upvotetopic' item.id }} class='upvote'></div>
+								<div class='number'>{{item.difference}}</div>
+								<div {{action 'downvotetopic' item.id }}  class='downvote'></div>
+							</div>
+							
+							<div class='comments'>
+							</div>
+							
+							{{#link-to 'topic' (query-params topicoid=item.id) class='linkto-none'}} 
+							<div class='title'>
+								{{item.titulo}} 
+							</div>
+							{{/link-to}} 
+							
+							<div class='data'>
+								{{item.data}} 
+							</div>
+							
+							<div class='user_op'>
+								{{item.nome}}
+							</div>
+							
 						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						<div class='title'>
-							Pellentesque habitant morbi tristique senectus.
-						</div>
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							Pedro Santos
-						</div>
-						
-					</div>
-					
-					<div class='topic'>
-						<div class='score'>
-							<div class='upvote'></div>
-							<div class='number'>3450</div>
-							<div class='downvote'></div>
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						<div class='title'>
-							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-						</div>
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							Pedro Santos
-						</div>
-						
-					</div>
-					
-					<div class='topic'>
-						<div class='score'>
-							<div class='upvote'></div>
-							<div class='number'>3450</div>
-							<div class='downvote'></div>
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						<div class='title'>
-							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-						</div>
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							Pedro Santos
-						</div>
-						
-					</div>
-					
-					<div class='topic'>
-						<div class='score'>
-							<div class='upvote'></div>
-							<div class='number'>3450</div>
-							<div class='downvote'></div>
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						<div class='title'>
-							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-						</div>
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							Pedro Santos
-						</div>
-						
-					</div>
-					
-					<div class='topic'>
-						<div class='score'>
-							<div class='upvote'></div>
-							<div class='number'>3450</div>
-							<div class='downvote'></div>
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						<div class='title'>
-							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-						</div>
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							Pedro Santos
-						</div>
-						
-					</div>
-					
-					<div class='topic'>
-						<div class='score'>
-							<div class='upvote'></div>
-							<div class='number'>3450</div>
-							<div class='downvote'></div>
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						<div class='title'>
-							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-						</div>
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							Pedro Santos
-						</div>
-						
-					</div>
-					
-					<div class='topic'>
-						<div class='score'>
-							<div class='upvote'></div>
-							<div class='number'>3450</div>
-							<div class='downvote'></div>
-						</div>
-						
-						<div class='comments'>
-						</div>
-						
-						<div class='title'>
-							Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-						</div>
-						
-						<div class='data'>
-							1 Setembro 2014
-						</div>
-						
-						<div class='user_op'>
-							Pedro Santos
-						</div>
-						
-					</div>
-					
-				</div>
-					
+				{{/each}}
 			</div>
 		{{outlet}}
   </script>

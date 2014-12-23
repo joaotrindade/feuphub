@@ -123,6 +123,12 @@ App.AuthenticatedRoute = Ember.Route.extend({
   }
 });
 
+App.HomeRoute = Ember.Route.extend({
+  setupController: function(controller, context) {
+    controller.initHome();
+  }
+});
+
 App.CadeirasRoute = Ember.Route.extend({
   setupController: function(controller, context) {
     controller.getCadeiraTopics();
@@ -290,6 +296,119 @@ App.AccountController = Ember.ObjectController.extend({
     }
 });
 
+App.HomeController = Ember.ObjectController.extend({
+	needs:['index'],
+	topicosGeral: [],
+	
+	initHome: function(){
+	
+		this.set('topicosGeral', []);
+		
+		var apigo = "/api/database/topico/GERAL";
+		
+		$.post(apigo).then( function(response)
+		{
+		  if (response.success)
+		  {
+			self.set('topicosGeral', response.results);
+		  }
+		  else
+				alert("Algo deu Errado No Get Topicos Geral.");
+		});
+	},
+	
+	actions: {
+	
+		upvotetopic: function(id) {
+            var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+			var self = this;
+			
+			if(usr != null)
+			{
+				var token = this.get('controllers.index').get('token');
+				var apigo = "/api/database/topico/up/" + id;
+				
+				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
+				{
+					if (response.success)
+					{
+						self.get('topicosGeral').forEach(function(item){ 
+
+							var temporary = item.difference;
+							
+							if(response.results.tipo == "inseriu" && item.id == id)
+							{
+								temporary +=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "retirou" && item.id == id)
+							{
+								temporary -=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "trocou" && item.id == id)
+							{
+								temporary +=2;
+								Ember.set(item, "difference",	temporary); 
+							}
+							
+						});
+					}
+					else
+						alert("ALGO DEU MAL NO UPVOTE");
+				});
+			}
+			else
+				alert("Faça Login para fazer upvote");
+        },
+       
+        downvotetopic: function(id) {
+            var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
+			var self = this;
+
+			if(usr != null)
+			{
+				var token = this.get('controllers.index').get('token');
+				var apigo = "/api/database/topico/down/" + id;
+				
+				$.post(apigo, {"token":token, "idUser":usr}).then( function(response)
+				{
+				  if (response.success)
+				  {
+						self.get('topicosGeral').forEach(function(item){ 
+
+							var temporary = item.difference;
+							
+							if(response.results.tipo == "inseriu" && item.id == id)
+							{
+								temporary -=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "retirou" && item.id == id)
+							{
+								temporary +=1;
+								Ember.set(item, "difference",	temporary); 
+							}
+							else if(response.results.tipo == "trocou" && item.id == id)
+							{
+								temporary -=2;
+								Ember.set(item, "difference",	temporary); 
+							}
+							
+						});
+				  }
+				  else
+						alert("ALGO DEU MAL NO DOWNVOTE");
+				});
+			}
+			else
+				alert("Faça Login para fazer downvote");
+        },
+	}
+});
+
+
+		
 App.CadeirasController = Ember.ObjectController.extend({
 	needs:['index'],
 	queryParams: ['sigla','codigo'],
