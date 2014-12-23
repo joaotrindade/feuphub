@@ -1754,7 +1754,7 @@ function getStudentCode(self, pct_id){
 			$('#spinner #statusText').text("Consegui!");
 			deferred.resolve(datan);
 		}else if(data.statusCode == 400){
-			deferred.resolve(getStudentCode(self, pct_id));
+			getStudentCode(self, pct_id).done(function(datan){deferred.resolve(datan);});
 		}else{
 			console.log("Error getStudentCode");
 			console.log(data);
