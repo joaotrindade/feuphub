@@ -39,8 +39,8 @@ module.exports = (function() {
 	
 		connection.query("> select * from Docente where codigo =(select docenteEscolhido from Feedback where CadeiraKey=" +connection.escape(idCadeira)+" GROUP BY docenteEscolhido order by count(docenteEscolhido) LIMIT 1);", function(err, results)
 		{
-			var resfinal ;
-			resfinal.docente = results;
+			var resfinal = [];
+			resfinal.idDocente = results;
 			
 			connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+connection.escape(idCadeira)+")db UNION ALL SELECT * FROM(select count(*)as cenas from Feedback where CadeiraKey="+connection.escape(idCadeira)+")db2 ;", function(err2, results2)
 			{
