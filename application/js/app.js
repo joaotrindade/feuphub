@@ -402,7 +402,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 				
 				var apigo4 = "/api/database/cadeira/stats/" + codigo;
 						
-				$.get(apigo4, function(data2) { // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+				$.get(apigo4, function(data2) 
 				{
 				  if (data2.success)
 				  {	
