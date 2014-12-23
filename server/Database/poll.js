@@ -20,7 +20,7 @@ module.exports = (function() {
 		});
 	};
 	function getPollByCurso(cursoId, callback){
-		connection.query("SELECT * FROM `Poll` WHERE `CursoKey` = "+connection.escape(cursoId)+, function(err, results)
+		connection.query("SELECT * FROM `Poll` WHERE `CursoKey` = "+connection.escape(cursoId), function(err, results)
 		{
 			callback(err,results);
 		});
@@ -36,7 +36,7 @@ module.exports = (function() {
 			if(err){
 				callback("Poll not found",[]);
 			}else if(results[0]['UtilizadorKey']!= userId){
-				callback("User of id "+userId+"is not the creator of the poll",[]);
+				callback("User of id " + userId + " is not the creator of the poll",[]);
 			}else{
 				connection.query("DELETE FROM `Poll` WHERE `id` = " +connection.escape(pollId)+ " and `UtilizadorKey` = 1", function(err, results)
 				{
