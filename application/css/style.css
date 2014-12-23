@@ -1483,6 +1483,10 @@ cursor: pointer;
 	border-radius: 50px;
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
+	
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
 }
 
 .showprofessor_feedback .nomeprofessor
