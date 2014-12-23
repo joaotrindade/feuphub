@@ -936,13 +936,15 @@
 				Escolhe qual destes professores, para ti, é o melhor nesta disciplina.
 			</div>
 			
-			{{#each item in professorescadeira}}
-				<div {{action 'selectprof' item.DocenteKey}} class="showprofessor_feedback">
-					<div class="imagemprofessor" {{bind-attr style=item.style}} ></div>
-					<div class="nomeprofessor">{{item.nome}}</div>
-					<div class="preferidoprofessor">{{item.preferido}}</div>
-				</div>
-			{{/each}}
+			<div class="encapsular_professores">
+				{{#each item in professorescadeira}}
+					<div {{action 'selectprof' item.DocenteKey}} class="showprofessor_feedback">
+						<div class="imagemprofessor" {{bind-attr style=item.style}} ></div>
+						<div class="nomeprofessor">{{item.nome}}</div>
+						<div class="preferidoprofessor">{{item.preferido}}</div>
+					</div>
+				{{/each}}
+			</div>
 			
 		{{/if}}
 		

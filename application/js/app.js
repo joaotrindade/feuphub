@@ -1176,15 +1176,17 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 			
 			this._super();
 			
+			var count = 0;
 			this.professorescadeira.forEach(function(item){
 				if(item.DocenteKey == id)
 				{
-					item.preferido = "BEST";
+					this.set(professorescadeira[count].preferido,"BEST");
 				}
 				else
 				{
-					item.preferido = "";
+					this.set(professorescadeira[count].preferido,"");
 				}
+				count = count + 1;
 			});
 		},
 		
