@@ -585,10 +585,10 @@
 				<div class="bestprof_title"> 
 					Melhor Professor
 				</div>
-				<div class="circular_photo"></div>
+				<div class="circular_photo" {{bind-attr style=fotoDocente}}></div>
 				
 				<div class="bestprof_name">
-					Filipe Correia
+					{{nomeDocente}}
 				</div>
 			</div>
 			
@@ -597,7 +597,7 @@
 					Avaliação Global
 				</div>
 				<div class="gaPercentage">
-					66%
+					{{media}}
 				</div>
 			</div>
 			

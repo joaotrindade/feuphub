@@ -297,6 +297,9 @@ App.CadeirasController = Ember.ObjectController.extend({
 	codigo: null,
 	curso: null,
 	ano: null,
+	media: null,
+	nomeDocente: null,
+	fotoDocente: null,
 	
 	isMieic:false,
 	isMieec:false,
@@ -325,6 +328,10 @@ App.CadeirasController = Ember.ObjectController.extend({
 		this.set('isMiem', false);
 		this.set('isMiemm', false);
 		this.set('isMieq', false);
+		
+		this.set('media',null);
+		this.set('nomeDocente',null);
+		this.set('fotoDocente',null);
 		
 		var self = this;
 		var token = this.get('controllers.index').get('token');
@@ -385,12 +392,26 @@ App.CadeirasController = Ember.ObjectController.extend({
 								self.set('feedbackscadeira', response3.results);
 						  }
 						  else
-								alert("Algo deu Errado.");
+								alert("Algo deu Errado No Get Feedback Cadeiras.");
 						});
 						
 				  }
 				  else
 						alert("Algo deu Errado No Get Topicos Cadeiras.");
+				});
+				
+				var apigo4 = "/api/database/cadeira/stats/" + codigo;
+						
+				$.get(apigo4, function(data2) { // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+				{
+				  if (data2.success)
+				  {	
+						self.set('media', data2.media);
+						self.set('nomeDocente', data2.idDocente.nome);
+						self.set('fotoDocente', "background-image: url(" + data2.idDocente.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;");
+				  }
+				  else
+						alert("Algo deu Errado No Get Dados Cadeira.");
 				});
 			}
 		});
@@ -1172,8 +1193,6 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 						item.preferido = "";
 						self.professorescadeira.addObject(item);
 					});
-					
-					console.log(self.professorescadeira);
 				}
 			});
 		}
