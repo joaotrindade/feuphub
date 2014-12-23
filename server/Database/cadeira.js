@@ -39,15 +39,13 @@ module.exports = (function() {
 		var resfinal = [];
 		connection.query("select * from Docente where codigo =(select docenteEscolhido from Feedback where CadeiraKey=" +connection.escape(idCadeira)+" GROUP BY docenteEscolhido order by count(docenteEscolhido) LIMIT 1);", function(err, results)
 		{
-			console.log(err);
-			resfinal.idDocente = results;
+			resfinal.idDocente = results[0];
 			console.log(results);
 			connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+connection.escape(idCadeira)+")db UNION ALL SELECT * FROM(select count(*)as cenas from Feedback where CadeiraKey="+connection.escape(idCadeira)+")db2 ;", function(err2, results2)
 			{
-				console.log("2");
-				console.log(results2[0]);
-				console.log(results2);
-				resfinal.media = results2[0]/results2[1];
+
+				resfinal.positivos = results2[0];
+				resfinal.total = results2[1];
 				callback(err2,resfinal);
 			});
 		});
