@@ -55,6 +55,13 @@ module.exports = (function() {
 			callback(err,results);
 		});
 	}
+	
+	function getFeedbacksByUser(userid,callback){
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Utilizador.numero= " + userid + " ORDER BY difference desc", function(err, results)
+		{
+			callback(err,results);
+		});
+	};
 
 	
 	
@@ -224,6 +231,26 @@ module.exports = (function() {
 						}
 					});
 				}
+			}
+			else if (type =="utilizador")
+			{
+				getFeedbacksByUser(cID,function(err,result) {
+					if(err)
+					{
+						console.log(err);
+						res.send({
+							success: false,
+							results: err
+						});
+					}
+					else {
+						console.log(result);
+						res.send({
+							success: true,
+							results: result
+						});
+					}
+				});
 			}
 });
    
