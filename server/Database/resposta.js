@@ -8,7 +8,7 @@ module.exports = (function() {
 	};
 	
 	function addOne(idn,texton,datan,user_id,callback){
-		connection.query("INSERT INTO Resposta(upvote,downvote,texto,data,UtilizadorKey,TopicoKey) VALUES(0,0,'" + connection.escape(texton) + "',CURRENT_TIMESTAMP()," + connection.escape(user_id) + "," + connection.escape(idn) + ")", function(err, results)
+		connection.query("INSERT INTO Resposta(upvote,downvote,texto,data,UtilizadorKey,TopicoKey) VALUES(0,0," + connection.escape(texton) + ",CURRENT_TIMESTAMP()," + connection.escape(user_id) + "," + connection.escape(idn) + ")", function(err, results)
 		{
 			callback(err,results);
 		});
