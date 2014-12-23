@@ -1137,6 +1137,8 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 	cursoid: null,
 	cadeiraid: null,
 	feupid: null,
+	isLike: null,
+	isDislike: null,
 	
 	initialGiveFeedback: function(){
 		this._super();
@@ -1148,7 +1150,14 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 		this.set('professorescadeira',[]);
 		this.set('isCadeira',false);
 		
-		if(this.cadeiraid != "")
+		this.set('isLike',null);
+		this.set('isDislike',null);
+		
+		if(this.cursoid != "")
+		{
+			//alert("CURSO");
+		}
+		else if(this.cadeiraid != "")
 		{	
 			var apigo = "/api/database/cadeira/docentes/";
 			var codigocadeira = this.cadeiraid;
@@ -1171,7 +1180,17 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 	},
 	
 	actions: {
-       
+	
+        iLike: function(){
+			this.set('isLike', true);
+			this.set('isDislike', false);		
+		},
+		
+		iDislike: function(){
+			this.set('isLike',false);
+			this.set('isDislike',true);
+		},
+		
 		selectprof: function(id){
 			
 			this._super();
@@ -1197,62 +1216,92 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 			var apigo = null;
 			var type2 = "vazio";
 			var type = "vazio";
+			var professor = "vazio";
+			var aval = "vazio";
 			
-			if(this.cursoid != "")
+			if(this.isLike == true || this.isLike == false)
 			{
-				apigo = "/api/database/feedback/" + this.cursoid.toUpperCase();
-				type2 = "insert";
-				type = "curso";
-			}
-			else if(this.cadeiraid != "")
-			{
-				apigo = "/api/database/feedback/" + this.cadeiraid;
-				type2 = "insert";
-				type = "cadeira";
-			}
-			else if(this.feupid != "")
-			{
-				apigo = "/api/database/feedback/FEUP";
-				type2 ="insert";
-				type = "feup";
-			}
-			
-			var self = this;
-			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
-
-			if(usr != null)
-			{
-				var titulo = document.getElementById("givefeedback_title").value;
-				var texto = document.getElementById("givefeedback_description").value;
-
-				var token = this.get('controllers.index').get('token');
-							
-				$.post(apigo, {"token": token, "texto" : texto, "type" : type, "userid" : usr, "tagnome": "", "type2": type2}).then( function(response)
+				if(this.isLike)
 				{
+					aval = true;
+				}
+				else
+				{
+					aval = false;
+				}
 				
-				  if (response.success)
-				  {
-						if(self.cursoid != "")
+				if(this.cursoid != "")
+				{
+					apigo = "/api/database/feedback/" + this.cursoid.toUpperCase();
+					type2 = "insert";
+					type = "curso";
+				}
+				else if(this.cadeiraid != "")
+				{
+					apigo = "/api/database/feedback/" + this.cadeiraid;
+					type2 = "insert";
+					type = "cadeira";
+					
+					this.professorescadeira.forEach(function(item){
+						if(item.preferido == "BEST")
 						{
-							self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
+							professor = item.DocenteKey;
 						}
-						else if(self.cadeiraid != "")
+					});
+				}
+				else if(this.feupid != "")
+				{
+					apigo = "/api/database/feedback/FEUP";
+					type2 ="insert";
+					type = "feup";
+				}
+				
+				if(this.cadeiraid != "" && professor == "vazio" )
+				{
+					alert("Para submeter o feedback tem de escolher um professor favorito.");
+				}
+				else
+				{
+					var self = this;
+					var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+
+					if(usr != null)
+					{
+						var titulo = document.getElementById("givefeedback_title").value;
+						var texto = document.getElementById("givefeedback_description").value;
+
+						var token = this.get('controllers.index').get('token');
+									
+						$.post(apigo, {"token": token, "texto" : texto, "type" : type, "userid" : usr, "tagnome": "", "type2": type2, "codDocente": professor, "avaliacao": aval}).then( function(response)
 						{
-							self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
-						}
-						else if(self.feupid != "")
-						{
-							self.transitionToRoute('home');
-						}
-				  }
-				  else
-						alert("Algo deu Errado a inserir feedback de " + type + ".");
-				});
+						
+						  if (response.success)
+						  {
+								if(self.cursoid != "")
+								{
+									self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
+								}
+								else if(self.cadeiraid != "")
+								{
+									self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
+								}
+								else if(self.feupid != "")
+								{
+									self.transitionToRoute('home');
+								}
+						  }
+						  else
+								alert("Algo deu Errado a inserir feedback de " + type + ".");
+						});
+					}
+					else
+					{
+						alert("LOGIN PARA DAR FEEDBACK");
+					}
+				}
 			}
 			else
-			{
-				alert("LOGIN PARA DAR FEEDBACK");
-			}
+				alert("Tem de escolher uma avaliação: Positiva ou Negativa.");
         }
     }
 	
