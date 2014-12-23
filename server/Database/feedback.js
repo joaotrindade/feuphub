@@ -15,7 +15,7 @@ module.exports = (function() {
 	};
 	
 	function insertFeedbacksByCadeira(cadeiraID,texto,userid,tagNome,codDocente,avaliacao,callback){
-		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CadeiraKey,CursoKey,UtilizadorKey,docenteEscolhido,avaliacao) VALUES (0,0," + connection.escape(texto) + ",CURRENT_TIMESTAMP()," + connection.escape(cadeiraID) + "," + "NULL," + connection.escape(userid) + "," + connection.escape(codDocente) + "," + connection.escape(avaliacao) + ")", function(err, results)
+		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CadeiraKey,CursoKey,UtilizadorKey,docenteEscolhido,avaliacao) VALUES (0,0," + connection.escape(texto) + ",CURRENT_TIMESTAMP()," + connection.escape(cadeiraID) + "," + "NULL," + connection.escape(userid) + "," + connection.escape(codDocente) + "," + avaliacao + ")", function(err, results)
 		{
 			callback(err,results);
 		});
