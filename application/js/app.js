@@ -402,11 +402,10 @@ App.CadeirasController = Ember.ObjectController.extend({
 				
 				var apigo4 = "/api/database/cadeira/stats/" + codigo;
 				
-				alert("VOU FAZER PEDIDO DATA");
 				$.get(apigo4, function(data2) 
 				{
-				  alert("JA RECEBI DATA");
 				  console.log(data2);
+				  console.log(data2.results);
 				  if (data2.success)
 				  {	
 						self.set('media', data2.media);
@@ -1482,7 +1481,7 @@ App.IndexController = Ember.Controller.extend({
 	  login: function() {
 	    
 		var self = this, data2 = this.getProperties('username', 'password');
-
+		
 		// Clear out any error messages.
 		this.set('errorMessage', null);
 		$('#bttn').click(function(event) {   
