@@ -644,7 +644,7 @@ cursor: pointer;
 	background: url(../images/Prof/prof.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
-	f
+	background-position: center center;
 	border: 3px solid white;
 }
 
@@ -1469,7 +1469,7 @@ cursor: pointer;
 .showprofessor_feedback .nomeprofessor
 {
 	width: 100px;
-	height: 50px;
+	height: 56px;
 	
 	font-family: EXO;
 	font-size:13px;

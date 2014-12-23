@@ -934,13 +934,19 @@
 		<div class="create_options">
 			{{#if isCadeira}}
 			<div class="option">
-				{{#each item in professorescadeira}}
-					<div class="showprofessor_feedback">
-						<div class="imagemprofessor" {{bind-attr style=item.style}} ></div>
-						<div class="nomeprofessor">{{item.nome}}</div>
-						<div class="preferidoprofessor"></div>
-					</div>
-				{{/each}}
+				<div class="option_title">
+					Melhor Professor
+				</div>
+				
+				<div class="option_more">
+					{{#each item in professorescadeira}}
+						<div class="showprofessor_feedback">
+							<div class="imagemprofessor" {{bind-attr style=item.style}} ></div>
+							<div class="nomeprofessor">{{item.nome}}</div>
+							<div class="preferidoprofessor"></div>
+						</div>
+					{{/each}}
+				</div>
 			</div>
 			{{/if}}
 			
