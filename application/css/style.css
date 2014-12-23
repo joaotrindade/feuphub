@@ -740,6 +740,41 @@ cursor: pointer;
 	text-align: right;
 }
 
+.LogoZillaNatal
+{
+	width: 284px;
+	height: 300px;
+	
+	background: url(../images/Logo/zillaNatal.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+}
+
+.snowgif
+{
+	width: 284px;
+	height: 370px;
+	
+	
+	background: url(../images/Misc/snow-transparent.gif);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+}
+
+.rightbarbox
+{
+	width: 284px;
+	height: 80px;
+	
+	background-color: rgb(53,56,62);
+	text-align: center;
+	padding-top: 20px;
+	font-family: EXOB;
+	font-size: 19px;
+	color:white;
+}
 /* ------------------------------------------------------------------------------------------------------ */
 
 /* FOOTER ----------------------------------------------------------------------------------------------- */
