@@ -404,13 +404,15 @@ App.CadeirasController = Ember.ObjectController.extend({
 				
 				$.get(apigo4, function(data2) 
 				{
-				  console.log(data2);
-				  console.log(data2.results);
 				  if (data2.success)
 				  {	
-						self.set('media', data2.media);
-						self.set('nomeDocente', data2.idDocente.nome);
-						self.set('fotoDocente', "background-image: url(" + data2.idDocente.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;");
+						var n1 = data2.results.positivos.n_positivos;
+						var n2 = data2.results.total.n_positivos;
+						var n3 = parseInt((n1 / n2) * 100);	
+						
+						self.set('media', n3);
+						self.set('nomeDocente', data2.results.idDocente.nome);
+						self.set('fotoDocente', "background-image: url(" + data2.results.idDocente.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;");
 				  }
 				  else
 						alert("Algo deu Errado No Get Dados Cadeira.");
