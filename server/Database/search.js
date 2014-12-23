@@ -47,7 +47,7 @@ module.exports = (function() {
 	function searchTopicoAutenticado(array, username){
 		//nao falta parte nao autenticada?
 		var deferred = Q.defer();
-		var stringQuery = "SELECT `id`,`titulo` From `Topico` INNER JOIN `CadeirasConcluidas` ON `CadeirasConcluidas.CadeiraKey`=`Topico.CadeiraKey` WHERE `CadeirasConcluidas.UtilizadorKey`= ' "+ connection.escape(username)+"'";
+		var stringQuery = "SELECT `id`,`titulo` From `Topico` INNER JOIN `CadeirasConcluidas` ON `CadeirasConcluidas.CadeiraKey`=`Topico.CadeiraKey` WHERE `CadeirasConcluidas.UtilizadorKey`= "+ connection.escape(username);
 		for(var i=0; i<array.length;i++)
 		{
 			if(i+1==array.length){
@@ -68,7 +68,7 @@ module.exports = (function() {
 
 	function searchCadeiraAutenticado(array,username){
 		var deferred = Q.defer();
-		var stringQuery = "SELECT `sigla`, `nome` FROM `Cadeira` INNER JOIN `CadeirasConcluidas` ON `CadeirasConcluidas.CadeiraKey`=`Cadeira.codigo` WHERE `CadeirasConcluidas.UtilizadorKey`= ' "+connection.escape(username)+"'";
+		var stringQuery = "SELECT `sigla`, `nome` FROM `Cadeira` INNER JOIN `CadeirasConcluidas` ON `CadeirasConcluidas.CadeiraKey`=`Cadeira.codigo` WHERE `CadeirasConcluidas.UtilizadorKey`= "+connection.escape(username);
 		
 		for(var i=0; i<array.length;i++)
 		{
