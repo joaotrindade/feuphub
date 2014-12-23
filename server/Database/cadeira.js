@@ -46,8 +46,8 @@ module.exports = (function() {
 			{
 				resfinal.media = results2[0]/results2[1];
 				callback(err2,resfinal);
-			}
-		}
+			});
+		});
 	}
 	
     api.get('/', function(req, res) {
