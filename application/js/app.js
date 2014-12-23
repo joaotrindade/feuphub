@@ -410,14 +410,23 @@ App.CadeirasController = Ember.ObjectController.extend({
 				  {	
 						var n1 = data2.results.positivos.n_positivos;
 						var n2 = data2.results.total.n_positivos;
-						var n3 = parseInt((n1 / n2) * 100);	
 						
-						if(n3 < 50)
-							self.set('isGreen', false);
-						else
-							self.set('isGreen', true);
+						if(n2 > 0)
+						{
+							var n3 = parseInt((n1 / n2) * 100);	
 							
-						self.set('media', n3);
+							if(n3 < 50)
+								self.set('isGreen', false);
+							else
+								self.set('isGreen', true);
+								
+							self.set('media', n3);
+						}
+						else
+						{
+							self.set('media', "--");
+						}
+				
 						self.set('nomeDocente', data2.results.idDocente.nome);
 						self.set('fotoDocente', "background-image: url(" + data2.results.idDocente.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;");
 				  }
@@ -529,6 +538,8 @@ App.CursosController = Ember.ObjectController.extend({
 	feedbackscurso:null,
 	cadeiras1ano: [],
 	cadeiras2ano: [],
+	isGreen: true,
+	media: null,
 	
 	isMieic:false,
 	isMieec:false,
@@ -548,6 +559,7 @@ App.CursosController = Ember.ObjectController.extend({
 		this.set('feedbackscurso', null);		
 		this.set('codigo', this.get('codigo')); 
 		this.set('isExpanded', false);
+		this.set('isGreen', true);
 		
 		this.set('cadeiras1ano',[]);
 		this.set('cadeiras2ano',[]);
@@ -576,6 +588,35 @@ App.CursosController = Ember.ObjectController.extend({
 		  }
 		  else
 				alert("Algo deu Errado.");
+		});
+		
+		var apigo4 = "/api/database/curso/stats/" + this.codigo.toUpperCase();
+				
+		$.get(apigo4, function(data2) 
+		{
+		  if (data2.success)
+		  {	
+				var n1 = data2.results.positivos.n_positivos;
+				var n2 = data2.results.total.n_positivos;
+				
+				if(n2 > 0)
+				{
+					var n3 = parseInt((n1 / n2) * 100);	
+					
+					if(n3 < 50)
+						self.set('isGreen', false);
+					else
+						self.set('isGreen', true);
+						
+					self.set('media', n3);
+				}
+				else
+				{
+					self.set('media', "--");
+				}
+		  }
+		  else
+				alert("Algo deu Errado No Get Dados Cadeira.");
 		});
 		
 	},
@@ -950,8 +991,8 @@ App.TopicController = Ember.ObjectController.extend({
 				{
 				  if (response.success)
 				  {
-						alert("Topico Eliminado");
-						self.transitionToRoute('cursos',{queryParams: {codigo: self.topicoDetails.CursoKey.toLowerCase()}});
+						//alert("Topico Eliminado");
+						self.transitionToRoute('account');
 				  }
 				  else
 						alert("ALGO DEU MAL A APAGAR O TOPICO");

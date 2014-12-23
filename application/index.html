@@ -404,14 +404,25 @@
 				{{/link-to}}
 			</div>
 			
+			{{#if isGreen}}
 			<div class="gaG" style="margin-top: -20px;">
 				<div class="gaTitle">
 					Avaliação Global
 				</div>
 				<div class="gaPercentage">
-					66%
+					{{media}}%
 				</div>
 			</div>
+			{{else}}
+			<div class="gaR" style="margin-top: -20px;">
+				<div class="gaTitle">
+					Avaliação Global
+				</div>
+				<div class="gaPercentage">
+					{{media}}%
+				</div>
+			</div>
+			{{/if}}
 			
 			<div class="feedback">
 				Feedback
