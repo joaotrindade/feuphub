@@ -36,18 +36,20 @@ module.exports = (function() {
 	}
 	
 	function getStats(idCadeira, callback){
-		connection.query("SELECT * FROM (select docenteEscolhido from Feedback where CadeiraKey=" + connection.escape(idCadeira) + " group by docenteEscolhido order by docenteEscolhido)da UNION SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey='"+ connection.escape(idCadeira) +"')db UNION (select count(*) from Feedback where CadeiraKey='" + connection.escape(idCadeira) + "') ;", function(err, results)
+	
+		connection.query("select * from Docente where codigo =(select docenteEscolhido from Feedback where CadeiraKey=" + connection.escape(idCadeira) + " GROUP BY docenteEscolhido order by count(docenteEscolhido) LIMIT 1", function(err, results)
 		{
 			var resfinal ;
 			resfinal.idDocente = results[0];
-			resfinal.media = results[1]/results[2];
-			callback(err,resfinal);
-		});
+			
+			connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+ connection.escape(idCadeira) + ")db UNION (select count(*) from Feedback where CadeiraKey=" + connection.escape(idCadeira) + ") ;", function(err2, results2)
+			{
+				resfinal.media = results2[0]/results2[1];
+				callback(err2,resfinal);
+			}
+		}
 	}
 	
-	
-
-
     api.get('/', function(req, res) {
         getAll(function(err, results)
 		{
