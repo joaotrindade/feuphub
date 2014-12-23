@@ -1675,12 +1675,11 @@ App.IndexController = Ember.Controller.extend({
 		})
 		.fail(function(errorThrown){  //error somewhere...
 			$('#spinner #statusText').text(errorThrown);
-			setTimeout({}, 1500);
 		})
 		.always(function(){ //execute no matter what
 			setTimeout(function() {
 				$('#spinner').stop().fadeOut(500);
-			}, 1000);
+			}, 2000);
 		});
 	  },
   }
@@ -1699,6 +1698,8 @@ function logIntoSigarra(username, password){
 			$('#spinner #statusText').text("Login successful!");
 			deferred.resolve();
 		}else{
+			console.log("Error logIntoSigarra");
+			console.log(data);
 			deferred.reject("Failed to validate user credentials in sigarra");
 		}
 	}).fail(function(qXHR, textStatus, errorThrown){
@@ -1722,6 +1723,8 @@ function getPctId(){
 			$('#spinner #statusText').text("A ir buscar o teu identificador!");
 			deferred.resolve(user_pct_Id);
 		}else{
+			console.log("Error getPctId");
+			console.log(data);
 			deferred.reject("Failed to retrieve unique student pct id from sigarra");
 		}
 		
@@ -1749,6 +1752,8 @@ function getStudentCode(self, pct_id){
 			$('#spinner #statusText').text("Consegui!");
 			deferred.resolve(datan);
 		}else{
+			console.log("Error getStudentCode");
+			console.log(data);
 			deferred.reject("Failed to retrieve student code from sigarra");
 		}
 		
@@ -1777,6 +1782,8 @@ function logIntoFeuphub(self, datan){
 			self.transitionToRoute('home');
 			deferred.resolve();
 		}else{
+			console.log("Error logIntoFeuphub");
+			console.log(response);
 			deferred.reject();
 		}
 	});
