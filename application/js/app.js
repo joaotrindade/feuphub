@@ -1674,7 +1674,8 @@ App.IndexController = Ember.Controller.extend({
 			updateCourses(self.get('usr'));
 		})
 		.fail(function(errorThrown){  //error somewhere...
-			 $('#spinner #statusText').text(errorThrown);
+			$('#spinner #statusText').text(errorThrown);
+			setTimeout({}, 1500);
 		})
 		.always(function(){ //execute no matter what
 			setTimeout(function() {
@@ -1696,7 +1697,7 @@ function logIntoSigarra(username, password){
 			document.cookie = data.headers["set-cookie"][0];
 			document.cookie = data.headers["set-cookie"][1];
 			$('#spinner #statusText').text("Login successful!");
-			  deferred.resolve();
+			deferred.resolve();
 		}else{
 			deferred.reject("Failed to validate user credentials in sigarra");
 		}
@@ -1718,6 +1719,7 @@ function getPctId(){
 	
 		if(data.statusCode == 200){
 			var user_pct_Id = parserLogin(data.body);
+			$('#spinner #statusText').text("A ir buscar o teu identificador!");
 			deferred.resolve(user_pct_Id);
 		}else{
 			deferred.reject("Failed to retrieve unique student pct id from sigarra");
@@ -1744,6 +1746,7 @@ function getStudentCode(self, pct_id){
 			self.set('usr', userId);
 			self.set('loginSuccess', "able");
 			var datan = self.getProperties('username', 'password', 'loginSuccess');
+			$('#spinner #statusText').text("Consegui!");
 			deferred.resolve(datan);
 		}else{
 			deferred.reject("Failed to retrieve student code from sigarra");
