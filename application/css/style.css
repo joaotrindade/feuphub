@@ -763,6 +763,17 @@ cursor: pointer;
 	background-position: center center;
 }
 
+.snowbrd
+{
+	width: 284px;
+	height: 56px;
+	
+	background: url(../images/Misc/snowbrd.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+}
+
 .rightbarbox
 {
 	width: 284px;
@@ -770,7 +781,7 @@ cursor: pointer;
 	
 	background-color: rgb(53,56,62);
 	text-align: center;
-	padding-top: 20px;
+	padding-top: 25px;
 	font-family: EXOB;
 	font-size: 19px;
 	color:white;
