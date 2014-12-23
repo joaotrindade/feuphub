@@ -10,7 +10,7 @@ module.exports = (function() {
 	function updateNickname(idUser,nickname,callback) {
 		connection.query("SELECT id FROM Visitante INNER JOIN Utilizador ON Visitante.id = Utilizador.VisitanteKey WHERE numero=" + connection.escape(idUser), function(err, results)
 		{
-			connection.query("UPDATE Visitante SET nickname='" + connection.escape(nickname) + "' WHERE id=" + connection.escape(results[0].id), function(err, results2)
+			connection.query("UPDATE Visitante SET nickname=" + connection.escape(nickname) + " WHERE id=" + connection.escape(results[0].id), function(err, results2)
 			{
 				callback(err,results);
 			});
@@ -66,11 +66,11 @@ module.exports = (function() {
 		
 	function insertCadeiraConcluida(userid, cadeira, callback) {
 		
-		var select1 = "SELECT count(*) as Existe from Cadeira where codigo = '" + connection.escape(cadeira.ucurr_codigo) + "'";
-		var select2 = "SELECT count(*) as Existe from CadeirasConcluidas where CadeiraKey = '"+ connection.escape(cadeira.ucurr_codigo) + "' and UtilizadorKey = " + connection.escape(userid) ;
-		var insert1 = "INSERT INTO CadeirasConcluidas(CadeiraKey,UtilizadorKey) VALUES ('" + connection.escape(cadeira.ucurr_codigo) +"'," + connection.escape(userid) +")";
+		var select1 = "SELECT count(*) as Existe from Cadeira where codigo = " + connection.escape(cadeira.ucurr_codigo) + "";
+		var select2 = "SELECT count(*) as Existe from CadeirasConcluidas where CadeiraKey = "+ connection.escape(cadeira.ucurr_codigo) + " and UtilizadorKey = " + connection.escape(userid) ;
+		var insert1 = "INSERT INTO CadeirasConcluidas(CadeiraKey,UtilizadorKey) VALUES (" + connection.escape(cadeira.ucurr_codigo) +"," + connection.escape(userid) +")";
 		
-		connection.query('SELECT count(*) as Existe from Cadeira where codigo = "' + connection.escape(cadeira.ucurr_codigo) +'"' , function(err3, results3)
+		connection.query("SELECT count(*) as Existe from Cadeira where codigo = " + connection.escape(cadeira.ucurr_codigo), function(err3, results3)
 		{
 			if(!err3 && results3[0].Existe > 0)
 			{
