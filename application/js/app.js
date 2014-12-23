@@ -193,6 +193,8 @@ App.AccountController = Ember.ObjectController.extend({
 		this.set('email',null);
 		this.set('nickname',null);
 		this.set('utilizadorId',usr);
+		this.set('topicoscriados',null);
+		this.set('respostastopicos',null);
 		
 		$.post(apigo, {"token":token, "numero":usr}).then( function(response)
 		{
