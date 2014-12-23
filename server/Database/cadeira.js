@@ -39,15 +39,31 @@ module.exports = (function() {
 		var resfinal = {};
 		connection.query("select * from Docente where codigo =(select docenteEscolhido from Feedback where CadeiraKey=" +connection.escape(idCadeira)+" GROUP BY docenteEscolhido order by count(docenteEscolhido) DESC LIMIT 1);", function(err, results)
 		{
-			resfinal.idDocente = results[0];
-			console.log(results);
-			connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+connection.escape(idCadeira)+")db UNION ALL SELECT * FROM(select count(*)as cenas from Feedback where CadeiraKey="+connection.escape(idCadeira)+")db2 ;", function(err2, results2)
+			if(results.length != 0)
 			{
-
-				resfinal.positivos = results2[0];
-				resfinal.total = results2[1];
-				callback(err2,resfinal);
-			});
+				resfinal.idDocente = results[0];
+				console.log(results);
+				connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+connection.escape(idCadeira)+")db UNION ALL SELECT * FROM(select count(*)as cenas from Feedback where CadeiraKey="+connection.escape(idCadeira)+")db2 ;", function(err2, results2)
+				{
+					resfinal.positivos = results2[0];
+					resfinal.total = results2[1];
+					callback(err2,resfinal);
+				});
+			}
+			else
+			{
+				connection.query("select nome,img_url from Docente inner join CadeiraDocente on Docente.codigo = CadeiraDocente.DocenteKey where CadeiraKey=" + connection.escape(idCadeira) + "LIMIT 1", function(err2,results2)
+				{
+					resfinal.idDocente = results2[0];
+					console.log(results);
+					connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+connection.escape(idCadeira)+")db UNION ALL SELECT * FROM(select count(*)as cenas from Feedback where CadeiraKey="+connection.escape(idCadeira)+")db2 ;", function(err3, results3)
+					{
+						resfinal.positivos = results3[0];
+						resfinal.total = results3[1];
+						callback(err3,resfinal);
+					});
+				});
+			}
 		});
 	}
 	
