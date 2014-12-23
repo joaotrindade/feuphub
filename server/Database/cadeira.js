@@ -36,14 +36,18 @@ module.exports = (function() {
 	}
 	
 	function getStats(idCadeira, callback){
-	
+		var resfinal = [];
 		connection.query("> select * from Docente where codigo =(select docenteEscolhido from Feedback where CadeiraKey=" +connection.escape(idCadeira)+" GROUP BY docenteEscolhido order by count(docenteEscolhido) LIMIT 1);", function(err, results)
 		{
-			var resfinal = [];
-			resfinal.idDocente = results;
 			
+			resfinal.idDocente = results;
+			console.log(results[0]);
+			console.log(results);
 			connection.query("SELECT * FROM (select count(*) as n_positivos from Feedback where avaliacao=true and CadeiraKey="+connection.escape(idCadeira)+")db UNION ALL SELECT * FROM(select count(*)as cenas from Feedback where CadeiraKey="+connection.escape(idCadeira)+")db2 ;", function(err2, results2)
 			{
+				console.log("2");
+				console.log(results2[0]);
+				console.log(results2);
 				resfinal.media = results2[0]/results2[1];
 				callback(err2,resfinal);
 			});
@@ -110,15 +114,21 @@ module.exports = (function() {
 		getStats(codigo, function(err, results)
 		{
 			if(err)
+			{	console.log("erro");
+				console.log(err);
 				res.send({
 					success: false,
 					results: err
 				});
+			}
 			else
+			{
+				console.log(results);
 				res.send({
 					success: true,
 					results: results
-				});		
+				});
+			}				
 		});
     });
 	
