@@ -1179,10 +1179,14 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 			this.professorescadeira.forEach(function(item){
 				if(item.DocenteKey == id)
 				{
-					Ember.set(item, "preferido","BEST"); 
+					var estilo = "background-image: url(" + item.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center; border: 3px solid #1898E7;";
+					Ember.set(item, "style", estilo);
+					Ember.set(item, "preferido","BEST");
 				}
 				else
 				{
+					var estilo =  "background-image: url(" + item.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;";
+					Ember.set(item, "style", estilo);
 					Ember.set(item, "preferido",""); 
 				}
 			});

@@ -1483,7 +1483,6 @@ cursor: pointer;
 	border-radius: 50px;
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
-	/*border: 3px solid white;*/
 }
 
 .showprofessor_feedback .nomeprofessor
@@ -1502,12 +1501,14 @@ cursor: pointer;
 .showprofessor_feedback .preferidoprofessor
 {
 	width: 100px;
-	height: 44px;
+	height: 39px;
+	padding-top: 5px;
 	font-family: EXOB;
 	font-size:13px;
 	
 	text-align: center;
 	color: #2ECD71;
+	overflow: hidden;
 }
 
 	
