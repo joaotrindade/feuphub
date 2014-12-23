@@ -1133,7 +1133,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 	needs: ['index'],
 	queryParams: ['cursoid','cadeiraid','feupid'],
 	professorescadeira: [],
-	isCadeira: false;
+	isCadeira: false,
 	cursoid: null,
 	cadeiraid: null,
 	feupid: null,
