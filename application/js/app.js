@@ -1157,9 +1157,13 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 			$.post(apigo, {"idCadeira": codigocadeira}).then( function(response)
 			{
 				if(response.success)
-				{
-					console.log(response.results);
-					self.set('professorescadeira',response.results);
+				{   
+					response.results.forEach(function(item){
+						item.style = "background-image: url(" + item.img_url +"); background-size:cover; background-repeat:no-repeat;";
+						self.professorescadeira.addObject(item);
+					});
+					
+					console.log(professorescadeira);
 				}
 			});
 		}

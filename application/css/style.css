@@ -1452,6 +1452,20 @@ cursor: pointer;
 	margin-bottom: 25px;
 }
 
+.showprofessor_feedback
+{
+	display:inline-block;
+	width: 100px;
+	height: 200px;
+	margin-right: 15px;
+}
+
+.showprofessor_feedback .imagemprofessor
+{
+	width: 100px;
+	height: 100px;
+}
+
 /* ------------------------------------------------------------------------------------------------------ */
 
 /* LOGIN ------------------------------------------------------------------------------------------------ */
