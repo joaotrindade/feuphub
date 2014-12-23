@@ -36,7 +36,7 @@ module.exports = (function() {
 	}
 	
 	function getStats(idCadeira, callback){
-		var resfinal = [];
+		var resfinal = {};
 		connection.query("select * from Docente where codigo =(select docenteEscolhido from Feedback where CadeiraKey=" +connection.escape(idCadeira)+" GROUP BY docenteEscolhido order by count(docenteEscolhido) LIMIT 1);", function(err, results)
 		{
 			resfinal.idDocente = results[0];
@@ -123,7 +123,8 @@ module.exports = (function() {
 				console.log(results);
 				res.send({
 					success: true,
-					results: results
+					result:results,
+					idDocente: results.idDocente
 				});
 			}				
 		});
