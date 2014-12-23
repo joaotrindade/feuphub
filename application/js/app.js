@@ -1399,6 +1399,10 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 		var apigo = "/api/database/feedback/";
 		var type = null;
 		
+		//GET FEEDBACKS
+		var token = this.get('controllers.index').get('token');
+		var usr = this.get('controllers.index').get('usr');
+		
 		this.set('isUser',null);
 		
 		if(this.cursoid != "")
@@ -1416,14 +1420,10 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 		else if(this.userid != "")
 		{
 			this.set('isUser',true);
-			//TODO: MOSTRAR OS DO USER!
-			type="user";
+			apigo = apigo + usr;
+			type="utilizador";
 		}
 			
-		//GET FEEDBACKS
-		var token = this.get('controllers.index').get('token');
-		
-		var usr = this.get('controllers.index').get('usr');
 		var apigo2 = 'api/database/utilizador/';
 		
 		$.post(apigo2, {"token":token, "numero":usr}).then( function(response)
