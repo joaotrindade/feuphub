@@ -8,42 +8,42 @@ module.exports = (function() {
 	};
 	
 	function insertFeedbacksByCourse(courseID,texto,userid,tagNome,callback){
-		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CursoKey,CadeiraKey,UtilizadorKey) VALUES (0,0,'" + connection.escape(texto) + "',CURRENT_TIMESTAMP(),'" + connection.escape(courseID) + "'," + "NULL," + connection.escape(userid) + ")", function(err, results)
+		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CursoKey,CadeiraKey,UtilizadorKey) VALUES (0,0," + connection.escape(texto) + ",CURRENT_TIMESTAMP(),'" + connection.escape(courseID) + "'," + "NULL," + connection.escape(userid) + ")", function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function insertFeedbacksByCadeira(cadeiraID,texto,userid,tagNome,codDocente,avaliacao,callback){
-		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CadeiraKey,CursoKey,UtilizadorKey,docenteEscolhido,avaliacao) VALUES (0,0,'" + connection.escape(texto) + "',CURRENT_TIMESTAMP(),'" + connection.escape(cadeiraID) + "'," + "NULL," + connection.escape(userid) + "," + connection.escape(codDocente) + ",'" + connection.escape(avaliacao) + "')", function(err, results)
+		connection.query("INSERT INTO Feedback(upvote,downvote,texto,data,CadeiraKey,CursoKey,UtilizadorKey,docenteEscolhido,avaliacao) VALUES (0,0," + connection.escape(texto) + ",CURRENT_TIMESTAMP()," + connection.escape(cadeiraID) + "," + "NULL," + connection.escape(userid) + "," + connection.escape(codDocente) + "," + connection.escape(avaliacao) + ")", function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function getFeedbacksByCourse(courseID,callback){
-		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CursoKey like '" + connection.escape(courseID) + "' ORDER BY difference desc", function(err, results)
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CursoKey like " + connection.escape(courseID) + " ORDER BY difference desc", function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function getFeedbacksByCourseLimit5(courseID,callback){
-		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CursoKey like '" + connection.escape(courseID) + "' ORDER BY difference desc LIMIT 5", function(err, results)
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CursoKey like " + connection.escape(courseID) + " ORDER BY difference desc LIMIT 5", function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function getFeedbacksByCadeira(cadeiraID,callback){
-		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CadeiraKey like '" + connection.escape(cadeiraID) + "' ORDER BY difference desc", function(err, results)
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CadeiraKey like " + connection.escape(cadeiraID) + " ORDER BY difference desc", function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function getFeedbacksByCadeiraLimit5(cadeiraID,callback){
-		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CadeiraKey like '" + connection.escape(cadeiraID) + "' ORDER BY difference desc LIMIT 5", function(err, results)
+		connection.query("SELECT Feedback.id,texto,upvote-downvote as difference,DATE_FORMAT(data,'%h:%i %p %M %e, %Y') as data,Feedback.CursoKey,nickname as nome FROM Feedback inner join Utilizador on Feedback.UtilizadorKey = Utilizador.numero inner join Visitante on Utilizador.VisitanteKey = Visitante.id WHERE Feedback.CadeiraKey like " + connection.escape(cadeiraID) + " ORDER BY difference desc LIMIT 5", function(err, results)
 		{
 			callback(err,results);
 		});
