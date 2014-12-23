@@ -111,7 +111,7 @@ module.exports = (function() {
 		getStats(codigo, function(err, results)
 		{
 			if(err)
-			{	console.log("erro");
+			{
 				console.log(err);
 				res.send({
 					success: false,
@@ -123,8 +123,7 @@ module.exports = (function() {
 				console.log(results);
 				res.send({
 					success: true,
-					result:results,
-					idDocente: results.idDocente
+					results: results
 				});
 			}				
 		});
