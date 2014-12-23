@@ -1159,7 +1159,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 				if(response.success)
 				{   
 					response.results.forEach(function(item){
-						item.style = "background-image: url(" + item.img_url +"); background-size:cover; background-repeat:no-repeat;";
+						item.style = "background-image: url(" + item.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;";
 						self.professorescadeira.addObject(item);
 					});
 					
