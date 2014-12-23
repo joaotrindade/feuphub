@@ -8,9 +8,9 @@ module.exports = (function() {
 	};
 	
 	function updateNickname(idUser,nickname,callback) {
-		connection.query("SELECT id FROM Visitante INNER JOIN Utilizador ON Visitante.id = Utilizador.VisitanteKey WHERE numero=" + idUser, function(err, results)
+		connection.query("SELECT id FROM Visitante INNER JOIN Utilizador ON Visitante.id = Utilizador.VisitanteKey WHERE numero=" + connection.escape(idUser), function(err, results)
 		{
-			connection.query("UPDATE Visitante SET nickname='" + nickname + "' WHERE id=" + results[0].id, function(err, results2)
+			connection.query("UPDATE Visitante SET nickname='" + connection.escape(nickname) + "' WHERE id=" + connection.escape(results[0].id), function(err, results2)
 			{
 				callback(err,results);
 			});
@@ -18,21 +18,21 @@ module.exports = (function() {
 	};
 	
 	function checkExists(numero, callback){
-		connection.query("SELECT count(*) as NOcorrencias FROM Utilizador where numero = " + numero, function(err, results)
+		connection.query("SELECT count(*) as NOcorrencias FROM Utilizador where numero = " + connection.escape(numero), function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function getUser(numero,callback){
-		connection.query("SELECT * FROM Visitante INNER JOIN Utilizador ON Visitante.id = Utilizador.VisitanteKey WHERE Utilizador.numero=" + numero, function(err, results)
+		connection.query("SELECT * FROM Visitante INNER JOIN Utilizador ON Visitante.id = Utilizador.VisitanteKey WHERE Utilizador.numero=" + connection.escape(numero), function(err, results)
 		{
 			callback(err,results);
 		});
 	};
 	
 	function needsUpdate(userid,callback){
-		connection.query("SELECT TIMEDIFF( (SELECT lastUpdateDate from Utilizador where numero = " + userid + "), (SELECT data from Status where status=1) ) < 0 as Response", function(err, results)
+		connection.query("SELECT TIMEDIFF( (SELECT lastUpdateDate from Utilizador where numero = " + connection.escape(userid) + "), (SELECT data from Status where status=1) ) < 0 as Response", function(err, results)
 		{
 			callback(err,results);
 			//return (results[0].Response);
@@ -41,7 +41,7 @@ module.exports = (function() {
 	
 	function updateUserTimeStamp(userid)
 	{
-		connection.query("Update Utilizador SET lastUpdateDate = CURRENT_TIMESTAMP where numero =" + userid, function(err, results)
+		connection.query("Update Utilizador SET lastUpdateDate = CURRENT_TIMESTAMP where numero =" + connection.escape(userid), function(err, results)
 		{
 		
 		});
@@ -66,11 +66,11 @@ module.exports = (function() {
 		
 	function insertCadeiraConcluida(userid, cadeira, callback) {
 		
-		var select1 = "SELECT count(*) as Existe from Cadeira where codigo = '" + cadeira.ucurr_codigo+ "'";
-		var select2 = "SELECT count(*) as Existe from CadeirasConcluidas where CadeiraKey = '"+ cadeira.ucurr_codigo + "' and UtilizadorKey = " + userid ;
-		var insert1 = "INSERT INTO CadeirasConcluidas(CadeiraKey,UtilizadorKey) VALUES ('" + cadeira.ucurr_codigo+"'," + userid +")";
+		var select1 = "SELECT count(*) as Existe from Cadeira where codigo = '" + connection.escape(cadeira.ucurr_codigo) + "'";
+		var select2 = "SELECT count(*) as Existe from CadeirasConcluidas where CadeiraKey = '"+ connection.escape(cadeira.ucurr_codigo) + "' and UtilizadorKey = " + connection.escape(userid) ;
+		var insert1 = "INSERT INTO CadeirasConcluidas(CadeiraKey,UtilizadorKey) VALUES ('" + connection.escape(cadeira.ucurr_codigo) +"'," + connection.escape(userid) +")";
 		
-		connection.query('SELECT count(*) as Existe from Cadeira where codigo = "' + cadeira.ucurr_codigo+'"' , function(err3, results3)
+		connection.query('SELECT count(*) as Existe from Cadeira where codigo = "' + connection.escape(cadeira.ucurr_codigo) +'"' , function(err3, results3)
 		{
 			if(!err3 && results3[0].Existe > 0)
 			{
@@ -106,12 +106,12 @@ module.exports = (function() {
 		var select2;
 		var select1;
 		
-		connection.query("INSERT INTO Visitante(nickname) VALUES(" + userid + ")", function(err1, result1)
+		connection.query("INSERT INTO Visitante(nickname) VALUES(" + connection.escape(userid) + ")", function(err1, result1)
 		{
 			if (!err1)
 			{
 				id_visitante = result1.insertId;
-				connection.query("INSERT INTO Utilizador(numero,tipo,nome,CursoKey,VisitanteKey) VALUES(" + userid + ",1," + "'no_name'" + ",'" + id_curso + "'," + id_visitante +")", function(err2, result2)
+				connection.query("INSERT INTO Utilizador(numero,tipo,nome,CursoKey,VisitanteKey) VALUES(" + connection.escape(userid) + ",1," + "'no_name'" + ",'" + connection.escape(id_curso) + "'," + connection.escape(id_visitante) +")", function(err2, result2)
 				{
 					if (!err2)
 					{
