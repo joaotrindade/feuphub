@@ -301,7 +301,8 @@ App.HomeController = Ember.ObjectController.extend({
 	topicosGeral: [],
 	
 	initHome: function(){
-	
+		
+		var self = this;
 		this.set('topicosGeral', []);
 		
 		var apigo = "/api/database/topico/GERAL";
