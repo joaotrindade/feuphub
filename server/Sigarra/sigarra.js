@@ -48,6 +48,14 @@ module.exports = (function() {
 		headers: headers,
 	}
 	
+	var urlStudentInfo = "https://sigarra.up.pt/feup/pt/mob_fest_geral.perfil";
+	
+	var studentInfo = {
+		url: 'https://sigarra.up.pt/feup/pt/mob_fest_geral.perfil',
+		method: 'GET',
+		headers: headers,
+	}
+	
     api.post('/login', function(req, res) {
         loginCredentials.form['p_user'] = req.body.username;
 		loginCredentials.form['p_pass'] = req.body.password;
@@ -68,7 +76,7 @@ module.exports = (function() {
 		
     });
 	
-		api.get('/getPct_id', function(req, res) {
+	api.get('/getPct_id', function(req, res) {
 		headers["Cookie"] = req.headers.cookie;
 		// Start the request
 		request(homePage, function (error, response, body) {
@@ -135,6 +143,30 @@ module.exports = (function() {
 			resetCookies();
 		});
 		studentPage.url = urlStudentPage ;
+	});
+	
+	api.get('/getStudentInfo' , function(req,res){
+		headers["Cookie"] = req.headers.cookie;
+		if(req.query.pv_codigo){
+			studentPage.url += "?pv_codigo=" + req.query.pv_codigo;
+		}
+		
+		// Start the request
+		request(studentInfo, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				headers["Cookie"] = "";
+				studentInfo.url = urlStudentInfo ;
+				res.send(response);
+			}
+			else{
+				studentInfo.url = urlStudentInfo ;
+				res.send(response);
+			}
+			studentInfo.url = urlStudentInfo ;
+			resetCookies();
+		});
+		studentInfo.url = urlStudentInfo ;
+		
 	});
 	
 	api.post('/logout',function(req,res){
