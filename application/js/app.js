@@ -1669,9 +1669,10 @@ App.IndexController = Ember.Controller.extend({
 		.then(getPctId)
 		.then(function(user_pct_Id){return getStudentCode(self, user_pct_Id);})
 		.then(function(datan){return logIntoFeuphub(self, datan);})
+		.then(function(){return getStudentCourses(self);})
 		.done(function(){ //all went ok!
 			$('#spinner #statusText').text("Success!");
-			updateCourses(self.get('usr'));
+			updateCourses(self);
 		})
 		.fail(function(errorThrown){  //error somewhere...
 			$('#spinner #statusText').text(errorThrown);
@@ -1714,13 +1715,13 @@ function logIntoSigarra(username, password){
 
 function getPctId(){
 	var deferred = $.Deferred();
+	$('#spinner #statusText').text("Retrieving your id...");
 	
 	$.get('/api/sigarra/getPct_id')
 	.done(function(data, textStatus, jqXHR){
 	
 		if(data.statusCode == 200){
 			var user_pct_Id = parserLogin(data.body);
-			$('#spinner #statusText').text("A ir buscar o teu identificador!");
 			deferred.resolve(user_pct_Id);
 		}else{
 			console.log("Error getPctId");
@@ -1747,9 +1748,10 @@ function getStudentCode(self, pct_id){
 		if(data.statusCode == 200){
 			var userId = parserNumUnico(data.body);
 			self.set('usr', userId);
+			console.log(userId);
 			self.set('loginSuccess', "able");
 			var datan = self.getProperties('username', 'password', 'loginSuccess');
-			$('#spinner #statusText').text("Consegui!");
+			$('#spinner #statusText').text("Ok so far!");
 			deferred.resolve(datan);
 		}else if(data.statusCode == 400){
 			getStudentCode(self, pct_id).done(function(datan){deferred.resolve(datan);});
@@ -1793,16 +1795,40 @@ function logIntoFeuphub(self, datan){
 	return deferred.promise();
 }
 
+function getStudentCourses(self){
+	var deferred = $.Deferred();
+	$('#spinner #statusText').text("Finding your courses in sigarra...");
+	
+	$.get('/api/sigarra/getStudentCourses', {'pv_codigo' : self.get('usr')})
+	.done(function(data, textStatus, jqXHR){
+		if(data.statusCode == 200){		
+			var obj = JSON && JSON.parse(data.body) || $.parseJSON(data.body);
+			self.set('cursos', obj);
+			deferred.resolve();
+		}else if(data.statusCode == 400){
+			getStudentCourses(self).done(function(){deferred.resolve();});
+		}else{
+			console.log("Error getStudentCourses");
+			console.log(data);
+			deferred.reject("Failed to retrieve student information from sigarra");
+		}
+	}).fail(function(qXHR, textStatus, errorThrown){
+		console.log("In getStudentCourses: "+self.get('usr')+"\n");
+		console.log(textStatus);
+		console.log(errorThrown);
+		deferred.reject(errorThrown);
+	});
+	
+	return deferred.promise();
+}
 
-function updateCourses(userId){
+function updateCourses(self){
 	//$('#spinner #statusText').text("Getting your courses from sigarra (may take a while...)");
 	var courses;
 	setTimeout(function(){
-	
-	
 		$.ajax({
 			type: "GET",
-			url: "/api/database/utilizador/exists/" + userId,
+			url: "/api/database/utilizador/exists/" + self.get('usr'),
 			success: function(data, textStatus, jqXHR)
 			{
 				//alert("entrou aqui");
@@ -1812,40 +1838,18 @@ function updateCourses(userId){
 					//alert("vai ver se precisa de atualizar");
 					$.ajax({
 						type:"GET",
-						url: "/api/database/utilizador/needsUpdate/" + userId,
+						url: "/api/database/utilizador/needsUpdate/" + self.get('usr'),
 						success: function(data_2, textStatus, jqXHR)
 						{
 							if (data_2.result == true) // PRECISA DE UPDATE
 							{
 								alert("Vai atualizar dados");
-								$.ajax({
-									type: "GET",
-									url: "/api/sigarra/getStudentCourses",
-									data: "pv_codigo=" + userId,
-									success: function(data_3, textStatus, jqXHR)
+								$.post('/api/database/utilizador/updateUser/', {"userId": self.get('usr'), "courseData":self.get('cursos')}).then(function(result)
+								{
+									//console.log("fez post");
+									if (result.success == false)
 									{
-										//var json = JSON.parse(data);
-										//console.log(data_3.body);
-										if(data_3.statusCode == 200)
-										{
-											alert("recebeu resposta positiva");
-											$.post('/api/database/utilizador/updateUser/', {"userId": userId, "courseData":data_3.body}).then(function(result)
-											{
-												//console.log("fez post");
-												if (result.success == false)
-												{
-													alert("erro a criar user");
-												}
-											});
-										}
-										else
-										{
-											alert("recebeu resposta negativa");
-										}
-									},
-									error: function(data_3, textStatus, jqXHR)
-									{
-										alert("ERRO NO AJAX");
+										alert("erro a criar user");
 									}
 								});
 							}
@@ -1865,36 +1869,13 @@ function updateCourses(userId){
 				{
 					// INSERIR NOVO GAJO
 					//alert("vai inserir novo user");
-					$.ajax({
-								type: "GET",
-								url: "/api/sigarra/getStudentCourses",
-								data: "pv_codigo=" + userId,
-								success: function(data, textStatus, jqXHR)
-								{
-									//var json = JSON.parse(data);
-									//console.log(data.body);
-									if(data.statusCode == 200)
-									{
-										alert("recebeu resposta positiva");
-										$.post('/api/database/utilizador/insertNewUser/', {"userId": userId, "courseData":data.body}).then(function(result)
-										{
-											if (result.success == false)
-											{
-												alert("erro a criar user");
-											}
-										});
-										
-									}
-									else
-									{
-										alert("recebeu resposta negativa");
-									}
-								},
-								error: function(data, textStatus, jqXHR)
-								{
-									alert("ERRO NO AJAX");
-								}
-							});
+					$.post('/api/database/utilizador/insertNewUser/', {"userId": self.get('usr'), "courseData":self.get('cursos')}).then(function(result)
+					{
+						if (result.success == false)
+						{
+							alert("erro a criar user");
+						}
+					});
 				}
 			},
 			error: function(data, textStatus, jqXHR)
