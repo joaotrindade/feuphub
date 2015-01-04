@@ -1707,6 +1707,11 @@ App.IndexController = Ember.Controller.extend({
     localStorage.token = this.get('token');
   }.observes('token'),
   
+  cursos: localStorage.cursos,
+  cursosChanged: function() {
+    localStorage.cursos = this.get('cursos');
+  }.observes('cursos'),
+  
   usr: localStorage.usr,
   usrChanged: function() {
     localStorage.usr = this.get('usr');
