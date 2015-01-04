@@ -124,6 +124,7 @@ module.exports = (function() {
 					}
 					else
 					{
+						console.log("aiai");
 						callback(true,err2);
 					}
 				});
