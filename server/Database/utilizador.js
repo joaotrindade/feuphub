@@ -107,6 +107,7 @@ module.exports = (function() {
 		var select2;
 		var select1;
 		
+		console.log("SADJ");
 		connection.query("INSERT INTO Visitante(nickname) VALUES(" + connection.escape(userid) + ")", function(err1, result1)
 		{
 			if (!err1)
