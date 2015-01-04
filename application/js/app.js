@@ -1451,9 +1451,10 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					var cursos = this.get('controllers.index').get('cursos');
 					
 					console.log(cursos);
-					console.log(cursos.cur_sigla);
-					console.log(this.cursoid.toUpperCase());
-					console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
+                    console.log(cursos.cur_sigla);
+                    console.log(this.cursoid.toUpperCase());
+                    console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
+
 					
 					if(cursos[0].cur_sigla == this.cursoid.toUpperCase())
 					{
@@ -1474,10 +1475,16 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					});
 					
 					var cursos = this.get('controllers.index').get('cursos');
+					
+					console.log(cursos);
+                    console.log(cursos.cur_sigla);
+                    console.log(this.cursoid.toUpperCase());
+                    console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
+					
 						
 					for (var i = 0; i < cursos[0].inscricoes.length ; i++)
 					{
-						if(cursos[0].inscricoes[i].ucurr_sigla == this.cadeiraid)
+						if(cursos[0].inscricoes[i].ucurr_codigo == this.cadeiraid)
 						{
 							edocurso = true;
 							break;
