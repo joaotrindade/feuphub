@@ -21,7 +21,6 @@ App.Router.map(function() {
 });
 
 var usrname = "";
-var s4udj539 = [];
 
 App.ApplicationController = Ember.Controller.extend({
   needs:['index'],
@@ -1449,9 +1448,9 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					type2 = "insert";
 					type = "curso";
 					
-					var cursos = this.get('controllers.index').get('cursos');
+					//var cursos = this.get('controllers.index').get('cursos');
+					var cursos = localStorage.getItem("cursos");
 					
-					console.log(s4udj539);
 					console.log(cursos);
                     console.log(cursos.cur_sigla);
                     console.log(this.cursoid.toUpperCase());
@@ -1480,7 +1479,8 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 						}
 					});
 					
-					var cursos = this.get('controllers.index').get('cursos');
+					//var cursos = this.get('controllers.index').get('cursos');
+					var cursos = localStorage.getItem("cursos");
 					
 					console.log(cursos);
                     console.log(cursos.cur_sigla);
@@ -1882,7 +1882,7 @@ function getStudentCourses(self){
 		if(data.statusCode == 200){		
 			var obj = JSON && JSON.parse(data.body) || $.parseJSON(data.body);
 			self.cursos = obj;
-			s4udj539 = obj;
+			localStorage.setItem("cursos", obj);
 			deferred.resolve();
 		}else if(data.statusCode == 400){
 			getStudentCourses(self).done(function(){deferred.resolve();});
