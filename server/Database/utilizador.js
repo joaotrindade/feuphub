@@ -100,6 +100,7 @@ module.exports = (function() {
 	function createUser(userid, data, callback) {
 		console.log(data);
 		var id_visitante;
+		console.log(JSON.parse(data));
 		var object = JSON.parse(data);
 		var id_curso = object[0].cur_sigla;
 		var cadeiras = object[0].inscricoes;
