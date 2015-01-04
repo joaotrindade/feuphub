@@ -191,62 +191,69 @@ App.AccountController = Ember.ObjectController.extend({
 		var self = this;
 		var usr = this.get('controllers.index').get('usr');
 		var token = this.get('controllers.index').get('token');
-		var apigo = 'api/database/utilizador/';
-		var apigo2 = "/api/database/feedback/" + usr;
-		var apigo3 = "/api/database/topico/" + usr;
 		
-		this.set('feedbacksuser',null);
-		this.set('email',null);
-		this.set('nickname',null);
-		this.set('utilizadorId',usr);
-		this.set('topicoscriados',null);
-		this.set('respostastopicos',null);
-		
-		$.post(apigo, {"token":token, "numero":usr}).then( function(response)
+		if(usr != "null")
 		{
-			if (response.success)
+			var apigo = 'api/database/utilizador/';
+			var apigo2 = "/api/database/feedback/" + usr;
+			var apigo3 = "/api/database/topico/" + usr;
+			
+			this.set('feedbacksuser',null);
+			this.set('email',null);
+			this.set('nickname',null);
+			this.set('utilizadorId',usr);
+			this.set('topicoscriados',null);
+			this.set('respostastopicos',null);
+			
+			$.post(apigo, {"token":token, "numero":usr}).then( function(response)
 			{
-				self.set('nickname', response.results[0].nickname);
-				self.set('email', response.results[0].email);
-			}
-			else
-				alert("Algo deu Errado.");
-		});
-		
-		$.post(apigo2, {"token": token}).then( function(response2) // PEDIR UMA API QUE RETORNE APENAS 5 FEEDBACKS
+				if (response.success)
+				{
+					self.set('nickname', response.results[0].nickname);
+					self.set('email', response.results[0].email);
+				}
+				else
+					alert("Algo deu Errado.");
+			});
+			
+			$.post(apigo2, {"token": token}).then( function(response2) // PEDIR UMA API QUE RETORNE APENAS 5 FEEDBACKS
+			{
+			  if (response2.success)
+			  {	
+					self.set('feedbacksuser', response2.results);
+			  }
+			  else
+					alert("Algo deu Errado.");
+			});
+			
+			$.post(apigo3, {"token": token, "type":"user"}).then( function(response3)
+			{
+			  if (response3.success)
+			  {	
+					self.set('topicoscriados', response3.results);
+			  }
+			  else
+					alert("Algo deu Errado.");
+			});
+			
+			$.post(apigo3, {"token": token, "type":"userrespostas"}).then( function(response4)
+			{
+			  if (response4.success)
+			  {	
+					self.set('respostastopicos', response4.results);
+			  }
+			  else
+					alert("Algo deu Errado.");
+			});
+			
+			//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER OS TOPICOS COMENTADOS POR ELE
+			
+			//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER O FEEDBACK
+		}
+		else
 		{
-		  if (response2.success)
-		  {	
-				self.set('feedbacksuser', response2.results);
-		  }
-		  else
-				alert("Algo deu Errado.");
-		});
-		
-		$.post(apigo3, {"token": token, "type":"user"}).then( function(response3)
-		{
-		  if (response3.success)
-		  {	
-				self.set('topicoscriados', response3.results);
-		  }
-		  else
-				alert("Algo deu Errado.");
-		});
-		
-		$.post(apigo3, {"token": token, "type":"userrespostas"}).then( function(response4)
-		{
-		  if (response4.success)
-		  {	
-				self.set('respostastopicos', response4.results);
-		  }
-		  else
-				alert("Algo deu Errado.");
-		});
-		
-		//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER OS TOPICOS COMENTADOS POR ELE
-		
-		//TODO $POST - PEDIR AO NEVES PARA, DADO O USERID, RECEBER O FEEDBACK
-		
+			this.transitionToRoute('index');
+		}
 	},
 	
 	actions: {  
@@ -277,11 +284,14 @@ App.AccountController = Ember.ObjectController.extend({
 		},
 		updateInfo: function(type)
 		{
+			this._super();
+			
 			var self=this;
-			var usr = this.controllerFor('index').get('usr');
+			var usr = this.get('controllers.index').get('usr');
 			var texto = this.get('new_username');
-			var token = this.controllerFor('index').get('token');
+			var token = this.get('controllers.index').get('token');
 			var apigo3 = "/api/database/utilizador/" + usr;
+			
 			$.post(apigo3, {"token": token, "numero":usr, "type":type, "valor":texto}).then( function(response3)
 			{
 			  if (response3.success)
@@ -324,7 +334,7 @@ App.HomeController = Ember.ObjectController.extend({
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/up/" + id;
@@ -367,7 +377,7 @@ App.HomeController = Ember.ObjectController.extend({
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/down/" + id;
@@ -565,7 +575,7 @@ App.CadeirasController = Ember.ObjectController.extend({
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/up/" + id;
@@ -608,7 +618,7 @@ App.CadeirasController = Ember.ObjectController.extend({
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/down/" + id;
@@ -790,7 +800,7 @@ App.CursosController = Ember.ObjectController.extend({
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/up/" + id;
@@ -833,7 +843,7 @@ App.CursosController = Ember.ObjectController.extend({
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/down/" + id;
@@ -973,7 +983,7 @@ App.TopicController = Ember.ObjectController.extend({
         
           var usr = this.controllerFor('index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
           //alert(usr);
-          if(usr != null)
+          if(usr != "null")
           {
                         var text = document.getElementById("commentarea").value;
 						var iddoTopico = this.topicoid;
@@ -1016,7 +1026,7 @@ App.TopicController = Ember.ObjectController.extend({
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 		
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/resposta/up/" + id;
@@ -1060,7 +1070,7 @@ App.TopicController = Ember.ObjectController.extend({
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/resposta/down/" + id;
@@ -1104,7 +1114,7 @@ App.TopicController = Ember.ObjectController.extend({
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			if(usr != null && this.isMine == true)
+			if(usr != "null" && this.isMine == true)
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/id/" + id;
@@ -1129,7 +1139,7 @@ App.TopicController = Ember.ObjectController.extend({
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 			
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/up/" + id;
@@ -1169,7 +1179,7 @@ App.TopicController = Ember.ObjectController.extend({
             var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN (SEM DAR WARNING DE REPRECATED) , SENAO DA UNDEFINED
 			var self = this;
 
-			if(usr != null)
+			if(usr != "null")
 			{
 				var token = this.get('controllers.index').get('token');
 				var apigo = "/api/database/topico/down/" + id;
@@ -1271,7 +1281,7 @@ App.CreatetopicController = Ember.ObjectController.extend({
 			var self = this;
 			var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 
-			if(usr != null)
+			if(usr != "null")
 			{
 						var titulo = document.getElementById("createtopic_title").value;
 						var texto = document.getElementById("createtopic_description").value;
@@ -1458,7 +1468,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					var self = this;
 					var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 
-					if(usr != null)
+					if(usr != "null")
 					{
 						var titulo = document.getElementById("givefeedback_title").value;
 						var texto = document.getElementById("givefeedback_description").value;
@@ -1614,7 +1624,7 @@ App.ViewfeedbacksController = Ember.ObjectController.extend({
 });
 
 App.IndexController = Ember.Controller.extend({ 
-	// TODO: SE FIZERMOS LOGIN ERRADO, ELE BATE MAL SE TENTARMOS LOGAR DE NOVO.
+	// SE FIZERMOS LOGIN ERRADO, ELE BATE MAL SE TENTARMOS LOGAR DE NOVO.
 	needs: ['application'],
 	
 	calculaHeight: function(){
@@ -1683,6 +1693,13 @@ App.IndexController = Ember.Controller.extend({
 			}, 2000);
 		});
 	  },
+	  
+	  entrarvisitante: function(){
+		this.usr = "null";
+		this.token = "null";
+		
+		this.transitionToRoute('home');
+	  }
   }
 });
 
