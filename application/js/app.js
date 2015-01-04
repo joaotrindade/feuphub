@@ -1879,7 +1879,7 @@ function getStudentCourses(self){
 	.done(function(data, textStatus, jqXHR){
 		if(data.statusCode == 200){		
 			var obj = JSON && JSON.parse(data.body) || $.parseJSON(data.body);
-			self.set('cursos', obj);
+			self.cursos = obj;
 			deferred.resolve();
 		}else if(data.statusCode == 400){
 			getStudentCourses(self).done(function(){deferred.resolve();});
