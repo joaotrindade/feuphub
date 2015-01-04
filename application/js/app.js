@@ -1477,32 +1477,45 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 
 					if(usr != "null")
 					{
-						var titulo = document.getElementById("givefeedback_title").value;
-						var texto = document.getElementById("givefeedback_description").value;
-
-						var token = this.get('controllers.index').get('token');
-									
-						$.post(apigo, {"token": token, "texto" : texto, "type" : type, "userid" : usr, "tagnome": "", "type2": type2, "codDocente": professor, "avaliacao": aval}).then( function(response)
+						var edocurso = false;
+						
+						var cursos = this.get('controllers.index').get('cursos');
+						console.log(cursos);
+						
+						if(edocurso)
 						{
 						
-						  if (response.success)
-						  {
-								if(self.cursoid != "")
-								{
-									self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
-								}
-								else if(self.cadeiraid != "")
-								{
-									self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
-								}
-								else if(self.feupid != "")
-								{
-									self.transitionToRoute('home');
-								}
-						  }
-						  else
-								alert("Algo deu Errado a inserir feedback de " + type + ".");
-						});
+							var titulo = document.getElementById("givefeedback_title").value;
+							var texto = document.getElementById("givefeedback_description").value;
+
+							var token = this.get('controllers.index').get('token');
+										
+							$.post(apigo, {"token": token, "texto" : texto, "type" : type, "userid" : usr, "tagnome": "", "type2": type2, "codDocente": professor, "avaliacao": aval}).then( function(response)
+							{
+							
+							  if (response.success)
+							  {
+									if(self.cursoid != "")
+									{
+										self.transitionToRoute('cursos',{queryParams: {codigo: self.cursoid}});
+									}
+									else if(self.cadeiraid != "")
+									{
+										self.transitionToRoute('cadeiras',{queryParams: {codigo: self.cadeiraid}});
+									}
+									else if(self.feupid != "")
+									{
+										self.transitionToRoute('home');
+									}
+							  }
+							  else
+									alert("Algo deu Errado a inserir feedback de " + type + ".");
+							});
+						}
+						else
+						{
+							alert("Precisa já ter efectuado a cadeira para poder dar feedback.");
+						}
 					}
 					else
 					{
