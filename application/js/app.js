@@ -1429,6 +1429,8 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 			var professor = "vazio";
 			var aval = "vazio";
 			
+			var edocurso = false;
+			
 			if(this.isLike == true || this.isLike == false)
 			{
 				if(this.isLike)
@@ -1445,6 +1447,13 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					apigo = "/api/database/feedback/" + this.cursoid.toUpperCase();
 					type2 = "insert";
 					type = "curso";
+					
+					var cursos = this.get('controllers.index').get('cursos');
+						
+					if(cursos.cur_sigla == this.cursoid.toUpperCase())
+					{
+						edocurso = true;
+					}
 				}
 				else if(this.cadeiraid != "")
 				{
@@ -1458,6 +1467,17 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 							professor = item.DocenteKey;
 						}
 					});
+					
+					var cursos = this.get('controllers.index').get('cursos');
+						
+					for (var i = 0; i < cursos.inscricoes.length ; i++)
+					{
+						if(cursos.inscricoes[i].ucurr_sigla == this.cadeiraid)
+						{
+							edocurso = true;
+							break;
+						}
+					}
 				}
 				else if(this.feupid != "")
 				{
@@ -1477,10 +1497,6 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 
 					if(usr != "null")
 					{
-						var edocurso = false;
-						
-						var cursos = this.get('controllers.index').get('cursos');
-						console.log(cursos);
 						
 						if(edocurso)
 						{
@@ -1514,7 +1530,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 						}
 						else
 						{
-							alert("Precisa já ter efectuado a cadeira para poder dar feedback.");
+							alert("Precisa de ser do Curso | Já ter efectuado a cadeira para poder dar feedback.");
 						}
 					}
 					else
