@@ -1454,12 +1454,16 @@ App.GivefeedbackController = Ember.ObjectController.extend({
                     console.log(cursos.cur_sigla);
                     console.log(this.cursoid.toUpperCase());
                     console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
-
 					
-					if(cursos[0].cur_sigla == this.cursoid.toUpperCase())
+					for (var i = 0; i < cursos.length ; i++)
 					{
-						edocurso = true;
+						if(cursos[i].cur_sigla == this.cursoid.toUpperCase())
+						{
+							edocurso = true;
+							break;
+						}
 					}
+
 				}
 				else if(this.cadeiraid != "")
 				{
@@ -1481,13 +1485,15 @@ App.GivefeedbackController = Ember.ObjectController.extend({
                     console.log(this.cursoid.toUpperCase());
                     console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
 					
-						
-					for (var i = 0; i < cursos[0].inscricoes.length ; i++)
+					for (var x = 0; x < cursos.length ; x++)
 					{
-						if(cursos[0].inscricoes[i].ucurr_codigo == this.cadeiraid)
+						for (var i = 0; i < cursos[x].inscricoes.length ; i++)
 						{
-							edocurso = true;
-							break;
+							if(cursos[x].inscricoes[i].ucurr_codigo == this.cadeiraid)
+							{
+								edocurso = true;
+								break;
+							}
 						}
 					}
 				}
@@ -1705,11 +1711,6 @@ App.IndexController = Ember.Controller.extend({
   usrChanged: function() {
     localStorage.usr = this.get('usr');
   }.observes('usr'),
-  
-  cursos: localStorage.cursos,
-  cursosChanged: function() {
-    localStorage.usr = this.get('cursos');
-  }.observes('cursos'),
   
   actions: {
        
