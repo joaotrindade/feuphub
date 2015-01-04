@@ -114,9 +114,7 @@ module.exports = (function() {
 			if (!err1)
 			{
 				id_visitante = result1.insertId;
-				console.log(id_visitante);
-				console.log("mamamiapizzeria");
-				connection.query("INSERT INTO Utilizador(numero,tipo,nome,CursoKey,VisitanteKey) VALUES(" + connection.escape(userid) + ",1," + "'no_name'" + ",'" + connection.escape(id_curso) + "'," + connection.escape(id_visitante) +")", function(err2, result2)
+				connection.query("INSERT INTO Utilizador(numero,tipo,nome,CursoKey,VisitanteKey) VALUES(" + connection.escape(userid) + ",1," + "'no_name'" + "," + connection.escape(id_curso) + "," + connection.escape(id_visitante) +")", function(err2, result2)
 				{
 					if (!err2)
 					{
@@ -124,7 +122,6 @@ module.exports = (function() {
 					}
 					else
 					{
-						console.log("aiai");
 						callback(true,err2);
 					}
 				});
