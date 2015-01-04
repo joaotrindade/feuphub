@@ -1449,7 +1449,11 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					type = "curso";
 					
 					var cursos = this.get('controllers.index').get('cursos');
-						
+					
+					console.log(cursos.cur_sigla);
+					console.log(this.cursoid.toUpperCase());
+					console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
+					
 					if(cursos.cur_sigla == this.cursoid.toUpperCase())
 					{
 						edocurso = true;
