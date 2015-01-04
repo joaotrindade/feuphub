@@ -1450,6 +1450,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					
 					var cursos = this.get('controllers.index').get('cursos');
 					
+					console.log(cursos);
 					console.log(cursos.cur_sigla);
 					console.log(this.cursoid.toUpperCase());
 					console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
