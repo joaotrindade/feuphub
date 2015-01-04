@@ -1449,7 +1449,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					type = "curso";
 					
 					//var cursos = this.get('controllers.index').get('cursos');
-					var cursos = localStorage.getItem("cursos");
+					var cursos = JSON.stringify(localStorage.getItem("cursos"));
 					
 					console.log(cursos);
                     console.log(cursos.cur_sigla);
@@ -1480,7 +1480,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					});
 					
 					//var cursos = this.get('controllers.index').get('cursos');
-					var cursos = localStorage.getItem("cursos");
+					var cursos = JSON.stringify(localStorage.getItem("cursos"));
 					
 					console.log(cursos);
                     console.log(cursos.cur_sigla);
