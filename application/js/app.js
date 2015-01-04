@@ -42,19 +42,26 @@ App.ApplicationController = Ember.Controller.extend({
 		var variavel = this.get('controllers.index').get('usr');
 		if(variavel!="")
 		{
-			var apigo = '/api/database/utilizador';
-			var tok = this.get('controllers.index').get('token');
-			var us = this.get('controllers.index').get('usr');
-			$.post(apigo, {"token":tok, "numero":us}).then( function(response)
+			if(variavel != "null")
 			{
-				if (response.success)
+				var apigo = '/api/database/utilizador';
+				var tok = this.get('controllers.index').get('token');
+				var us = this.get('controllers.index').get('usr');
+				$.post(apigo, {"token":tok, "numero":us}).then( function(response)
 				{
-					self.set('numero', response.results[0].nickname);
-				}
-				else
-					alert("Algo deu Errado.");
-			});
-			this.set('loggedIn',true);
+					if (response.success)
+					{
+						self.set('numero', response.results[0].nickname);
+					}
+					else
+						alert("Algo deu Errado.");
+				});
+				this.set('loggedIn',true);
+			}
+			else
+			{
+				this.set('loggedIn',false);
+			}
 		}
 		else
 		{
