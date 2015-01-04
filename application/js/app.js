@@ -1868,7 +1868,7 @@ function updateCourses(self){
 							if (data_2.result == true) // PRECISA DE UPDATE
 							{
 								alert("Vai atualizar dados");
-								$.post('/api/database/utilizador/updateUser/', {"userId": self.get('usr'), "courseData":self.get('cursos')}).then(function(result)
+								$.post('/api/database/utilizador/updateUser/', {"userId": self.get('usr'), "courseData":JSON.stringify(self.get('cursos'))}).then(function(result)
 								{
 									//console.log("fez post");
 									if (result.success == false)
@@ -1893,7 +1893,7 @@ function updateCourses(self){
 				{
 					// INSERIR NOVO GAJO
 					//alert("vai inserir novo user");
-					$.post('/api/database/utilizador/insertNewUser/', {"userId": self.get('usr'), "courseData":self.get('cursos')}).then(function(result)
+					$.post('/api/database/utilizador/insertNewUser/', {"userId": self.get('usr'), "courseData":JSON.stringify(self.get('cursos'))}).then(function(result)
 					{
 						if (result.success == false)
 						{
