@@ -1449,16 +1449,19 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					type = "curso";
 					
 					//var cursos = this.get('controllers.index').get('cursos');
-					var cursos = JSON.parse(localStorage.getItem("cursos"));
-					
-					//console.log(cursos);
-					
-					for (var i = 0; i < cursos.length ; i++)
+					if(usr != "null")
 					{
-						if(cursos[i].cur_sigla == this.cursoid.toUpperCase())
+						var cursos = JSON.parse(localStorage.getItem("cursos"));
+						
+						//console.log(cursos);
+						
+						for (var i = 0; i < cursos.length ; i++)
 						{
-							edocurso = true;
-							break;
+							if(cursos[i].cur_sigla == this.cursoid.toUpperCase())
+							{
+								edocurso = true;
+								break;
+							}
 						}
 					}
 
@@ -1477,18 +1480,21 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					});
 					
 					//var cursos = this.get('controllers.index').get('cursos');
-					var cursos = JSON.parse(localStorage.getItem("cursos"));
-					
-					//console.log(cursos);
-					
-					for (var x = 0; x < cursos.length ; x++)
+					if(usr != "null")
 					{
-						for (var i = 0; i < cursos[x].inscricoes.length ; i++)
+						var cursos = JSON.parse(localStorage.getItem("cursos"));
+						
+						//console.log(cursos);
+						
+						for (var x = 0; x < cursos.length ; x++)
 						{
-							if(cursos[x].inscricoes[i].ucurr_codigo == this.cadeiraid)
+							for (var i = 0; i < cursos[x].inscricoes.length ; i++)
 							{
-								edocurso = true;
-								break;
+								if(cursos[x].inscricoes[i].ucurr_codigo == this.cadeiraid)
+								{
+									edocurso = true;
+									break;
+								}
 							}
 						}
 					}
