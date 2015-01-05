@@ -1448,6 +1448,8 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					type2 = "insert";
 					type = "curso";
 					
+					var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
+					
 					//var cursos = this.get('controllers.index').get('cursos');
 					if(usr != "null")
 					{
@@ -1478,6 +1480,8 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 							professor = item.DocenteKey;
 						}
 					});
+					
+					var usr = this.get('controllers.index').get('usr'); //VAI BUSCAR O USERNAME SE FEZ LOGIN , SENAO DA UNDEFINED
 					
 					//var cursos = this.get('controllers.index').get('cursos');
 					if(usr != "null")
