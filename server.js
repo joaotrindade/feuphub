@@ -46,7 +46,8 @@ else{
 /////////////// APPLICATION CONFIGURATION ///////////////
 var options = {
   key: fs.readFileSync('./server/opt/certs/feuphub_fe_up_pt.key'),
-  cert: fs.readFileSync('./server/opt/certs/cert-437-feuphub.fe.up.pt.pem')
+  cert: fs.readFileSync('./server/opt/certs/cert-437-feuphub.fe.up.pt.pem'),
+  chain: fs.readFileSync('./server/opt/certs/chain-437-feuphub.fe.up.pt.pem')
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
