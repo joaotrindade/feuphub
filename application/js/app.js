@@ -1451,10 +1451,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					//var cursos = this.get('controllers.index').get('cursos');
 					var cursos = JSON.parse(localStorage.getItem("cursos"));
 					
-					console.log(cursos);
-                    console.log(cursos.cur_sigla);
-                    console.log(this.cursoid.toUpperCase());
-                    console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
+					//console.log(cursos);
 					
 					for (var i = 0; i < cursos.length ; i++)
 					{
@@ -1482,10 +1479,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					//var cursos = this.get('controllers.index').get('cursos');
 					var cursos = JSON.parse(localStorage.getItem("cursos"));
 					
-					console.log(cursos);
-                    console.log(cursos.cur_sigla);
-                    console.log(this.cursoid.toUpperCase());
-                    console.log(cursos.cur_sigla == this.cursoid.toUpperCase());
+					//console.log(cursos);
 					
 					for (var x = 0; x < cursos.length ; x++)
 					{
