@@ -385,7 +385,7 @@
   
   <script type="text/x-handlebars" id="cadeiras">
 	<div class="midpage">
-			
+		{{#if isFromCourse}}
 		<div class="right_bar">
 			
 			<div class='create_topic_feedback'>
@@ -540,6 +540,11 @@
 					</div>
 			{{/each}}
 		</div>
+		{{else}}
+			<div class="create_top_title">
+				Nao pode aceder a esta cadeira.
+			</div>
+		{{/if}}
 	</div>
   </script>
   

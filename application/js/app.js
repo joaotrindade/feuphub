@@ -440,6 +440,7 @@ App.CadeirasController = Ember.ObjectController.extend({
 	nomeDocente: null,
 	fotoDocente: null,
 	isGreen: true,
+	isFromCourse: false,
 	
 	isMieic:false,
 	isMieec:false,
@@ -474,8 +475,11 @@ App.CadeirasController = Ember.ObjectController.extend({
 		this.set('nomeDocente',null);
 		this.set('fotoDocente',null);
 		
+		this.set('isFromCourse', false);
+		
 		var self = this;
 		var token = this.get('controllers.index').get('token');
+		var usr = this.get('controllers.index').get('usr');
 		var apigo = "/api/database/cadeira/" + codigo;
 		
 		$.get(apigo, function(data) {
@@ -515,63 +519,92 @@ App.CadeirasController = Ember.ObjectController.extend({
 					self.set('isMiemm', true);
 				}
 				
-				var apigo2 = "/api/database/topico/" + codigo;
-		
-				$.post(apigo2, {"token": token, "type" : "getTopicosCadeira"}).then( function(response)
+				if(usr != "null")
 				{
-				  if (response.success)
-				  {
-					self.set('topicosCadeira', response.results);
-					
-						//GET FEEDBACK DE UM CADEIRA
-						var apigo3 = "/api/database/feedback/" + codigo;
+					var cursos = JSON.parse(localStorage.getItem("cursos"));
 						
-						$.post(apigo3, {"token": token, "type" : "cadeira", "type2": "get5"}).then( function(response3) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+					//console.log(cursos);
+					var edocurso = false;
+					for (var i = 0; i < cursos.length ; i++)
+					{
+						if(cursos[i].cur_sigla == self.curso)
 						{
-						  if (response3.success)
-						  {	
-								self.set('feedbackscadeira', response3.results);
+							edocurso = true;
+							break;
+						}
+					}
+					
+					if(edocurso)
+					{
+						self.set('isFromCourse', true);
+						
+						var apigo2 = "/api/database/topico/" + codigo;
+				
+						$.post(apigo2, {"token": token, "type" : "getTopicosCadeira"}).then( function(response)
+						{
+						  if (response.success)
+						  {
+							self.set('topicosCadeira', response.results);
+							
+								//GET FEEDBACK DE UM CADEIRA
+								var apigo3 = "/api/database/feedback/" + codigo;
+								
+								$.post(apigo3, {"token": token, "type" : "cadeira", "type2": "get5"}).then( function(response3) // SE FOR GET5 DEVOLVE 5 APENAS, SE FOR GET DEVOLVE TODOS.
+								{
+								  if (response3.success)
+								  {	
+										self.set('feedbackscadeira', response3.results);
+								  }
+								  else
+										alert("Algo deu Errado No Get Feedback Cadeiras.");
+								});
+								
 						  }
 						  else
-								alert("Algo deu Errado No Get Feedback Cadeiras.");
+								alert("Algo deu Errado No Get Topicos Cadeiras.");
 						});
+					
+						var apigo4 = "/api/database/cadeira/stats/" + codigo;
 						
-				  }
-				  else
-						alert("Algo deu Errado No Get Topicos Cadeiras.");
-				});
-				
-				var apigo4 = "/api/database/cadeira/stats/" + codigo;
-				
-				$.get(apigo4, function(data2) 
-				{
-				  if (data2.success)
-				  {	
-						var n1 = data2.results.positivos.n_positivos;
-						var n2 = data2.results.total.n_positivos;
-						
-						if(n2 > 0)
+						$.get(apigo4, function(data2) 
 						{
-							var n3 = parseInt((n1 / n2) * 100);	
-							
-							if(n3 < 50)
-								self.set('isGreen', false);
-							else
-								self.set('isGreen', true);
+						  if (data2.success)
+						  {	
+								var n1 = data2.results.positivos.n_positivos;
+								var n2 = data2.results.total.n_positivos;
 								
-							self.set('media', n3);
-						}
-						else
-						{
-							self.set('media', "--");
-						}
-				
-						self.set('nomeDocente', data2.results.idDocente.nome);
-						self.set('fotoDocente', "background-image: url(" + data2.results.idDocente.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;");
-				  }
-				  else
-						alert("Algo deu Errado No Get Dados Cadeira.");
-				});
+								if(n2 > 0)
+								{
+									var n3 = parseInt((n1 / n2) * 100);	
+									
+									if(n3 < 50)
+										self.set('isGreen', false);
+									else
+										self.set('isGreen', true);
+										
+									self.set('media', n3);
+								}
+								else
+								{
+									self.set('media', "--");
+								}
+						
+								self.set('nomeDocente', data2.results.idDocente.nome);
+								self.set('fotoDocente', "background-image: url(" + data2.results.idDocente.img_url +"); background-size:cover; background-repeat:no-repeat; background-position:center center;");
+						  }
+						  else
+								alert("Algo deu Errado No Get Dados Cadeira.");
+						});
+					}
+					else
+					{
+						self.set('isFromCourse', false);
+					}
+				}
+				else
+				{
+					self.set('isFromCourse', false);
+				}
 			}
 		});
 	},
