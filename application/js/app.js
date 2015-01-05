@@ -1449,7 +1449,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					type = "curso";
 					
 					//var cursos = this.get('controllers.index').get('cursos');
-					var cursos = JSON.stringify(localStorage.getItem("cursos"));
+					var cursos = JSON.parse(localStorage.getItem("cursos"));
 					
 					console.log(cursos);
                     console.log(cursos.cur_sigla);
@@ -1480,7 +1480,7 @@ App.GivefeedbackController = Ember.ObjectController.extend({
 					});
 					
 					//var cursos = this.get('controllers.index').get('cursos');
-					var cursos = JSON.stringify(localStorage.getItem("cursos"));
+					var cursos = JSON.parse(localStorage.getItem("cursos"));
 					
 					console.log(cursos);
                     console.log(cursos.cur_sigla);
@@ -1882,7 +1882,7 @@ function getStudentCourses(self){
 		if(data.statusCode == 200){		
 			var obj = JSON && JSON.parse(data.body) || $.parseJSON(data.body);
 			self.cursos = obj;
-			localStorage.setItem("cursos", obj);
+			localStorage.setItem("cursos", JSON.stringify(obj));
 			deferred.resolve();
 		}else if(data.statusCode == 400){
 			getStudentCourses(self).done(function(){deferred.resolve();});
